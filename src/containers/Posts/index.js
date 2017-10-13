@@ -6,15 +6,6 @@ import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
 import axios from 'axios';
 
 class Posts extends Component {
-  constructor(properties, context) {
-		super(properties, context)
-
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-		this.state = {
-      collapsed: true
-    }
-	}
-
   handleUpvote = (post, key) => {
     this.props.firebase.ref('posts/' + key).set({
       instagramLink: post.instagramLink,
@@ -38,22 +29,14 @@ class Posts extends Component {
       });
   }
 
-  toggleNavbar() {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
-
-
   render() {
     let posts = this.props.posts;
-    let _this = this;
 
-    this.muiTheme = getMuiTheme({
-			palette: {
-				accent1Color: 'deepOrange500'
-			}
-		})
+    const muiTheme = getMuiTheme({
+      palette: {
+        accent1Color: 'deepOrange500'
+      }
+    })
 
     if (!posts) {
       return false;
@@ -68,10 +51,10 @@ class Posts extends Component {
     }
 
     return (
-      <MuiThemeProvider muiTheme={_this.muiTheme}>
+      <MuiThemeProvider muiTheme={muiTheme}>
         <div className="Posts">
-          { Object.keys(posts).map(function(key) {
-              _this.getMedia(posts[key].instagramLink);
+          { Object.keys(posts).map((key) => {
+              this.getMedia(posts[key].instagramLink);
               return (
                   <Card>
                     <CardTitle title="Card title" subtitle="Card subtitle" />
@@ -91,12 +74,12 @@ class Posts extends Component {
                     </CardText>
                     <CardActions>
                       <FlatButton
-                        onClick={ _this.handleUpvote.bind(this, posts[key], key) }
+                        onClick={ (key) => this.handleUpvote(posts[key], key) }
                         type="button"
                         label="Uh-oh!"
                       />
                       <FlatButton
-                        onClick={ _this.handleDownvote.bind(this, posts[key], key) }
+                        onClick={ (key) => this.handleDownvote(posts[key], key) }
                         type="button"
                         label="Pass"
                       />

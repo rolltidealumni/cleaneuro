@@ -1,13 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { browserHistory } from 'react-router';
+import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
+import './index.css';
 
-import Routes from './routes';
-import registerServiceWorker from './utils/registerServiceWorker';
+import Gagunk from './Gagunk/Gagunk';
 
-ReactDOM.render(
-  <Routes history={browserHistory} />,
-  document.getElementById('root')
+const muiTheme = getMuiTheme({
+  palette: {
+    accent1Color: 'deepOrange500'
+  }
+});
+
+const App = () => (
+  <MuiThemeProvider muiTheme={muiTheme}>
+    <Gagunk />
+  </MuiThemeProvider>
 );
 
-registerServiceWorker();
+ReactDOM.render(<App/>, document.getElementById('root'));
