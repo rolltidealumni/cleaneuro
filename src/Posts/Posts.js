@@ -38,13 +38,11 @@ class Posts extends Component {
     });
 
     return (
-      <div style={{ margin: '10px' }}>
+      <div style={{ width: '50%', margin: 'auto' }}>
         { this.props.loading ? (
           <div>Loading...</div>
         ) : (
-          <GridList>
-            {posts}
-          </GridList>
+          <div>{posts}</div>
         )}
       </div>
     );

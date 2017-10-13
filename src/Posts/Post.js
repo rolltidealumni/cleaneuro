@@ -1,17 +1,22 @@
 import React, { Image } from 'react';
 import { Card, CardActions, CardMedia, CardText} from 'material-ui/Card';
+import { GridList, GridTile } from 'material-ui/GridList';
 import Badge from 'material-ui/Badge';
 
 import FlatButton from 'material-ui/FlatButton';
 
 
 const Post = ({ id, post, onUpvote, onDownvote }) => (
-  <Card>
-    <CardMedia style={{ height: '200px', width: 'auto', minWidth: '0', padding: '10px 10px 0px 10px' }}>
-      <img style={{ height: '200px', width: 'auto', minWidth: '0' }} src="https://scontent-iad3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/21980985_1924045324511515_3480637532423585792_n.jpg" alt="" />
-    </CardMedia>
+  <Card style={{ margin: '20px' }}>
     <CardText>
-      things
+      <GridList>
+        <GridTile>
+          <img style={{ height: '200px', width: 'auto', minWidth: '0' }} src="https://scontent-iad3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/21980985_1924045324511515_3480637532423585792_n.jpg" alt="" />
+        </GridTile>
+        <GridTile>
+          stuff
+        </GridTile>
+      </GridList>
     </CardText>
     <CardActions>
       <FlatButton
