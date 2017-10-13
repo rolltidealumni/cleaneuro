@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
+import TextField from 'material-ui/TextField';
 
 import * as firebase from "firebase";
 
@@ -14,34 +16,104 @@ class App extends Component {
 
     this.state = {
       posts: [],
-      loading: true
+      loading: true,
+      openDialog: false,
+      instagramLink: '',
     };
 
     firebase.initializeApp(config);
   }
 
-  componentWillMount() {
-    const postsRef = firebase.database().ref('posts');
+  componentWillMount = () => {
+    let postsRef = firebase.database().ref('posts');
 
     postsRef.on('value', (snapshot) => {
       this.setState({
+        ...this.state,
         posts: snapshot.val(),
         loading: false
       });
     });
   }
 
+
+  handleOpen = () => {
+    this.setState({
+      ...this.state,
+      openDialog: true
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      ...this.state,
+      openDialog: false,
+      instagramLink: ''
+    });
+  };
+
+  handleChange = (e) => {
+    this.setState({
+      ...this.state,
+      instagramLink: e.target.value
+    });
+  }
+
+  handleSubmit = (e) => {
+    let postsRef = firebase.database().ref('posts');
+
+    postsRef.push({
+      instagramLink: this.state.instagramLink,
+      upvote: 0,
+      downvote: 0
+    });
+
+    this.setState({
+      ...this.state,
+      openDialog: false,
+      instagramLink: ''
+    });
+  }
+
+
   render() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleClose}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        onClick={this.handleSubmit}
+      />,
+    ];
+    console.log(this.state.posts);
+    let posts = this.state.posts
     return (
       <div>
         <AppBar
           title={<span>Ga Gunk</span>}
-          iconElementRight={<FlatButton label="Submit Post" />}
+          iconElementRight={<FlatButton label="Submit Post" onClick={this.handleOpen}/>}
           iconStyleLeft={{ display: 'none' }}
         />
+        <Dialog
+          title="Submit Post"
+          actions={actions}
+          modal={true}
+          open={this.state.openDialog}
+        >
+          <TextField
+            hintText="Instagram URL"
+            fullWidth={true}
+            value={this.state.instagramLink}
+            onChange={this.handleChange}
+          />
+        </Dialog>
         <Posts
           firebase={firebase.database()}
-          posts={this.state.posts}
+          posts={posts}
           loading={this.state.loading}
         />
       </div>
