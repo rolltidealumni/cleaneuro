@@ -38,7 +38,7 @@ class Posts extends Component {
     });
 
     return (
-      <div style={{ width: '50%', margin: 'auto' }}>
+      <div style={{ width: '90%', margin: 'auto' }}>
         { this.props.loading ? (
           <div>Loading...</div>
         ) : (
