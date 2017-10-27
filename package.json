@@ -1,10 +1,9 @@
 {
-  "name": "reddit-clone",
+  "name": "gagunk",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "firebase": "^4.1.1",
-    "halogen": "^0.2.0",
     "material-ui": "^0.19.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -12,7 +11,6 @@
     "react-router": "3.0.0",
     "react-spinkit": "^3.0.0",
     "reactstrap": "^4.8.0",
-    "sort-json-array": "^0.1.7"
   },
   "devDependencies": {
     "react-scripts": "latest"
