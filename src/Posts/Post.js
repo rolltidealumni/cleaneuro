@@ -32,38 +32,38 @@ class Post extends Component {
   }
 
   render() {
+    const url = 'url('+this.state.url+') center center no-repeat';
     return (
       <Card style={{ margin: '20px' }}>
         <CardText>
           <GridList>
             <GridTile>
-              <img style={{ height: '200px', width: 'auto', minWidth: '0' }} src={this.state.url} />
+              <div style={{ background: url, backgroundSize: 'cover', height: '500px', width: '500px', overflow: 'hidden' }}></div>
             </GridTile>
-            <GridTile>
-              {this.state.caption}
+            <GridTile style={{'margin-left': '20px' }}>
+              <span>"</span>{this.state.caption}<span>"</span>
+              <p></p>
+              <div>Uh-Oh: {this.props.post.upvote}</div>
+              <div>Pass: {this.props.post.downvote}</div>
             </GridTile>
           </GridList>
         </CardText>
-        <CardActions>
+        <CardActions style={{padding: '0px !important', 'margin': '0 !important'}}>
           <FlatButton
+            class="gagunkbtn"
+            id="gagunk"
             onClick={ () => this.props.onUpvote(this.props.post, this.props.id) }
             type="button"
+            style={{width: '50%', 'margin-right': 'none'}}
             label="Uh-oh!"
           />
-          <Badge
-            badgeContent={ this.props.post.upvote }
-            primary={true}
-            style={{ padding: '5px 5px 12px 12px'}}
-          />
           <FlatButton
+            class="gagunkbtn"
+            id="pass"
             onClick={ () => this.props.onDownvote(this.props.post, this.props.id) }
             type="button"
+            style={{width: '50%', 'margin-right': 'none'}}
             label="Pass"
-          />
-          <Badge
-            badgeContent={ this.props.post.downvote }
-            primary={true}
-            style={{ padding: '5px 5px 12px 12px'}}
           />
         </CardActions>
       </Card>

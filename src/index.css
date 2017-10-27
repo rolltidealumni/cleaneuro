@@ -1,3 +1,22 @@
 body {
   margin: 0;
 }
+
+.gagunkbtn {
+  margin: 0 !important;
+  margin-right: 0px !important;
+  border-radius: 0px !important;
+  color: white !important;
+}
+
+#gagunk {
+  background-color:#D8877B !important;
+}
+
+#pass {
+  background-color:#C7CA9A !important;
+}
+
+.gagunkNav {
+  background-color:#D8877B !important;
+}

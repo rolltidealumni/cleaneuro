@@ -1,6 +1,5 @@
 import React, { Component, Image } from 'react';
 import { GridList } from 'material-ui/GridList';
-
 import Post from './Post';
 
 class Posts extends Component {
@@ -25,6 +24,7 @@ class Posts extends Component {
   }
 
   render() {
+    var Spinner = require('react-spinkit');
     const posts = Object.keys(this.props.posts).map((key) => {
       return (
         <Post
@@ -38,9 +38,9 @@ class Posts extends Component {
     });
 
     return (
-      <div style={{ width: '90%', margin: 'auto' }}>
+      <div style={{ width: '90%', margin: 'auto', 'max-width': '745px' }}>
         { this.props.loading ? (
-          <div>Loading...</div>
+          <Spinner name="three-bounce" />
         ) : (
           <div>{posts}</div>
         )}

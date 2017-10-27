@@ -94,7 +94,8 @@ class App extends Component {
     return (
       <div>
         <AppBar
-          title={<span>Ga Gunk</span>}
+          class="gagunkNav"
+          title={<span>Ga-Gunk!</span>}
           iconElementRight={<FlatButton label="Submit Post" onClick={this.handleOpen}/>}
           iconStyleLeft={{ display: 'none' }}
         />
