@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Card, CardActions, CardMedia, CardText} from 'material-ui/Card';
+import { Card, CardActions, CardText} from 'material-ui/Card';
 import { GridList, GridTile } from 'material-ui/GridList';
-import Badge from 'material-ui/Badge';
-
 import FlatButton from 'material-ui/FlatButton';
 
 class Post extends Component {
@@ -19,10 +17,8 @@ class Post extends Component {
 
     try {
       const res = await fetch(`https://cors-anywhere.herokuapp.com/https://api.instagram.com/oembed/?url=${this.props.post.instagramLink}`);
-      console.log(res);
       data = await res.json();
     } catch (e) {
-      console.log(e);
     }
 
     this.setState({
@@ -40,7 +36,7 @@ class Post extends Component {
             <GridTile>
               <div style={{ background: url, backgroundSize: 'cover', height: '500px', width: '500px', overflow: 'hidden' }}></div>
             </GridTile>
-            <GridTile style={{'margin-left': '20px' }}>
+            <GridTile style={{'marginLeft': '20px' }}>
               <span>"</span>{this.state.caption}<span>"</span>
               <p></p>
               <div>Uh-Oh: {this.props.post.upvote}</div>
@@ -50,19 +46,19 @@ class Post extends Component {
         </CardText>
         <CardActions style={{padding: '0px !important', 'margin': '0 !important'}}>
           <FlatButton
-            class="gagunkbtn"
+            className="gagunkbtn"
             id="gagunk"
             onClick={ () => this.props.onUpvote(this.props.post, this.props.id) }
             type="button"
-            style={{width: '50%', 'margin-right': 'none'}}
+            style={{width: '50%', 'marginRight': 'none'}}
             label="Uh-oh!"
           />
           <FlatButton
-            class="gagunkbtn"
+            className="gagunkbtn"
             id="pass"
             onClick={ () => this.props.onDownvote(this.props.post, this.props.id) }
             type="button"
-            style={{width: '50%', 'margin-right': 'none'}}
+            style={{width: '50%', 'right': 'none'}}
             label="Pass"
           />
         </CardActions>

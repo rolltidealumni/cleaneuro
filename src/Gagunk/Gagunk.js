@@ -25,7 +25,7 @@ class App extends Component {
   }
 
   componentWillMount = () => {
-    let postsRef = firebase.database().ref('posts');
+    let postsRef = firebase.database().ref('posts').orderByChild('upvote');
 
     postsRef.on('value', (snapshot) => {
       this.setState({
@@ -73,6 +73,7 @@ class App extends Component {
       openDialog: false,
       instagramLink: ''
     });
+    window.location.reload(true);
   }
 
 
@@ -89,12 +90,12 @@ class App extends Component {
         onClick={this.handleSubmit}
       />,
     ];
-    console.log(this.state.posts);
-    let posts = this.state.posts
+
+    let posts = this.state.posts;
     return (
       <div>
         <AppBar
-          class="gagunkNav"
+          className="gagunkNav"
           title={<span>Ga-Gunk!</span>}
           iconElementRight={<FlatButton label="Submit Post" onClick={this.handleOpen}/>}
           iconStyleLeft={{ display: 'none' }}

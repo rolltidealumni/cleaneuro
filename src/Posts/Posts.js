@@ -1,11 +1,7 @@
-import React, { Component, Image } from 'react';
-import { GridList } from 'material-ui/GridList';
+import React, { Component } from 'react';
 import Post from './Post';
 
 class Posts extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   handleUpvote = (post, key) => {
     this.props.firebase.ref('posts/' + key).set({
@@ -24,7 +20,6 @@ class Posts extends Component {
   }
 
   render() {
-    var Spinner = require('react-spinkit');
     const posts = Object.keys(this.props.posts).map((key) => {
       return (
         <Post
@@ -38,9 +33,9 @@ class Posts extends Component {
     });
 
     return (
-      <div style={{ width: '90%', margin: 'auto', 'max-width': '745px' }}>
+      <div style={{ width: '90%', margin: 'auto', 'maxWidth': '745px' }}>
         { this.props.loading ? (
-          <Spinner name="three-bounce" />
+          <span></span>
         ) : (
           <div>{posts}</div>
         )}

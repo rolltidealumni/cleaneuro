@@ -25,7 +25,6 @@ class Posts extends Component {
   getMedia = (url) => {
     axios.get('https://cors-anywhere.herokuapp.com/https://api.instagram.com/oembed/?url=' + url)
       .then(res => {
-        console.log(res.data.thumbnail_url);
       });
   }
 
