@@ -31,7 +31,7 @@ class Post extends Component {
   }
 
   render() {
-    if(this.data) {
+    if(!this.props.loading) {
       return (
           <Card style={{ margin: '20px' }}>
             <CardText>
