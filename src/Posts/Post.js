@@ -23,29 +23,39 @@ class Post extends Component {
     }
 
     if (this.data) {
+      let caption = this.data.title;
+      let pattern = /\B@[a-z0-9_-]+/gi;
+      let mentions = caption.match(pattern);
+      if (mentions) {
+        mentions.forEach(function(element) {
+            caption = caption.replace(element, 'r̶e̶d̶a̶c̶t̶e̶d̶');
+        })
+      }
       this.setState({
         url: this.data.thumbnail_url,
-        caption: this.data.title.substring(0, 200)
+        caption: caption.substring(0, 500)
       });
     }
   }
 
   render() {
-    if(!this.props.loading) {
+    if(this.data) {
       return (
-          <Card style={{ margin: '20px' }}>
-            <CardText>
+          <Card style={{ height: '500px', margin: '20px', 'marginBottom': '75px' }}>
+            <CardText style={{ height: '428px' }}>
               <GridList>
-                <GridTile>
-                  <img src={ this.state.url} alt="Instagram" />
+                <GridTile style={{ height: '400px' }}>
+                  <img style={{ height: '400px' }} src={ this.state.url} alt="Instagram" />
                 </GridTile>
-                <GridTile style={{'marginLeft': '20px' }}>
-                  <span>"</span>{this.state.caption}<span> ..."</span>
+                <GridTile style={{height: '440px', 'marginLeft': '20px' }}>
+                  <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.state.caption} ..."</span>
                   <p></p>
-                  <div>Uh-Oh: {this.props.post.upvote}</div>
-                  <Line percent={this.props.post.upvote} strokeWidth="4" trailWidth="0" strokeColor="#D8877B" />
-                  <div>Pass: {this.props.post.downvote}</div>
-                  <Line percent={this.props.post.downvote} strokeWidth="4" trailWidth="0" strokeColor="#C7CA9A" />
+                  <div>
+                    <div>Uh-Oh: {this.props.post.upvote}</div>
+                    <Line percent={this.props.post.upvote} strokeWidth="4" trailWidth="0" strokeColor="#D8877B" />
+                    <div>Pass: {this.props.post.downvote}</div>
+                    <Line percent={this.props.post.downvote} strokeWidth="4" trailWidth="0" strokeColor="#C7CA9A" />
+                  </div>
                 </GridTile>
               </GridList>
             </CardText>
@@ -55,7 +65,7 @@ class Post extends Component {
                 id="gagunk"
                 onClick={ () => this.props.onUpvote(this.props.post, this.props.id) }
                 type="button"
-                style={{width: '50%', 'marginRight': 'none'}}
+                style={{width: '50%',  height:'40px', 'marginRight': 'none'}}
                 label="Uh-oh!"
               />
               <FlatButton
@@ -63,7 +73,7 @@ class Post extends Component {
                 id="pass"
                 onClick={ () => this.props.onDownvote(this.props.post, this.props.id) }
                 type="button"
-                style={{width: '50%', 'right': 'none'}}
+                style={{width: '50%', height:'40px', 'right': 'none'}}
                 label="Pass"
               />
             </CardActions>

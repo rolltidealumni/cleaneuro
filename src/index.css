@@ -9,6 +9,10 @@ body {
   color: white !important;
 }
 
+#strikethrough {
+  text-decoration: line-through;
+}
+
 #gagunk {
   background-color:#D8877B !important;
 }
@@ -43,6 +47,7 @@ body {
 }
 
 #footerArea {
+  margin-top: 50px !important;
   position: fixed;
   height: 50px;
   bottom: 0px;

@@ -34,7 +34,7 @@ class Posts extends Component {
     });
 
     return (
-      <div style={{ width: '90%', margin: 'auto', 'maxWidth': '745px' }}>
+      <div style={{ 'minWidth': '545px', width: '90%', margin: 'auto', 'maxWidth': '745px' }}>
         { this.props.loading ? (
             <div id="loader">
               <center><Loader style={{ margin:'200px' }} type="Oval" color="#C7CA9A" height={60} width={60}/></center>
