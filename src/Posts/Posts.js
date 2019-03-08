@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Post from './Post';
+import Loader from 'react-loader-spinner'
 
 class Posts extends Component {
 
@@ -35,7 +36,9 @@ class Posts extends Component {
     return (
       <div style={{ width: '90%', margin: 'auto', 'maxWidth': '745px' }}>
         { this.props.loading ? (
-          <span></span>
+            <div id="loader">
+              <center><Loader style={{ margin:'200px' }} type="Oval" color="#C7CA9A" height={60} width={60}/></center>
+            </div>
         ) : (
           <div>{posts}</div>
         )}
