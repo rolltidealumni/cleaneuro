@@ -44,6 +44,10 @@ class App extends Component {
     });
   };
 
+  navigate = () => {
+    window.location = "https://github.com/themorganthompson/gagunk";
+  };
+
   handleClose = () => {
     this.setState({
       ...this.state,
@@ -97,7 +101,7 @@ class App extends Component {
         <AppBar
           className="gagunkNav"
           title={<span>Ga-Gunk!</span>}
-          iconElementRight={<FlatButton label="Submit Post" onClick={this.handleOpen}/>}
+          iconElementRight={<div><FlatButton className="gagunkbtn" label="About" onClick={this.navigate}/><FlatButton className="gagunkbtn" label="Submit Post" onClick={this.handleOpen}/></div>}
           iconStyleLeft={{ display: 'none' }}
         />
         <Dialog

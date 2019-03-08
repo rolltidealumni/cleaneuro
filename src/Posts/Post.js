@@ -25,7 +25,7 @@ class Post extends Component {
     if (this.data) {
       this.setState({
         url: this.data.thumbnail_url,
-        caption: this.data.title
+        caption: this.data.title.substring(0, 200)
       });
     }
   }
@@ -40,7 +40,7 @@ class Post extends Component {
                   <img src={ this.state.url} alt="Instagram" />
                 </GridTile>
                 <GridTile style={{'marginLeft': '20px' }}>
-                  <span>"</span>{this.state.caption}<span>"</span>
+                  <span>"</span>{this.state.caption}<span> ..."</span>
                   <p></p>
                   <div>Uh-Oh: {this.props.post.upvote}</div>
                   <Line percent={this.props.post.upvote} strokeWidth="4" trailWidth="0" strokeColor="#D8877B" />
