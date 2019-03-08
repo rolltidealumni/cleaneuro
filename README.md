@@ -1,3 +1,3 @@
-# http://cleaneuro.surge.sh
+# http:/gagunk.co 
 
-A feed of European sports cars anonymously submitted by enthusiasts. 
+A feed of anonymously submitted, hilariously bad Instagram posts 
