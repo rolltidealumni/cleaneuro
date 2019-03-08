@@ -1,3 +1,3 @@
 # http:/gagunk.co 
 
-A feed of anonymously submitted, eyeroll-inducing Instagram posts 
+Inspired by the comedian, Chris D'Elia, Gagunk is a feed of anonymously submitted, eyeroll-inducing Instagram posts.
