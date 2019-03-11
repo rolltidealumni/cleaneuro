@@ -2,7 +2,7 @@ deploy:
   provider: surge
   project: ./build/
   domain: gagunk.co
-before_script: pre-install.sh
+before_script: chmod +x pre-install.sh
 notifications:
   email:
    - contact@themorganthompson.com
