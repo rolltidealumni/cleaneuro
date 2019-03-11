@@ -58,6 +58,7 @@ class Post extends Component {
                     <img style={{'float': 'right', 'height': '20px', 'width': '20px', 'cursor': 'pointer'}}
                     src={trashIcon}
                     alt="delete"
+                    hidden
                     onClick={ () => this.props.onDelete(this.props.post, this.props.post.key) }
                     />
                     <p></p>

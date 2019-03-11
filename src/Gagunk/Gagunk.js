@@ -18,7 +18,7 @@ class App extends Component {
       isValid: true,
       instagramLink: '',
     };
-    
+
     firebase.initializeApp(config);
     }
 
@@ -124,7 +124,11 @@ class App extends Component {
         <AppBar
           className="gagunkNav"
           title={<span>Ga-Gunk!</span>}
-          iconElementRight={<div><FlatButton className="gagunkbtn" label="About" onClick={this.navigate}/><FlatButton className="gagunkbtn" label="Submit Post" onClick={this.handleOpen}/></div>}
+          iconElementRight={
+            <div>
+              <FlatButton className="gagunkbtn" label="About" onClick={this.navigate}/>
+              <FlatButton className="gagunkbtn" label="Submit Post" onClick={this.handleOpen}/>
+            </div>}
           iconStyleLeft={{ display: 'none' }}
         />
         <Dialog
