@@ -132,15 +132,11 @@ class App extends Component {
           iconStyleLeft={{ display: 'none' }}
         />
         <Dialog
-          title="Submit Post"
           actions={actions}
           modal={true}
           open={this.state.openDialog}
         >
-          <br />
-          <br />
-          <br />
-          <br />
+          <span><center>Turn ‘round</center></span>
           <TextField
             hintText="Instagram URL"
             fullWidth={true}
