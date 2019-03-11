@@ -31,6 +31,7 @@ class Posts extends Component {
         }
       });
     }
+
     const posts = Object.keys(_this.props.posts).map((key) => {
       return (
         <Post
