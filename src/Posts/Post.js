@@ -66,9 +66,9 @@ class Post extends Component {
                     />
                     <p></p>
                     <div>
-                      <div>Uh-Oh: {this.props.post.upvote}</div>
+                      <div><span role="img" aria-label="thumbsdown">👎</span>: {this.props.post.upvote}</div>
                       <Line percent={this.props.post.upvote} strokeWidth="4" trailWidth="0" strokeColor="#D8877B" />
-                      <div>Pass: {this.props.post.downvote}</div>
+                      <div><span role="img" aria-label="thumbsdown">👍</span>: {this.props.post.downvote}</div>
                       <Line percent={this.props.post.downvote} strokeWidth="4" trailWidth="0" strokeColor="#C7CA9A" />
                     </div>
                   </GridTile>
@@ -81,7 +81,7 @@ class Post extends Component {
                   onClick={ () => this.props.onUpvote(this.props.post, this.props.post.key) }
                   type="button"
                   style={{width: '50%',  height:'40px', 'marginRight': 'none'}}
-                  label="Uh-oh!"
+                  label="Uh-oh! 👎"
                 />
                 <FlatButton
                   className="gagunkbtn"
@@ -89,7 +89,7 @@ class Post extends Component {
                   onClick={ () => this.props.onDownvote(this.props.post, this.props.post.key) }
                   type="button"
                   style={{width: '50%', height:'40px', 'right': 'none'}}
-                  label="Pass"
+                  label="Pass 👍"
                 />
               </CardActions>
             </Card>
