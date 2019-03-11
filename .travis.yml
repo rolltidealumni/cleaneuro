@@ -2,3 +2,10 @@ deploy:
   provider: surge
   project: ./build/
   domain: gagunk.co
+notifications:
+  email:
+   - contact@themorganthompson.com
+
+  email:
+    recipients:
+     - contact@themorganthompson.com
