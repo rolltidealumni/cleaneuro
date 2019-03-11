@@ -34,6 +34,7 @@ class Post extends Component {
       }
       this.setState({
         fulltext: caption,
+        thumbnail_width: this.data.thumbnail_width,
         url: this.data.thumbnail_url,
         caption: caption.substring(0, 500)
       });
@@ -41,14 +42,16 @@ class Post extends Component {
   }
 
   render() {
-    if(this.data) {
+    const image = this.state.caption ? <img style={{ height: '400px' }} src={ this.state.url} alt="Instagram" /> : <span></span>;
+    if(this.state.thumbnail_width !== 612) {
       return (
           <div>
             <Card id={'#'+ this.props.post.key} style={{ height: '500px', margin: '20px', 'marginBottom': '75px' }} className={this.props.post.leader}>
+
               <CardText style={{ height: '428px' }}>
                 <GridList>
                   <GridTile style={{ height: '400px' }}>
-                    <img style={{ height: '400px' }} src={ this.state.url} alt="Instagram" />
+                    {image}
                   </GridTile>
                   <GridTile style={{height: '440px', 'marginLeft': '20px' }}>
                     <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.state.caption} ..."</span>

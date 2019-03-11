@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Post from './Post';
-import Loader from 'react-loader-spinner'
+import Loader from 'react-loader-spinner';
 
 class Posts extends Component {
   handleUpvote = (post, key) => {
