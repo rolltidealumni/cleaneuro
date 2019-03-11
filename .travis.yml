@@ -9,3 +9,5 @@ notifications:
   email:
     recipients:
      - contact@themorganthompson.com
+language: node_js
+after_success: - surge --project ./build/ --domain gagunk.co

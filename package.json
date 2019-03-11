@@ -1,6 +1,6 @@
 {
   "name": "gagunk",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "firebase": "^4.1.1",
@@ -16,7 +16,8 @@
     "reactstrap": "^4.8.0"
   },
   "devDependencies": {
-    "react-scripts": "latest"
+    "react-scripts": "latest",
+    "surge": "^0.20.1"
   },
   "scripts": {
     "start": "react-scripts start",
