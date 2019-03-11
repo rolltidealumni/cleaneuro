@@ -18,6 +18,7 @@ class App extends Component {
       isValid: true,
       instagramLink: '',
     };
+    
     firebase.initializeApp(config);
     }
 
