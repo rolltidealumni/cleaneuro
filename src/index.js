@@ -14,11 +14,6 @@ const muiTheme = getMuiTheme({
 const App = () => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <Gagunk />
-    <div id="footerArea">
-      <center>
-        <div id="footer">Made with <span role="img" aria-label="heart">❤️ </span> by <a href="https://www.twitter.com/photobymo/" rel="noopener noreferrer" target="_blank">Morgan Thompson</a></div>
-      </center>
-    </div>
   </MuiThemeProvider>
 );
 
