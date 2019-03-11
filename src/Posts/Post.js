@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardActions, CardText} from 'material-ui/Card';
 import { GridList, GridTile } from 'material-ui/GridList';
-import { Line } from 'rc-progress';
 import FlatButton from 'material-ui/FlatButton';
 import trashIcon from '../static/trash.svg';
 
@@ -37,7 +36,7 @@ class Post extends Component {
         fulltext: caption,
         thumbnail_width: this.data.thumbnail_width,
         url: this.data.thumbnail_url,
-        caption: caption.substring(0, 500)
+        caption: caption.substring(0, 400)
       });
     }
   }
@@ -49,14 +48,18 @@ class Post extends Component {
       return (
           <div>
             <Card id={'#'+ this.props.post.key} className={classVal}>
-              <CardText style={{ height: '428px' }}>
-                <GridList>
+              <CardText className="cardText">
+                <GridList className="image">
                   <GridTile style={{ height: '400px' }}>
-                    <a href={this.state.url} target="_blank" rel="noopener noreferrer">
-                      {image}
-                    </a>
+                    <center>
+                      <a href={this.state.url} target="_blank" rel="noopener noreferrer">
+                        {image}
+                      </a>
+                    </center>
                   </GridTile>
-                  <GridTile style={{height: '440px', 'marginLeft': '20px' }}>
+                </GridList>
+                <center>
+                  <div className="caption" style={{height: '440px', 'marginLeft': '20px' }}>
                     <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.state.caption} ..."</span>
                     <img style={{'float': 'right', 'height': '20px', 'width': '20px', 'cursor': 'pointer'}}
                     src={trashIcon}
@@ -64,15 +67,8 @@ class Post extends Component {
                     hidden
                     onClick={ () => this.props.onDelete(this.props.post, this.props.post.key) }
                     />
-                    <p></p>
-                    <div>
-                      <div><span role="img" aria-label="thumbsdown">👎</span>: {this.props.post.upvote}</div>
-                      <Line percent={this.props.post.upvote} strokeWidth="4" trailWidth="0" strokeColor="#D8877B" />
-                      <div><span role="img" aria-label="thumbsdown">👍</span>: {this.props.post.downvote}</div>
-                      <Line percent={this.props.post.downvote} strokeWidth="4" trailWidth="0" strokeColor="#C7CA9A" />
-                    </div>
-                  </GridTile>
-                </GridList>
+                  </div>
+              </center>
               </CardText>
               <CardActions style={{padding: '0px !important', 'margin': '0 !important'}}>
                 <FlatButton
@@ -82,7 +78,10 @@ class Post extends Component {
                   type="button"
                   style={{width: '50%',  height:'40px', 'marginRight': 'none'}}
                   label="Uh-oh! 👎"
-                />
+                >
+                  <div>Uh-Oh <span role="img" aria-label="thumbsdown">👎</span>: {this.props.post.upvote}</div>
+                  {this.props.post.upvote}
+                </FlatButton>
                 <FlatButton
                   className="gagunkbtn"
                   id="pass"
@@ -90,7 +89,10 @@ class Post extends Component {
                   type="button"
                   style={{width: '50%', height:'40px', 'right': 'none'}}
                   label="Pass 👍"
-                />
+                >
+                  <div>Pass <span role="img" aria-label="thumbsdown">👍</span>: {this.props.post.downvote}</div>
+                  {this.props.post.downvote}
+                </FlatButton>
               </CardActions>
             </Card>
           </div>

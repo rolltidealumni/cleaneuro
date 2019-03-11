@@ -2,6 +2,17 @@ body {
   margin: 0;
 }
 
+.image {
+  margin-top: 10px !important;
+  width:100%;
+  height: 425px;
+}
+
+
+.image > div {
+  width:100% !important;
+}
+
 .gagunkbtn {
   margin: 0 !important;
   margin-right: 0px !important;
@@ -17,7 +28,7 @@ body {
   max-width: 745px;
 }
 
-@media only screen and (max-width: 545px) {
+@media only screen and (max-width: 632px) {
   .cards {
     min-width: 300px !important;
     width: 100% !important;
@@ -28,16 +39,25 @@ body {
     max-width: 745px;
   }
 
+  .cardText {
+    height: 628px !important;
+  }
+
   .card {
-    height: 500px;
+    height: 700px !important;
     margin: 2px !important;
-    margin-top: 20px !important;
-    margin-bottom: 20px !important;
+    margin-top: 50px !important;
+    margin-bottom: 50px !important;
   }
 }
 
+.cardText {
+  height: 528px;
+}
+
 .card {
-  height: 500px;
+  overflow: hidden;
+  height: 600px;
   margin: 20px;
   margin-bottom: 75px;
 }
