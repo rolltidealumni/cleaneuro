@@ -49,7 +49,7 @@ class Posts extends Component {
       )
     });
     return (
-      <div style={{ 'minWidth': '545px', width: '90%', margin: 'auto', 'marginTop': '100px', 'maxWidth': '745px' }}>
+      <div className="cards">
         { this.props.loading ? (
             <div id="loader">
               <center><Loader style={{ margin:'200px' }} type="Oval" color="#C7CA9A" height={60} width={60}/></center>

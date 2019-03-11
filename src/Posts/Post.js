@@ -43,15 +43,18 @@ class Post extends Component {
   }
 
   render() {
+    const classVal = "card " + this.props.post.leader;
     const image = this.state.caption ? <img style={{ height: '400px' }} src={ this.state.url} alt="Instagram" /> : <span></span>;
     if(this.state.thumbnail_width !== 612) {
       return (
           <div>
-            <Card id={'#'+ this.props.post.key} style={{ height: '500px', margin: '20px', 'marginBottom': '75px' }} className={this.props.post.leader}>
+            <Card id={'#'+ this.props.post.key} className={classVal}>
               <CardText style={{ height: '428px' }}>
                 <GridList>
                   <GridTile style={{ height: '400px' }}>
-                    {image}
+                    <a href={this.state.url} target="_blank" rel="noopener noreferrer">
+                      {image}
+                    </a>
                   </GridTile>
                   <GridTile style={{height: '440px', 'marginLeft': '20px' }}>
                     <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.state.caption} ..."</span>

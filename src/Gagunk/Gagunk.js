@@ -137,6 +137,10 @@ class App extends Component {
           modal={true}
           open={this.state.openDialog}
         >
+          <br />
+          <br />
+          <br />
+          <br />
           <TextField
             hintText="Instagram URL"
             fullWidth={true}
