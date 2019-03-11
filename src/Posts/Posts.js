@@ -21,6 +21,11 @@ class Posts extends Component {
     window.location.reload(true);
   }
 
+  handleDelete = (post, key) => {
+    this.props.firebase.ref('posts/' + key).remove();
+    window.location.reload(true);
+  }
+
   render() {
     const _this = this;
     const len = this.props.posts.length-1;
@@ -38,6 +43,7 @@ class Posts extends Component {
           id={key}
           post={_this.props.posts[key]}
           onUpvote={this.handleUpvote}
+          onDelete={this.handleDelete}
           onDownvote={this.handleDownvote}
         />
       )

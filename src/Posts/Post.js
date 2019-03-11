@@ -3,6 +3,7 @@ import { Card, CardActions, CardText} from 'material-ui/Card';
 import { GridList, GridTile } from 'material-ui/GridList';
 import { Line } from 'rc-progress';
 import FlatButton from 'material-ui/FlatButton';
+import trashIcon from '../static/trash.svg';
 
 class Post extends Component {
   constructor(props) {
@@ -47,7 +48,6 @@ class Post extends Component {
       return (
           <div>
             <Card id={'#'+ this.props.post.key} style={{ height: '500px', margin: '20px', 'marginBottom': '75px' }} className={this.props.post.leader}>
-
               <CardText style={{ height: '428px' }}>
                 <GridList>
                   <GridTile style={{ height: '400px' }}>
@@ -55,6 +55,11 @@ class Post extends Component {
                   </GridTile>
                   <GridTile style={{height: '440px', 'marginLeft': '20px' }}>
                     <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.state.caption} ..."</span>
+                    <img style={{'float': 'right', 'height': '20px', 'width': '20px', 'cursor': 'pointer'}}
+                    src={trashIcon}
+                    alt="delete"
+                    onClick={ () => this.props.onDelete(this.props.post, this.props.post.key) }
+                    />
                     <p></p>
                     <div>
                       <div>Uh-Oh: {this.props.post.upvote}</div>
