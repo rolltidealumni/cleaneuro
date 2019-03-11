@@ -9,6 +9,32 @@ body {
   color: white !important;
 }
 
+.leader {
+  border:2px solid #C7CA9A !important;
+}
+
+.submitBtn {
+  width: 50%;
+  height: 40px !important;
+  border-radius: 0px !important;
+  background-color:#C7CA9A !important;
+  color: white !important;
+}
+
+.cancelBtn {
+  height: 40px !important;
+  border-radius: 0px !important;
+  width: 50%;
+  background-color:#D8877B !important;
+  color: white !important;
+}
+
+body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) {
+  padding-bottom: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
 #strikethrough {
   text-decoration: line-through;
 }
@@ -22,6 +48,8 @@ body {
 }
 
 .gagunkNav {
+  position: fixed !important;
+  top: 0px !important;
   background-color:#D8877B !important;
 }
 

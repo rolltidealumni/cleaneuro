@@ -24,6 +24,7 @@ class Post extends Component {
 
     if (this.data) {
       let caption = this.data.title;
+      this.caption = this.data.title;
       let pattern = /\B@[a-z0-9_-]+/gi;
       let mentions = caption.match(pattern);
       if (mentions) {
@@ -32,6 +33,7 @@ class Post extends Component {
         })
       }
       this.setState({
+        fulltext: caption,
         url: this.data.thumbnail_url,
         caption: caption.substring(0, 500)
       });
@@ -41,43 +43,45 @@ class Post extends Component {
   render() {
     if(this.data) {
       return (
-          <Card style={{ height: '500px', margin: '20px', 'marginBottom': '75px' }}>
-            <CardText style={{ height: '428px' }}>
-              <GridList>
-                <GridTile style={{ height: '400px' }}>
-                  <img style={{ height: '400px' }} src={ this.state.url} alt="Instagram" />
-                </GridTile>
-                <GridTile style={{height: '440px', 'marginLeft': '20px' }}>
-                  <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.state.caption} ..."</span>
-                  <p></p>
-                  <div>
-                    <div>Uh-Oh: {this.props.post.upvote}</div>
-                    <Line percent={this.props.post.upvote} strokeWidth="4" trailWidth="0" strokeColor="#D8877B" />
-                    <div>Pass: {this.props.post.downvote}</div>
-                    <Line percent={this.props.post.downvote} strokeWidth="4" trailWidth="0" strokeColor="#C7CA9A" />
-                  </div>
-                </GridTile>
-              </GridList>
-            </CardText>
-            <CardActions style={{padding: '0px !important', 'margin': '0 !important'}}>
-              <FlatButton
-                className="gagunkbtn"
-                id="gagunk"
-                onClick={ () => this.props.onUpvote(this.props.post, this.props.id) }
-                type="button"
-                style={{width: '50%',  height:'40px', 'marginRight': 'none'}}
-                label="Uh-oh!"
-              />
-              <FlatButton
-                className="gagunkbtn"
-                id="pass"
-                onClick={ () => this.props.onDownvote(this.props.post, this.props.id) }
-                type="button"
-                style={{width: '50%', height:'40px', 'right': 'none'}}
-                label="Pass"
-              />
-            </CardActions>
-          </Card>
+          <div>
+            <Card id={'#'+ this.props.post.key} style={{ height: '500px', margin: '20px', 'marginBottom': '75px' }} className={this.props.post.leader}>
+              <CardText style={{ height: '428px' }}>
+                <GridList>
+                  <GridTile style={{ height: '400px' }}>
+                    <img style={{ height: '400px' }} src={ this.state.url} alt="Instagram" />
+                  </GridTile>
+                  <GridTile style={{height: '440px', 'marginLeft': '20px' }}>
+                    <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.state.caption} ..."</span>
+                    <p></p>
+                    <div>
+                      <div>Uh-Oh: {this.props.post.upvote}</div>
+                      <Line percent={this.props.post.upvote} strokeWidth="4" trailWidth="0" strokeColor="#D8877B" />
+                      <div>Pass: {this.props.post.downvote}</div>
+                      <Line percent={this.props.post.downvote} strokeWidth="4" trailWidth="0" strokeColor="#C7CA9A" />
+                    </div>
+                  </GridTile>
+                </GridList>
+              </CardText>
+              <CardActions style={{padding: '0px !important', 'margin': '0 !important'}}>
+                <FlatButton
+                  className="gagunkbtn"
+                  id="gagunk"
+                  onClick={ () => this.props.onUpvote(this.props.post, this.props.post.key) }
+                  type="button"
+                  style={{width: '50%',  height:'40px', 'marginRight': 'none'}}
+                  label="Uh-oh!"
+                />
+                <FlatButton
+                  className="gagunkbtn"
+                  id="pass"
+                  onClick={ () => this.props.onDownvote(this.props.post, this.props.post.key) }
+                  type="button"
+                  style={{width: '50%', height:'40px', 'right': 'none'}}
+                  label="Pass"
+                />
+              </CardActions>
+            </Card>
+          </div>
         )
       }
       else {

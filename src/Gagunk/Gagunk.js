@@ -3,11 +3,8 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
-
 import * as firebase from "firebase";
-
 import config from '../firebase-config';
-
 import Posts from '../Posts/Posts';
 
 class App extends Component {
@@ -18,23 +15,37 @@ class App extends Component {
       posts: [],
       loading: true,
       openDialog: false,
+      isValid: true,
       instagramLink: '',
     };
 
     firebase.initializeApp(config);
-  }
+    }
 
   componentWillMount = () => {
+    let posts = [];
     let postsRef = firebase.database().ref('posts').orderByChild('upvote');
-
+    postsRef.on("value", function(snapshot) {
+        let index = 0;
+        snapshot.forEach(function(child, i) {
+            posts.push({
+              index: index,
+              key: child.key,
+              instagramLink: child.val().instagramLink,
+              upvote: child.val().upvote,
+              downvote: child.val().downvote,
+        });
+        index++;
+      });
+    });
     postsRef.on('value', (snapshot) => {
       this.setState({
         ...this.state,
-        posts: snapshot.val(),
+        posts: posts.reverse(),
         loading: false
       });
     });
-  }
+}
 
 
   handleOpen = () => {
@@ -63,21 +74,31 @@ class App extends Component {
     });
   }
 
+  validate = (e) => {
+    return this.state.instagramLink.includes('https://www.instagram.com/p/');
+  }
+
   handleSubmit = (e) => {
-    let postsRef = firebase.database().ref('posts');
+    if(this.validate(e)) {
+      let postsRef = firebase.database().ref('posts');
 
-    postsRef.push({
-      instagramLink: this.state.instagramLink,
-      upvote: 0,
-      downvote: 0
-    });
+      postsRef.push({
+        instagramLink: this.state.instagramLink,
+        upvote: 0,
+        downvote: 0
+      });
 
-    this.setState({
-      ...this.state,
-      openDialog: false,
-      instagramLink: ''
-    });
-    window.location.reload(true);
+      this.setState({
+        ...this.state,
+        openDialog: false,
+        instagramLink: ''
+      });
+      window.location.reload(true);
+    } else {
+      this.setState({
+        isValid: false
+      });
+    }
   }
 
 
@@ -86,11 +107,13 @@ class App extends Component {
       <FlatButton
         label="Cancel"
         primary={true}
+        class="cancelBtn"
         onClick={this.handleClose}
       />,
       <FlatButton
         label="Submit"
         primary={true}
+        class="submitBtn"
         onClick={this.handleSubmit}
       />,
     ];
@@ -113,9 +136,13 @@ class App extends Component {
           <TextField
             hintText="Instagram URL"
             fullWidth={true}
+            onKeyPress={this.handleChange}
+            onFocus={ this.handleChange }
+            onBlur={ this.handleChange }
             value={this.state.instagramLink}
             onChange={this.handleChange}
           />
+          <div style={{'color': 'red'}} hidden={this.state.isValid}>Please paste a valid Instagram link.</div>
         </Dialog>
         <Posts
           firebase={firebase.database()}
