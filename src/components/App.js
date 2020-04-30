@@ -1,10 +1,7 @@
 import React from "react";
-
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-
 import ProtectedRoute from "./ProtectedRoute";
-import Test from "./Test";
 import Home from "./Home";
 import Login from "./Login";
 

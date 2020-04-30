@@ -20,6 +20,20 @@ body {
   color: white !important;
 }
 
+.gagunkbtn-submit {
+  margin-top: 5px !important;
+  margin-right: 0px !important;
+  border-radius: 0px !important;
+  width: 100% !important;
+  height: 55px !important;
+  background-color: #61dbfb !important;
+  color: white !important;
+}
+
+#email {
+  border-color: #61dbfb !important;
+}
+
 .cards {
   min-width: 545px;
   width: 90%;

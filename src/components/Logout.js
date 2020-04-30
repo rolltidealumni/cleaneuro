@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { logoutUser } from "../actions";
 
-function Logout () {
+function Logout() {
   const { dispatch } = this.props;
   dispatch(logoutUser());
 };

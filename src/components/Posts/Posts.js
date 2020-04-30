@@ -30,7 +30,6 @@ class Posts extends Component {
     const _this = this;
     const len = this.props.posts.length-1;
     if (len > 0) {
-      console.log(this.props.posts);
       this.props.posts.forEach(function(item) {
         if (item.index === len) {
           _this.props.posts[0].leader = 'leader';

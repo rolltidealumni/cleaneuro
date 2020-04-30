@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import AppBar from 'material-ui/AppBar';
+import FlatButton from 'material-ui/FlatButton';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/Card';
+import Backdrop from '@material-ui/core/Backdrop';
+import CardActions from '@material-ui/core/Card';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import { loginUser } from "../actions";
 
 function Login(props) {
@@ -13,20 +21,37 @@ function Login(props) {
     dispatch(loginUser(email, password));
   };
 
+  const navigate = () => {
+    window.location = "https://github.com/themorganthompson/gagunk";
+  };
+ 
   if (isAuthenticated) {
     return <Redirect to="/" />;
   } else {
     return ( 
-      <div style={{backgroundColor: 'lightgray', width: '40%', height: '350px', margin: 'auto', marginTop: '10%'}}>
-        <div style={{width: '50%', margin: 'auto', textAlign: 'center', padding: '10%'}}>
-          <h1>Login</h1>
-          <input onChange={(e) => setEmail(e.target.value)} style={{margin: '4px'}}/>
-          <br/>
-          <input onChange={(e) => setPassword(e.target.value)} style={{margin: '4px'}}/>
-          <br/>
-          <button onClick={() => handleSubmit()} />
-        </div>
-      </div> 
+      <div style={{marginTop: "16px"}}>
+        <AppBar
+          className="gagunkNav"
+          title={<span>Ga-Gunk!</span>}
+          iconElementRight={
+            <div style={{ padding: "0"}}>
+              <FlatButton className="gagunkbtn" label="About" onClick={() => navigate()}/>
+            </div>}
+          iconStyleLeft={{ display: 'none' }}
+        />
+        <Backdrop open={true}>
+            <Card className="gagunkLogin" style={{backgroundColor: 'lightgray', width: '80%', margin: 'auto', marginTop: 'auto', textAlign: 'center', maxWidth: '580px'}}>
+                <CardContent style={{backgroundColor: 'white'}}>
+                    <Typography variant="h4" style={{padding: "20px"}}>Login</Typography>
+                    <TextField style={{margin: "5px", width: '80%'}} id="email" onChange={(e) => setEmail(e.target.value)} label="Email" variant="outlined" />
+                    <TextField style={{margin: "5px", width: '80%'}} id="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="outlined" />
+                    <CardActions style={{backgroundColor: 'white'}}>
+                      <FlatButton className="gagunkbtn-submit" label="Submit" onClick={() => handleSubmit()}/>
+                    </CardActions>
+                </CardContent>
+              </Card>
+        </Backdrop>
+      </div>
     );
   }
 }
