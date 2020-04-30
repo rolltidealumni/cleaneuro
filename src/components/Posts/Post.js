@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardActions, CardText} from 'material-ui/Card';
 import { GridList, GridTile } from 'material-ui/GridList';
 import FlatButton from 'material-ui/FlatButton';
-import trashIcon from '../static/trash.svg';
+import trashIcon from '../../static/trash.svg';
 
 class Post extends Component {
   constructor(props) {
@@ -77,9 +77,9 @@ class Post extends Component {
                   onClick={ () => this.props.onUpvote(this.props.post, this.props.post.key) }
                   type="button"
                   style={{width: '50%',  height:'40px', 'marginRight': 'none'}}
-                  label="Uh-oh! 👎"
+                  label="Gagunk! 👎"
                 >
-                  <div>Uh-Oh <span role="img" aria-label="thumbsdown">👎</span>: {this.props.post.upvote}</div>
+                  <div>Ga-Gunk <span role="img" aria-label="thumbsdown">🚪</span>: {this.props.post.upvote}</div>
                   {this.props.post.upvote}
                 </FlatButton>
                 <FlatButton
