@@ -6,5 +6,6 @@ import firebaseConfig from "./firebase-config";
 
 export const myFirebase = firebase.initializeApp(firebaseConfig);
 const baseDb = myFirebase.firestore();
-export const database = firebase.database();
+const realTime = myFirebase.database();
 export const db = baseDb;
+export default realTime;

@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { loginUser } from "../actions";
 
-function Login(props) {
+function Login (props) {
   const { isAuthenticated } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

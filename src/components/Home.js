@@ -3,42 +3,16 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import Posts from './Posts/Posts';
-import { database } from '../firebase/firebase';
-import { connect } from "react-redux";
+import realTime from '../firebase/firebase';
 import { logoutUser } from "../actions";
 import TextField from 'material-ui/TextField';
 
 function Home (props) {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { dispatch } = props;
   const [openDialog, setOpenDialog] = useState(false);
   const [instagramLink, setInstagramLink] = useState("");
   const [isValid, setIsValid] = useState(true);
-
-  useEffect(() => {
-    let postz = [];
-    let postsRef = database.ref('posts');
-    postsRef.on("value", function(snapshot) {
-        let index = 0;
-      
-        snapshot.forEach(function(child, i) {
-          postz.push({
-            index: index,
-            key: child.key,
-            instagramLink: child.val().instagramLink,
-            upvote: child.val().upvote,
-            downvote: child.val().downvote,
-        });
-        index++;
-      });
-    });
-  
-    postsRef.on('value', (snapshot) => {
-      setPosts(postz.reverse());
-      setLoading(false);
-    });
-  });
-
+ 
   const handleOpen = () => {
     setOpenDialog(true);
   };
@@ -48,7 +22,6 @@ function Home (props) {
   };
  
   const logout = () => {
-    const { dispatch } = props;
     dispatch(logoutUser());
   };
 
@@ -68,7 +41,7 @@ function Home (props) {
 
   const handleSubmit = (e) => {
     if(validate(e)) {
-      let postsRef = database.ref('posts');
+      let postsRef = realTime.ref('posts');
 
       postsRef.push({
         instagramLink: instagramLink,
@@ -128,20 +101,9 @@ function Home (props) {
         />
         <div style={{'color': 'red'}} hidden={isValid}>Please paste a valid Instagram link.</div>
       </Dialog>
-      <Posts
-        firebase={database}
-        posts={posts}
-        loading={loading}
-      />
+      <Posts firebase={realTime} {...props} />
     </div>
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    isLoggingOut: state.auth.isLoggingOut,
-    logoutError: state.auth.logoutError
-  };
-}
-
-export default connect(mapStateToProps)(Home);
+export default Home;

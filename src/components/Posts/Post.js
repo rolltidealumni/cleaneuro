@@ -7,6 +7,7 @@ import trashIcon from '../../static/trash.svg';
 class Post extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       url: '',
       caption: ''
