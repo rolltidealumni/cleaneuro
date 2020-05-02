@@ -7,6 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/Card';
 import Backdrop from '@material-ui/core/Backdrop';
 import CardActions from '@material-ui/core/Card';
+import Loader from 'react-loader-spinner';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { loginUser } from "../actions";
@@ -46,7 +47,13 @@ function Login (props) {
                     <TextField style={{margin: "5px", width: '80%'}} id="email" onChange={(e) => setEmail(e.target.value)} label="Email" variant="outlined" />
                     <TextField style={{margin: "5px", width: '80%'}} id="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="outlined" />
                     <CardActions style={{backgroundColor: 'white'}}>
-                      <FlatButton className="gagunkbtn-submit" label="Submit" onClick={() => handleSubmit()}/>
+                      <FlatButton 
+                        className="gagunkbtn-submit" 
+                        label={props.isLoggingIn ? 
+                          <span id="loginLoader"><Loader id="loginLoader" type="Oval" color="white" height={20} width={20}/></span> : "Submit"
+                        }
+                        onClick={() => handleSubmit()}
+                      />
                     </CardActions>
                 </CardContent>
               </Card>

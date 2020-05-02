@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { connect } from "react-redux";
 import AppBar from 'material-ui/AppBar';
+import { useHistory } from "react-router-dom";
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import Posts from './Posts/Posts';
 import realTime from '../firebase/firebase';
+import Loader from 'react-loader-spinner';
 import { logoutUser } from "../actions";
 import TextField from 'material-ui/TextField';
 
 function Home (props) {
-  const { dispatch } = props;
   const [openDialog, setOpenDialog] = useState(false);
   const [instagramLink, setInstagramLink] = useState("");
   const [isValid, setIsValid] = useState(true);
+  let history = useHistory()
  
   const handleOpen = () => {
     setOpenDialog(true);
@@ -22,8 +25,14 @@ function Home (props) {
   };
  
   const logout = () => {
+    const { dispatch } = props;
     dispatch(logoutUser());
   };
+
+  const login = () => {
+    history.push('/login');
+  };
+
 
   const handleClose = () => {
     setOpenDialog(false);
@@ -80,7 +89,11 @@ function Home (props) {
           <div style={{ padding: "0"}}>
             <FlatButton className="gagunkbtn" label="About" onClick={() => navigate()}/>
             <FlatButton className="gagunkbtn" label="Submit Post" onClick={() => handleOpen()}/>
-            <FlatButton className="gagunkbtn" label="Logout" onClick={() => logout()}/>
+            {props.isVerifying ? 
+              (<FlatButton className="gagunkbtn" label={<span id="authLoader"><Loader type="Oval" color="white" height={20} width={20}/></span>} />) :
+              props.isAuthenticated ? 
+                <FlatButton className="gagunkbtn" label="Logout" onClick={() => logout()}/> : 
+                <FlatButton className="gagunkbtn" label="Login" onClick={() => login()}/> }
           </div>}
         iconStyleLeft={{ display: 'none' }}
       />

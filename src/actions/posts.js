@@ -20,7 +20,7 @@ export const getPosts = () => dispatch => {
   let postz = [];
   let ordered = [];
   async function r() {
-    let promise = new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       realTime
       .ref('posts')
       .orderByChild('upvote')
@@ -42,9 +42,10 @@ export const getPosts = () => dispatch => {
       });
       resolve(ordered);
     });
-
-    let result = await promise;
-    ordered.sort((a, b) => (a.upvote < b.upvote) ? 1 : -1);
-    dispatch(receivePosts(ordered));
-  }; r();
+    return ordered.sort((a, b) => (a.upvote < b.upvote) ? 1 : -1);
+  }; 
+  r().then(value => {
+    console.log(value)
+    dispatch(receivePosts(value));
+  });
 };

@@ -14,6 +14,7 @@
     "nodemailer": "^5.1.1",
     "rc-progress": "^2.5.2",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-instagram-embed": "^1.5.0",
     "react-loader-spinner": "^2.3.0",
@@ -23,7 +24,8 @@
     "react-scrollable-anchor": "^0.6.1",
     "reactstrap": "^4.8.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rxjs": "^6.5.5"
   },
   "devDependencies": {
     "react-scripts": "latest",
