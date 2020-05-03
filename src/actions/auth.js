@@ -1,4 +1,6 @@
 import { myFirebase } from "../firebase/firebase";
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -83,7 +85,6 @@ export const logoutUser = () => dispatch => {
       dispatch(receiveLogout());
     })
     .catch(error => {
-      //Do something with the error if you want!
       dispatch(logoutError());
     });
 };
@@ -93,8 +94,11 @@ export const verifyAuth = () => dispatch => {
   myFirebase
     .auth()
     .onAuthStateChanged(user => {
+      myFirebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
       if (user !== null) {
         dispatch(receiveLogin(user));
+        dispatch(verifySuccess());
+      } else {
         dispatch(verifySuccess());
       }
     });

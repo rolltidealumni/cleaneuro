@@ -7,53 +7,19 @@ import trashIcon from '../../static/trash.svg';
 class Post extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
-    this.state = {
-      url: '',
-      caption: ''
-    }
-  }
-
-  async componentWillMount() {
-    this.data = false;
-
-    try {
-      const res = await fetch(`https://cors-anywhere.herokuapp.com/https://api.instagram.com/oembed/?url=${this.props.post.instagramLink}`);
-      this.data = await res.json();
-    } catch (e) {
-    }
-
-    if (this.data) {
-      let caption = this.data.title;
-      this.caption = this.data.title;
-      let pattern = /\B@[a-z0-9_-]+/gi;
-      let mentions = caption.match(pattern);
-      if (mentions) {
-        mentions.forEach(function(element) {
-            caption = caption.replace(element, 'r̶e̶d̶a̶c̶t̶e̶d̶');
-        })
-      }
-      this.setState({
-        fulltext: caption,
-        thumbnail_width: this.data.thumbnail_width,
-        url: this.data.thumbnail_url,
-        caption: caption.substring(0, 400)
-      });
-    }
   }
 
   render() {
-    const classVal = "card " + this.props.post.leader;
-    const image = this.state.caption ? <img style={{ height: '400px' }} src={ this.state.url} alt="Instagram" /> : <span></span>;
-    if(this.state.thumbnail_width !== 612) {
+    const image = <img style={{ height: '400px' }} src={this.props.post.imageLink} alt="image" />;
+    if(image) {
       return (
           <div>
-            <Card id={'#'+ this.props.post.key} className={classVal}>
+            <Card id={'#'+ this.props.post.key}>
               <CardText className="cardText">
                 <GridList className="image">
                   <GridTile style={{ height: '400px' }}>
                     <center>
-                      <a href={this.state.url} target="_blank" rel="noopener noreferrer">
+                      <a href={this.props.post.imageLink} target="_blank" rel="noopener noreferrer">
                         {image}
                       </a>
                     </center>
@@ -61,7 +27,7 @@ class Post extends Component {
                 </GridList>
                 <center>
                   <div className="caption" style={{height: '440px', 'marginLeft': '20px' }}>
-                    <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.state.caption} ..."</span>
+                    <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.props.post.caption}"</span>
                     <img style={{'float': 'right', 'height': '20px', 'width': '20px', 'cursor': 'pointer'}}
                     src={trashIcon}
                     alt="delete"
@@ -74,24 +40,26 @@ class Post extends Component {
               <CardActions style={{padding: '0px !important', 'margin': '0 !important'}}>
                 <FlatButton
                   className="gagunkbtn"
-                  id="gagunk"
+                  id="pass"
                   onClick={ () => this.props.onUpvote(this.props.post, this.props.post.key) }
                   type="button"
                   style={{width: '50%',  height:'40px', 'marginRight': 'none'}}
-                  label="Gagunk! 👎"
+                  label="👍"
+                  disabled={!this.props.isAuthenticated}
                 >
-                  <div>Ga-Gunk <span role="img" aria-label="thumbsdown">🚪</span>: {this.props.post.upvote}</div>
+                  <div><span role="img" aria-label="thumbsdown">👍</span>: {this.props.post.upvote}</div>
                   {this.props.post.upvote}
                 </FlatButton>
                 <FlatButton
                   className="gagunkbtn"
-                  id="pass"
+                  id="gagunk"
                   onClick={ () => this.props.onDownvote(this.props.post, this.props.post.key) }
                   type="button"
                   style={{width: '50%', height:'40px', 'right': 'none'}}
-                  label="Pass 👍"
+                  label="👎"
+                  disabled={!this.props.isAuthenticated}
                 >
-                  <div>Pass <span role="img" aria-label="thumbsdown">👍</span>: {this.props.post.downvote}</div>
+                  <div><span role="img" aria-label="thumbsdown">👎</span>: {this.props.post.downvote}</div>
                   {this.props.post.downvote}
                 </FlatButton>
               </CardActions>
