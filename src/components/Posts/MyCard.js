@@ -11,7 +11,7 @@
   const MyCard = (post) => {
     Moment.locale('en');
     return (
-      <Card className={'MuiProjectCard--01'} style={{width: '400px'}}>
+      <Card className={'MuiProjectCard--01'}>
         <CardMedia
           className={'MuiCardMedia-root'}
           style={{height: "300px"}}

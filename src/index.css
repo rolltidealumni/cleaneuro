@@ -70,15 +70,14 @@ body {
   .cards {
     min-width: 300px !important;
     width: 100% !important;
-    margin-left:0px !important;
-    margin-right: 0px !important;
+    margin-right: auto !important;
     margin-top: 100px;
     margin-bottom: 100px !important;
     max-width: 745px;
   }
 
-  .cardText {
-    /* height: 48px !important; */
+  .MuiProjectCard--01 {
+    width: 335px !important;
   }
 
   .card {
@@ -127,6 +126,10 @@ body {
   width: 50%;
   background-color:#D8877B !important;
   color: white !important;
+}
+
+.MuiProjectCard--01 {
+  width: 400px;
 }
 
 body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) {
