@@ -6,7 +6,11 @@ import {
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
   VERIFY_REQUEST,
-  VERIFY_SUCCESS
+  VERIFY_SUCCESS,
+  ACCOUNT_REQUEST,
+  ACCOUNT_SUCCESS,
+  ACCOUNT_FAILURE,
+  VERIFY_ACCOUNT_SUCCESS
 } from "../actions/";
 
 export default (
@@ -17,6 +21,7 @@ export default (
     loginError: false,
     logoutError: false,
     isAuthenticated: false,
+    accountError: false,
     user: {}
   },
   action
@@ -41,6 +46,34 @@ export default (
         isLoggingIn: false,
         isAuthenticated: false,
         loginError: true
+      };
+    case ACCOUNT_FAILURE:
+      return {
+        ...state,
+        isLoggingIn: false,
+        isAuthenticated: false,
+        accountError: true
+      };
+    case ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        isLoggingIn: false,
+        isAuthenticated: false,
+        accountError: false
+      };
+    case ACCOUNT_REQUEST:
+      return {
+        ...state,
+        isLoggingIn: true,
+        isAuthenticated: false,
+        accountError: false
+      };
+    case VERIFY_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        isLoggingIn: false,
+        isAuthenticated: true,
+        accountError: false
       };
     case LOGOUT_REQUEST:
       return {

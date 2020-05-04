@@ -49,7 +49,7 @@
             label="👍"
             disabled={!post.isAuthenticated}
           >
-            <div><span role="img" aria-label="thumbsdown">👍</span></div>
+            <div><span role="img" aria-label="thumbsdown">{!post.isAuthenticated ? "Login to like" : "👍"}</span></div>
           </FlatButton>
       </Card>
     )};
