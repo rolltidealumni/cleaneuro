@@ -2,4 +2,4 @@
 ## Rate My Shot 
 
 
-A place for creatives to give and receive anonymous feedback and critique photography.
+A place for creatives to give and receive anonymous feedback for the betterment of art.
