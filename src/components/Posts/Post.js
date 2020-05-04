@@ -10,14 +10,14 @@ class Post extends Component {
   }
 
   render() {
-    const image = <img style={{ height: '400px' }} src={this.props.post.imageLink} alt="image" />;
+    const image = <img style={{ height: '80%', width: '80%'}} src={this.props.post.imageLink} alt="image" />;
     if(image) {
       return (
-          <div>
+          <div className="cardContainer" style={{ marginBottom: '20px' }}>
             <Card id={'#'+ this.props.post.key}>
               <CardText className="cardText">
                 <GridList className="image">
-                  <GridTile style={{ height: '400px' }}>
+                  <GridTile style={{ height: '400px', overflow: 'scroll' }}>
                     <center>
                       <a href={this.props.post.imageLink} target="_blank" rel="noopener noreferrer">
                         {image}
@@ -25,18 +25,23 @@ class Post extends Component {
                     </center>
                   </GridTile>
                 </GridList>
-                <center>
-                  <div className="caption" style={{height: '440px', 'marginLeft': '20px' }}>
-                    <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.props.post.caption}"</span>
-                    <img style={{'float': 'right', 'height': '20px', 'width': '20px', 'cursor': 'pointer'}}
-                    src={trashIcon}
-                    alt="delete"
-                    hidden
-                    onClick={ () => this.props.onDelete(this.props.post, this.props.post.key) }
-                    />
-                  </div>
-              </center>
+                <div className="caption" style={{'marginLeft': '0px' }}>
+                  <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.props.post.caption}"</span>
+                  <img style={{'float': 'right', 'height': '20px', 'width': '20px', 'cursor': 'pointer'}}
+                  src={trashIcon}
+                  alt="delete"
+                  hidden
+                  onClick={ () => this.props.onDelete(this.props.post, this.props.post.key) }
+                  />
+                </div>
               </CardText>
+              {/* <CardText className="cardTextRight">
+               <GridList className="containerRight">
+                 <GridTile style={{ height: '400px' }}>
+                    <div>Test</div>                  
+                </GridTile>
+               </GridList>
+              </CardText> */}
               <CardActions style={{padding: '0px !important', 'margin': '0 !important'}}>
                 <FlatButton
                   className="gagunkbtn"
