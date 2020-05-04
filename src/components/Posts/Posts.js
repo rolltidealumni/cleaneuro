@@ -24,6 +24,7 @@ const Posts = (props) => {
               ordered.push({
                 index: i,
                 key: keys[i],
+                submitted: child[1].submitted,
                 imageLink: child[1].imageLink,
                 upvote: child[1].upvote,
                 caption: child[1].caption,
@@ -32,7 +33,7 @@ const Posts = (props) => {
           });
         }
       });
-    if(mounted) setPosts(ordered);
+    if(mounted) setPosts(ordered.sort((a, b) => (a.upvote < b.upvote) ? 1 : -1));
     return(ordered);
   }
 
@@ -47,6 +48,7 @@ const Posts = (props) => {
     props.firebase.ref('posts/' + key).set({
       imageLink: post.imageLink,
       caption: post.caption,
+      submitted: post.submitted,
       upvote: post.upvote + 1,
       downvote: post.downvote
     });
@@ -56,6 +58,7 @@ const Posts = (props) => {
     props.firebase.ref('posts/' + key).set({
       imageLink: post.imageLink,
       caption: post.caption,
+      submitted: post.submitted,
       upvote: post.upvote,
       downvote: post.downvote + 1
     });

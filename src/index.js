@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
 import configureStore from "./configureStore";
+import createOverrides from "./theme"
 import './index.css';
 
 import MyApp from './components/App';
@@ -21,7 +22,12 @@ const muiTheme = getMuiTheme({
 });
 
 const App = () => (
-  <MuiThemeProvider muiTheme={muiTheme}>
+  <MuiThemeProvider 
+    muiTheme={{
+      ...muiTheme,
+      overrides: createOverrides(muiTheme)
+    }}
+    >
     <Provider store={store}>
       <Router>
         <MyApp />

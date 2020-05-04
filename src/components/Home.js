@@ -51,6 +51,7 @@ function Home (props) {
       postsRef.push({
         imageLink: imageLink,
         caption: caption,
+        submitted: new Date(),
         upvote: 0,
         downvote: 0
       });
@@ -82,7 +83,7 @@ function Home (props) {
         className="gagunkNav"
         title={<img src={logo} style={{width: "40px", marginTop: "12px"}}/>}
         iconElementRight={
-          <div style={{ padding: "0"}}>
+          <div style={{ padding: "0px !important"}}>
             <FlatButton className="gagunkbtn" label="About" onClick={() => navigate()}/>
             <FlatButton className="gagunkbtn" label="Submit" onClick={() => handleOpen()} disabled={!props.isAuthenticated}/>
             {props.isVerifying ? 
