@@ -139,17 +139,17 @@ body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) 
 }
 
 #gagunk {
-  background-color:#D8877B !important;
+  background-color:#E93A50 !important;
 }
 
 #pass {
-  background-color:#C7CA9A !important;
+  background-color:#3DDC84 !important;
 }
 
 .gagunkNav {
   position: fixed !important;
   top: 0px !important;
-  background-color:#D8877B !important;
+  background-color:black  !important;
 }
 
 #loader {

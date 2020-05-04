@@ -8,6 +8,7 @@ import Posts from './Posts/Posts';
 import realTime from '../firebase/firebase';
 import Loader from 'react-loader-spinner';
 import { logoutUser } from "../actions";
+import logo from "../static/ratemyshot.png";
 import TextField from 'material-ui/TextField';
 
 function Home (props) {
@@ -79,7 +80,7 @@ function Home (props) {
     <div style={{marginTop: "16px"}}>
       <AppBar
         className="gagunkNav"
-        title={<span>Rate My Shot!</span>}
+        title={<img src={logo} style={{width: "40px", marginTop: "12px"}}/>}
         iconElementRight={
           <div style={{ padding: "0"}}>
             <FlatButton className="gagunkbtn" label="About" onClick={() => navigate()}/>
