@@ -7,6 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/Card';
 import Backdrop from '@material-ui/core/Backdrop';
 import CardActions from '@material-ui/core/Card';
+import logo from "../static/ratemyshot.png";
 import Loader from 'react-loader-spinner';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -31,9 +32,9 @@ function Login (props) {
   } else {
     return ( 
       <div style={{marginTop: "16px"}}>
-        <AppBar
+         <AppBar
           className="gagunkNav"
-          title={<span>Ga-Gunk!</span>}
+          title={<img src={logo} style={{width: "40px", marginTop: "12px"}}/>}
           iconElementRight={
             <div style={{ padding: "0"}}>
               <FlatButton className="gagunkbtn" label="About" onClick={() => navigate()}/>

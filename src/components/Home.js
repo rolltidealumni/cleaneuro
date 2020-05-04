@@ -8,6 +8,7 @@ import Posts from './Posts/Posts';
 import realTime from '../firebase/firebase';
 import Loader from 'react-loader-spinner';
 import { logoutUser } from "../actions";
+import logo from "../static/ratemyshot.png";
 import TextField from 'material-ui/TextField';
 
 function Home (props) {
@@ -50,6 +51,7 @@ function Home (props) {
       postsRef.push({
         imageLink: imageLink,
         caption: caption,
+        submitted: new Date().toString(),
         upvote: 0,
         downvote: 0
       });
@@ -79,11 +81,11 @@ function Home (props) {
     <div style={{marginTop: "16px"}}>
       <AppBar
         className="gagunkNav"
-        title={<span>Rate My Shot!</span>}
+        title={<img src={logo} style={{width: "40px", marginTop: "12px"}}/>}
         iconElementRight={
-          <div style={{ padding: "0"}}>
+          <div style={{ padding: "0px !important"}}>
             <FlatButton className="gagunkbtn" label="About" onClick={() => navigate()}/>
-            <FlatButton className="gagunkbtn" label="Submit Post" onClick={() => handleOpen()} disabled={!props.isAuthenticated}/>
+            <FlatButton className="gagunkbtn" label="Submit" onClick={() => handleOpen()} disabled={!props.isAuthenticated}/>
             {props.isVerifying ? 
               (<FlatButton className="gagunkbtn" label={<span id="authLoader"><Loader type="Oval" color="white" height={20} width={20}/></span>} />) :
               props.isAuthenticated ? 
