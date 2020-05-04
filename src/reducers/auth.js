@@ -22,7 +22,8 @@ export default (
     logoutError: false,
     isAuthenticated: false,
     accountError: false,
-    user: {}
+    user: {},
+    confirmationResult: {}
   },
   action
 ) => {
@@ -59,14 +60,19 @@ export default (
         ...state,
         isLoggingIn: false,
         isAuthenticated: false,
-        accountError: false
+        accountError: false,
+        verifyCode: true,
+        confirmationResult: action.confirmationResult
       };
     case ACCOUNT_REQUEST:
       return {
         ...state,
+        isVerifying: true,
+        verifyCode: false,
         isLoggingIn: true,
-        isAuthenticated: false,
-        accountError: false
+        verifyingError: false,
+        accountError: false,
+        loginError: false,
       };
     case VERIFY_ACCOUNT_SUCCESS:
       return {
@@ -98,12 +104,19 @@ export default (
       return {
         ...state,
         isVerifying: true,
-        verifyingError: false
+        isLoggingIn: true,
+        verifyingError: false,
+        accountError: false,
+        loginError: false,
       };
     case VERIFY_SUCCESS:
       return {
         ...state,
-        isVerifying: false
+        isVerifying: false,
+        isLoggingIn: false,
+        verifyingError: false,
+        loginError: false,
+        user: action.user
       };
     default:
       return state;

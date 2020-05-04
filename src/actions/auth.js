@@ -30,9 +30,10 @@ const requestAccount = () => {
   };
 };
 
-const receiveAccount = () => {
+const receiveAccount = confirmationResult => {
   return {
-    type: ACCOUNT_SUCCESS
+    type: ACCOUNT_SUCCESS,
+    confirmationResult
   };
 };
 
@@ -106,28 +107,44 @@ export const loginUser = (email, password) => dispatch => {
     });
 };
 
-export const createUser = (email, password) => dispatch => {
+export const createUser = (phoneNumber, appVerifier) => dispatch => {
   dispatch(requestAccount());
-
+  console.log(phoneNumber);
   myFirebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(user => {
-      user.sendEmailVerification().then(function() {
-        myFirebase
-          .auth()
-          .signOut()
-          .then(() => {
-            dispatch(receiveAccount());
-        })
-      }).catch(function(error) {
-        dispatch(accountError(error.message));
-      });
+    .auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+    .then(function (confirmationResult) {
+      console.log(confirmationResult);
+      dispatch(receiveAccount(confirmationResult));
+      window.confirmationResult = confirmationResult;
+    }).catch(function (error) {
+  });
+};
+
+export const verifyAccount = (user) => dispatch => {
+  dispatch(requestAccount());
+  user.sendEmailVerification().then(function() {
+    myFirebase
+      .auth()
+      .signOut()
+      .then(() => {
+        dispatch(receiveAccount());
+    })
+  }).catch(function(error) {
+    dispatch(accountError(error.message));
+  });
+}
+
+export const verifyLink = (user, url) => dispatch => {
+  dispatch(verifyRequest());
+  myFirebase.auth().signInWithEmailLink(user, url.href)
+    .then(function(result) {
+      dispatch(receiveLogin(user));
+      dispatch(verifySuccess(user));
     })
     .catch(function(error) {
-      dispatch(accountError(error.message));
+      dispatch(loginError(true));
     });
-};
+}
 
 export const logoutUser = () => dispatch => {
   dispatch(requestLogout());
