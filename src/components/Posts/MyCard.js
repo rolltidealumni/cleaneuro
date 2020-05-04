@@ -3,6 +3,7 @@
   import Card from '@material-ui/core/Card';
   import FlatButton from 'material-ui/FlatButton';
   import CardContent from '@material-ui/core/CardContent';
+  import CardMedia from '@material-ui/core/CardMedia';
   import Moment from 'moment';
   import Divider from '@material-ui/core/Divider';
   import Typography from '@material-ui/core/Typography';
@@ -10,7 +11,12 @@
   const MyCard = (post) => {
     Moment.locale('en');
     return (
-      <Card className={'MuiProjectCard--01'}>
+      <Card className={'MuiProjectCard--01'} style={{width: '400px'}}>
+        <CardMedia
+          className={'MuiCardMedia-root'}
+          style={{height: "300px"}}
+          image={post.post.imageLink}
+        />
         <div className={'MuiCard__head'}>
           <Typography
             className={'MuiTypography--headLabel'}
@@ -28,14 +34,7 @@
             variant={'overline'}
             gutterBottom
           >
-            {Moment(post.post.submitted).format('MMM, d YYYY')}
-          </Typography>
-          <Typography
-            className={'MuiTypography--heading'}
-            variant={'h5'}
-            gutterBottom
-          >
-            <img style={{ height: '80%', width: '80%'}} src={post.post.imageLink} alt="image" />
+            {Moment(new Date(post.post.submitted)).format('MMMM, D YYYY')}
           </Typography>
           <Typography className={'MuiTypography--subheading'} gutterBottom>
             {post.post.caption}

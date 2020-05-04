@@ -51,7 +51,7 @@ function Home (props) {
       postsRef.push({
         imageLink: imageLink,
         caption: caption,
-        submitted: new Date(),
+        submitted: new Date().toString(),
         upvote: 0,
         downvote: 0
       });
