@@ -77,7 +77,11 @@ body {
   }
 
   .cardText {
-    height: 48px !important;
+    /* height: 48px !important; */
+  }
+
+  .caption {
+    text-align: center;
   }
 
   .card {
@@ -89,7 +93,7 @@ body {
 }
 
 .cardText {
-  height: 528px;
+  height: 450px;
   /* width: 55%; */
   display: inline-block;
 }
@@ -143,7 +147,7 @@ body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) 
 }
 
 #pass {
-  background-color:#3DDC84 !important;
+  background-color:#61DBFB !important;
 }
 
 .gagunkNav {

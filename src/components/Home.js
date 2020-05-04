@@ -84,7 +84,7 @@ function Home (props) {
         iconElementRight={
           <div style={{ padding: "0"}}>
             <FlatButton className="gagunkbtn" label="About" onClick={() => navigate()}/>
-            <FlatButton className="gagunkbtn" label="Submit Post" onClick={() => handleOpen()} disabled={!props.isAuthenticated}/>
+            <FlatButton className="gagunkbtn" label="Submit" onClick={() => handleOpen()} disabled={!props.isAuthenticated}/>
             {props.isVerifying ? 
               (<FlatButton className="gagunkbtn" label={<span id="authLoader"><Loader type="Oval" color="white" height={20} width={20}/></span>} />) :
               props.isAuthenticated ? 

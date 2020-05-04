@@ -22,18 +22,19 @@ class Post extends Component {
                       <a href={this.props.post.imageLink} target="_blank" rel="noopener noreferrer">
                         {image}
                       </a>
-                    </center>
+                    </center>  
+                    <div className="caption" style={{'marginLeft': '0px' }}>
+                      <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.props.post.caption}"</span>
+                      <img style={{'float': 'right', 'height': '20px', 'width': '20px', 'cursor': 'pointer'}}
+                      src={trashIcon}
+                      alt="delete"
+                      hidden
+                      onClick={ () => this.props.onDelete(this.props.post, this.props.post.key) }
+                      />
+                    </div>
                   </GridTile>
+                
                 </GridList>
-                <div className="caption" style={{'marginLeft': '0px' }}>
-                  <span style={{'maxHeight': '300px', 'minHeight': '300px'}}>"{this.props.post.caption}"</span>
-                  <img style={{'float': 'right', 'height': '20px', 'width': '20px', 'cursor': 'pointer'}}
-                  src={trashIcon}
-                  alt="delete"
-                  hidden
-                  onClick={ () => this.props.onDelete(this.props.post, this.props.post.key) }
-                  />
-                </div>
               </CardText>
               {/* <CardText className="cardTextRight">
                <GridList className="containerRight">
