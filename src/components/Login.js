@@ -17,9 +17,10 @@ import Typography from '@material-ui/core/Typography';
 
 function Login (props) {
   let { isAuthenticated } = props;
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [apiError, setApiError] = useState(null);
   const [verifyCodeFlag, setVerifyCodeFlag] = useState(props.verifyCode);
   const [verificationCode, setVerificationCode] = useState(null);
   const [label, setLabel] = useState("Login");
@@ -34,7 +35,8 @@ function Login (props) {
         .then(function (result) {
           setLoading(false);
          }).catch(function (error) {
-          console.log(error);
+          setLoading(false);
+          setApiError(error.code);
         });
     } else {
         setLoading(true);
@@ -48,7 +50,8 @@ function Login (props) {
               setError(false);
               setConfirmationResult(confirmationResult.verificationId);
             }).catch(function (error) {
-              console.log(error);
+              setLoading(false);
+              setApiError(error.code);
           });
         }
       }
@@ -56,10 +59,24 @@ function Login (props) {
 
  const validatePhone = (phone) => {
     setPhone(phone);
-    if(validator.isMobilePhone(phone)) {
+    if(validator.isMobilePhone(phone) && (!phone.includes('+') === false)) {
       setError(false);
+      setApiError(null);
     } else {
       setError(true);
+    }
+  }
+
+  const validateCode = (code) => {
+    setVerificationCode(code);
+    if (verifyCodeFlag === true) {
+      if (code == null) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
     }
   }
 
@@ -101,9 +118,10 @@ function Login (props) {
                       id="phone" 
                       onChange={(e) => validatePhone(e.target.value)} 
                       label="Phone" 
-                      error={error}
-                      helperText={error ? "Invalid phone number" : null}
+                      error={error || apiError !== null}
+                      helperText={error ? "Invalid phone number. Must begin with + and country code" : apiError ? apiError : null}
                       type="tel"
+                      disabled={verifyCodeFlag}
                       variant="outlined" 
                     />
                     <TextField 
@@ -113,7 +131,7 @@ function Login (props) {
                         backgroundColor: !verifyCodeFlag ? "lightgray" : undefined
                       }} 
                       id="code" 
-                      onChange={(e) => setVerificationCode(e.target.value)} 
+                      onChange={(e) => validateCode(e.target.value)} 
                       label="Verification Code" 
                       variant="outlined" 
                       type="number"
@@ -122,8 +140,9 @@ function Login (props) {
                      />
                     <CardActions style={{backgroundColor: 'white'}}>
                       <FlatButton 
-                        className="gagunkbtn-submit"
+                        className={!error && phone !== null ? "gagunkbtn-submit" : "gagunkbtn-submit-disabled"}
                         id="submit-account" 
+                        disabled={error}
                         label={loading ? 
                           <span id="loginLoader"><Loader id="loginLoader" type="Oval" color="white" height={20} width={20}/></span> : "Submit"
                         }
