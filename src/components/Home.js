@@ -67,6 +67,7 @@ function Home (props) {
       label="Submit"
       primary={true}
       className="submitBtn"
+      disabled={!isValid || caption === ""}
       onClick={e => handleSubmit(e)}
     />,
     <FlatButton
@@ -109,7 +110,7 @@ function Home (props) {
           onBlur={e =>  setImageLink(e.target.value)}
           onChange={e =>  setImageLink(e.target.value)}
         />
-        <div style={{'color': 'red'}} hidden={isValid}>Please paste a valid Instagram link.</div>
+        <div style={{'color': 'red'}} hidden={isValid}>Please paste a valid image link.</div>
         <TextField
           hintText="Caption"
           fullWidth={true}
