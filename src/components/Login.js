@@ -112,7 +112,7 @@ function Login (props) {
         <Backdrop open={true}>
             <Card className="gagunkLogin" style={{backgroundColor: 'lightgray', width: '80%', margin: 'auto', marginTop: 'auto', textAlign: 'center', maxWidth: '580px'}}>
                 <CardContent style={{backgroundColor: 'white'}}>
-                    <Typography variant="h4" style={{padding: "20px"}}>{label}</Typography>
+                    <Typography variant="h4" style={{padding: "20px"}}><img src={logo} style={{width: "90px"}}/></Typography>
                     <TextField 
                       style={{margin: "5px", width: '80%'}} 
                       id="phone" 
