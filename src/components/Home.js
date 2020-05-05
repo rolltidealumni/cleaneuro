@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
-import AppBar from 'material-ui/AppBar';
 import { useHistory } from "react-router-dom";
 import FlatButton from 'material-ui/FlatButton';
+import Nav from "./Nav";
 import Dialog from 'material-ui/Dialog';
 import Posts from './Posts/Posts';
 import realTime from '../firebase/firebase';
-import Loader from 'react-loader-spinner';
 import { logoutUser } from "../actions";
-import logo from "../static/ratemyshot.png";
 import TextField from 'material-ui/TextField';
 
 function Home (props) {
@@ -23,7 +21,8 @@ function Home (props) {
   };
 
   const navigate = () => {
-    window.location = "https://github.com/themorganthompson/gagunk";
+    var win = window.open("https://github.com/themorganthompson/gagunk", '_blank');
+    win.focus();
   };
  
   const logout = () => {
@@ -34,7 +33,6 @@ function Home (props) {
   const login = () => {
     history.push('/login');
   };
-
 
   const handleClose = () => {
     setOpenDialog(false);
@@ -80,20 +78,14 @@ function Home (props) {
  
   return (
     <div style={{marginTop: "16px"}}>
-      <AppBar
-        className="gagunkNav"
-        title={<img src={logo} style={{width: "40px", marginTop: "12px"}}/>}
-        iconElementRight={
-          <div style={{ padding: "0px !important"}}>
-            <FlatButton className="gagunkbtn" label="About" onClick={() => navigate()}/>
-            <FlatButton className="gagunkbtn" label="Submit" onClick={() => handleOpen()} disabled={!props.isAuthenticated}/>
-            {props.isVerifying ? 
-              (<FlatButton className="gagunkbtn" label={<span id="authLoader"><Loader type="Oval" color="white" height={20} width={20}/></span>} />) :
-              props.isAuthenticated ? 
-                <FlatButton className="gagunkbtn" label="Logout" onClick={() => logout()}/> : 
-                <FlatButton className="gagunkbtn" label="Login" onClick={() => login()}/> }
-          </div>}
-        iconStyleLeft={{ display: 'none' }}
+      <Nav 
+        loginFlag={false}
+        navigate={() => navigate()} 
+        handleOpen={() => handleOpen()}
+        logout={() => logout()}
+        login={() => login()}
+        isVerifying={props.isVerifying}
+        isAuthenticated={props.isAuthenticated}
       />
       <Dialog
         actions={actions}
