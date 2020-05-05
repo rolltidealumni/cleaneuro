@@ -2,6 +2,11 @@ import { myFirebase } from "../firebase/firebase";
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+export const ACCOUNT_REQUEST = "ACCOUNT_REQUEST";
+export const ACCOUNT_SUCCESS = "ACCOUNT_SUCCESS";
+export const ACCOUNT_FAILURE = "ACCOUNT_FAILURE";
+export const VERIFY_ACCOUNT_SUCCESS = "VERIFY_ACCOUNT_SUCCESS";
+
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
@@ -19,6 +24,26 @@ const requestLogin = () => {
   };
 };
 
+const requestAccount = () => {
+  return {
+    type: ACCOUNT_REQUEST
+  };
+};
+
+const receiveAccount = confirmationResult => {
+  return {
+    type: ACCOUNT_SUCCESS,
+    confirmationResult
+  };
+};
+
+const accountError = error => {
+  return {
+    type: ACCOUNT_FAILURE,
+    error
+  };
+};
+
 const receiveLogin = user => {
   return {
     type: LOGIN_SUCCESS,
@@ -26,9 +51,10 @@ const receiveLogin = user => {
   };
 };
 
-const loginError = () => {
+const loginError = error => {
   return {
-    type: LOGIN_FAILURE
+    type: LOGIN_FAILURE,
+    error
   };
 };
 
@@ -44,9 +70,10 @@ const receiveLogout = () => {
   };
 };
 
-const logoutError = () => {
+const logoutError = error => {
   return {
-    type: LOGOUT_FAILURE
+    type: LOGOUT_FAILURE,
+    error
   };
 };
 
@@ -68,13 +95,56 @@ export const loginUser = (email, password) => dispatch => {
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then(user => {
-      dispatch(receiveLogin(user));
+      if(user.emailVerification === false) {
+        dispatch(loginError(true));
+      } else {
+        dispatch(receiveLogin(user));
+      }
     })
     .catch(error => {
-      dispatch(loginError());
-      throw(error.message);
+      dispatch(loginError(true));
+      console.log(error.message);
     });
 };
+
+export const createUser = (phoneNumber, appVerifier) => dispatch => {
+  dispatch(requestAccount());
+  console.log(phoneNumber);
+  myFirebase
+    .auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+    .then(function (confirmationResult) {
+      console.log(confirmationResult);
+      dispatch(receiveAccount(confirmationResult));
+      window.confirmationResult = confirmationResult;
+    }).catch(function (error) {
+  });
+};
+
+export const verifyAccount = (user) => dispatch => {
+  dispatch(requestAccount());
+  user.sendEmailVerification().then(function() {
+    myFirebase
+      .auth()
+      .signOut()
+      .then(() => {
+        dispatch(receiveAccount());
+    })
+  }).catch(function(error) {
+    dispatch(accountError(error.message));
+  });
+}
+
+export const verifyLink = (user, url) => dispatch => {
+  dispatch(verifyRequest());
+  myFirebase.auth().signInWithEmailLink(user, url.href)
+    .then(function(result) {
+      dispatch(receiveLogin(user));
+      dispatch(verifySuccess(user));
+    })
+    .catch(function(error) {
+      dispatch(loginError(true));
+    });
+}
 
 export const logoutUser = () => dispatch => {
   dispatch(requestLogout());

@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { myFirebase } from "../firebase/firebase";
+import validator from 'validator';
+import firebase from 'firebase/app';
 import { Redirect } from "react-router-dom";
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
@@ -11,17 +14,81 @@ import logo from "../static/ratemyshot.png";
 import Loader from 'react-loader-spinner';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { loginUser } from "../actions";
 
 function Login (props) {
-  const { isAuthenticated } = props;
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  let { isAuthenticated } = props;
+  const [phone, setPhone] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [apiError, setApiError] = useState(null);
+  const [verifyCodeFlag, setVerifyCodeFlag] = useState(props.verifyCode);
+  const [verificationCode, setVerificationCode] = useState(null);
+  const [label, setLabel] = useState("Login");
+  const [confirmationResult, setConfirmationResult] = useState({});
+  const [appVerifier, setAppVerifier] = useState(null);
+  
   const handleSubmit = () => {
-    const { dispatch } = props;
-    dispatch(loginUser(email, password));
+    if(verifyCodeFlag) {
+      setLoading(true);
+      const credential = firebase.auth.PhoneAuthProvider.credential(confirmationResult, verificationCode);
+      myFirebase.auth().signInWithCredential(credential)
+        .then(function (result) {
+          setLoading(false);
+         }).catch(function (error) {
+          setLoading(false);
+          setApiError(error.code);
+        });
+    } else {
+        setLoading(true);
+        setError(false);
+        if(validator.isMobilePhone(phone)) {
+          myFirebase
+            .auth().signInWithPhoneNumber(phone, appVerifier)
+            .then(function (confirmationResult) {
+              setVerifyCodeFlag(true);
+              setLoading(false);
+              setError(false);
+              setConfirmationResult(confirmationResult.verificationId);
+            }).catch(function (error) {
+              setLoading(false);
+              setApiError(error.code);
+          });
+        }
+      }
   };
+
+ const validatePhone = (phone) => {
+    setPhone(phone);
+    if(validator.isMobilePhone(phone) && (!phone.includes('+') === false)) {
+      setError(false);
+      setApiError(null);
+    } else {
+      setError(true);
+    }
+  }
+
+  const validateCode = (code) => {
+    setVerificationCode(code);
+    if (verifyCodeFlag === true) {
+      if (code == null) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  useEffect(() => {
+    if(!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('submit-account', {
+        'size': 'invisible',
+        'callback': function(response) {handleSubmit(); }
+      });
+      setAppVerifier(window.recaptchaVerifier);
+    }
+  }, [phone, verifyCodeFlag])
 
   const navigate = () => {
     window.location = "https://github.com/themorganthompson/gagunk";
@@ -30,6 +97,7 @@ function Login (props) {
   if (isAuthenticated) {
     return <Redirect to="/" />;
   } else {
+   
     return ( 
       <div style={{marginTop: "16px"}}>
          <AppBar
@@ -44,13 +112,38 @@ function Login (props) {
         <Backdrop open={true}>
             <Card className="gagunkLogin" style={{backgroundColor: 'lightgray', width: '80%', margin: 'auto', marginTop: 'auto', textAlign: 'center', maxWidth: '580px'}}>
                 <CardContent style={{backgroundColor: 'white'}}>
-                    <Typography variant="h4" style={{padding: "20px"}}>Login</Typography>
-                    <TextField style={{margin: "5px", width: '80%'}} id="email" onChange={(e) => setEmail(e.target.value)} label="Email" variant="outlined" />
-                    <TextField style={{margin: "5px", width: '80%'}} id="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="outlined" />
+                    <Typography variant="h4" style={{padding: "20px"}}>{label}</Typography>
+                    <TextField 
+                      style={{margin: "5px", width: '80%'}} 
+                      id="phone" 
+                      onChange={(e) => validatePhone(e.target.value)} 
+                      label="Phone" 
+                      error={error || apiError !== null}
+                      helperText={error ? "Invalid phone number. Must begin with + and country code" : apiError ? apiError : null}
+                      type="tel"
+                      disabled={verifyCodeFlag}
+                      variant="outlined" 
+                    />
+                    <TextField 
+                      style={{
+                        margin: "5px", 
+                        width: '80%',
+                        backgroundColor: !verifyCodeFlag ? "lightgray" : undefined
+                      }} 
+                      id="code" 
+                      onChange={(e) => validateCode(e.target.value)} 
+                      label="Verification Code" 
+                      variant="outlined" 
+                      type="number"
+                      maxLength="6"
+                      disabled={!verifyCodeFlag}
+                     />
                     <CardActions style={{backgroundColor: 'white'}}>
                       <FlatButton 
-                        className="gagunkbtn-submit" 
-                        label={props.isLoggingIn ? 
+                        className={!error && phone !== null ? "gagunkbtn-submit" : "gagunkbtn-submit-disabled"}
+                        id="submit-account" 
+                        disabled={error}
+                        label={loading ? 
                           <span id="loginLoader"><Loader id="loginLoader" type="Oval" color="white" height={20} width={20}/></span> : "Submit"
                         }
                         onClick={() => handleSubmit()}
@@ -67,8 +160,9 @@ function Login (props) {
 function mapStateToProps(state) {
   return {
     isLoggingIn: state.auth.isLoggingIn,
-    loginError: state.auth.loginError,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    verifyCodeFlag: state.auth.verifyCode,
+    confirmationResult: state.auth.confirmationResult
   };
 }
 

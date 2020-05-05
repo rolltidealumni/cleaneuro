@@ -72,7 +72,7 @@ const Posts = (props) => {
     <div className="cards">
       {props.isVerifying ? (
       <div id="loader">
-        <center><Loader style={{ margin:'200px' }} type="Oval" color="#C7CA9A" height={60} width={60}/></center>
+        <center><Loader style={{ margin:'200px' }} type="Oval" color="#61dbfb" height={60} width={60}/></center>
       </div> ) : (
       <div>
         {posts.length > 0 ? posts.map((post, i) => {

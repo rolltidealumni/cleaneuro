@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import { Card, CardActions, CardText} from 'material-ui/Card';
-import { GridList, GridTile } from 'material-ui/GridList';
-import FlatButton from 'material-ui/FlatButton';
-import trashIcon from '../../static/trash.svg';
 import MyCard from "./MyCard";
 
 class Post extends Component {

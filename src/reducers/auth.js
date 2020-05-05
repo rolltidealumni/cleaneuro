@@ -6,7 +6,11 @@ import {
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
   VERIFY_REQUEST,
-  VERIFY_SUCCESS
+  VERIFY_SUCCESS,
+  ACCOUNT_REQUEST,
+  ACCOUNT_SUCCESS,
+  ACCOUNT_FAILURE,
+  VERIFY_ACCOUNT_SUCCESS
 } from "../actions/";
 
 export default (
@@ -17,7 +21,9 @@ export default (
     loginError: false,
     logoutError: false,
     isAuthenticated: false,
-    user: {}
+    accountError: false,
+    user: {},
+    confirmationResult: {}
   },
   action
 ) => {
@@ -42,6 +48,39 @@ export default (
         isAuthenticated: false,
         loginError: true
       };
+    case ACCOUNT_FAILURE:
+      return {
+        ...state,
+        isLoggingIn: false,
+        isAuthenticated: false,
+        accountError: true
+      };
+    case ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        isLoggingIn: false,
+        isAuthenticated: false,
+        accountError: false,
+        verifyCode: true,
+        confirmationResult: action.confirmationResult
+      };
+    case ACCOUNT_REQUEST:
+      return {
+        ...state,
+        isVerifying: true,
+        verifyCode: false,
+        isLoggingIn: true,
+        verifyingError: false,
+        accountError: false,
+        loginError: false,
+      };
+    case VERIFY_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        isLoggingIn: false,
+        isAuthenticated: true,
+        accountError: false
+      };
     case LOGOUT_REQUEST:
       return {
         ...state,
@@ -65,12 +104,19 @@ export default (
       return {
         ...state,
         isVerifying: true,
-        verifyingError: false
+        isLoggingIn: true,
+        verifyingError: false,
+        accountError: false,
+        loginError: false,
       };
     case VERIFY_SUCCESS:
       return {
         ...state,
-        isVerifying: false
+        isVerifying: false,
+        isLoggingIn: false,
+        verifyingError: false,
+        loginError: false,
+        user: action.user
       };
     default:
       return state;

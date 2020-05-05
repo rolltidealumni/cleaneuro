@@ -25,7 +25,8 @@
     "reactstrap": "^4.8.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rxjs": "^6.5.5"
+    "rxjs": "^6.5.5",
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "react-scripts": "latest",

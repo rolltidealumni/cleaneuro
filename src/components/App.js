@@ -18,7 +18,8 @@ function App(props) {
       >
         <Home {...props} />
       </ProtectedRoute>
-      <Route path="/login" render={(props) => <Login {...props} />} />
+      <Route  path="/login" render={(props) => <Login {...props} />}/>
+      <Route  path="/activate" render={(props) => <Login {...props} />}/>
     </Switch>
   );
 }

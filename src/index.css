@@ -46,6 +46,17 @@ body {
   color: white !important;
 }
 
+.gagunkbtn-submit-disabled {
+  margin-top: 5px !important;
+  margin-right: 0px !important;
+  border-radius: 0px !important;
+  width: 100% !important;
+  height: 55px !important;
+  background-color: lightgrey !important;
+  color: white !important;
+}
+
+
 #email {
   border-color: #61dbfb !important;
 }
@@ -69,16 +80,14 @@ body {
 @media only screen and (max-width: 632px) {
   .cards {
     min-width: 300px !important;
-    width: 100% !important;
-    margin-left:0px !important;
-    margin-right: 0px !important;
+    /* width: 100% !important;  */
     margin-top: 100px;
+    margin-left: initial !important;
     margin-bottom: 100px !important;
-    max-width: 745px;
   }
 
-  .cardText {
-    /* height: 48px !important; */
+  .MuiProjectCard--01 {
+    width: 335px !important;
   }
 
   .card {
@@ -86,6 +95,16 @@ body {
     margin: 2px !important;
     margin-top: 50px !important;
     margin-bottom: 50px !important;
+  }
+}
+
+@media only screen and (max-width: 920px) {
+  .MuiProjectCard--01 {
+    width: 100% !important;
+  }
+  .cardContainer {
+    width: 95% !important; 
+    max-width: none !important;
   }
 }
 
@@ -127,6 +146,10 @@ body {
   width: 50%;
   background-color:#D8877B !important;
   color: white !important;
+}
+
+.MuiProjectCard--01 {
+  width: 400px;
 }
 
 body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) {
