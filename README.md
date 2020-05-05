@@ -1,4 +1,4 @@
-![logo](https://i.ibb.co/mB7trN5/ratemyshot-copy.png) 
+![logo](https://i.ibb.co/YPtk3TP/ratemyshot.png) 
 ## Rate My Shot 
 
 
