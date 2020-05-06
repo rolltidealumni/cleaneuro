@@ -32,6 +32,21 @@ h3 {
   cursor: pointer;
 }
 
+#cameraBtn {
+  padding: 10px;
+  background-color: #212121;
+  width: 40px;
+  height:40px;
+  position: absolute;
+  bottom: 50px;
+  right: 20px;
+  border-radius: 50%;
+  position: fixed !important;
+  cursor: pointer;
+  box-shadow: 0px 3px 2px -1px rgba(0,0,0,0.2), 1px 1px 3px 3px rgba(0,0,0,0.14), 0px 2px 4px 1px rgba(0,0,0,0.12);
+  transition: bottom 0.9s; 
+}
+
 .containerRight {
   margin-top: 10px !important;
   width:100%;
@@ -175,6 +190,21 @@ h3 {
 
   .gagunkbtn-submit {
     height: 80px !important;
+  }
+
+  #cameraBtn {
+    padding: 10px;
+    background-color: #212121;
+    width: 40px;
+    height:40px;
+    position: absolute;
+    bottom: 100px;
+    right: 50px;
+    border-radius: 50%;
+    position: fixed !important;
+    cursor: pointer;
+    box-shadow: 0px 3px 2px -1px rgba(0,0,0,0.2), 1px 1px 3px 3px rgba(0,0,0,0.14), 0px 2px 4px 1px rgba(0,0,0,0.12);
+    transition: top 0.3s; 
   }
 
   .gagunkLogin {
