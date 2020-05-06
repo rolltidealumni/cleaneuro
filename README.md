@@ -1,5 +1,5 @@
 <p align="center">
-<img width="150px" src="https://i.ibb.co/cQfq2rY/login-logo.png" />
+<img width="80px" src="https://i.ibb.co/1nMzNTN/login-logo.png" />
 <br/>
 <br/>
 <b>Rate My Shot</b>
