@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import info from "../static/info.svg";
 import navbar from "../static/navbar.svg";
 import loginIcon from "../static/login.svg";
-import camera from "../static/camera.svg";
 
 function Nav (props) {
   let history = useHistory();
@@ -17,7 +16,6 @@ return (
     iconElementRight={
       <div style={{ padding: "20px !important", verticalAlign: "middle" }}>
         <img alt="logo" className="iconNav" src={info} style={{width: "20px"}} onClick={() => props.navigate()}/>
-        {!props.loginFlag && props.isAuthenticated ? <img alt="logo" className="iconNav" src={camera} style={{width: "20px"}} onClick={() => props.handleOpen()}/> : null}
         {props.isAuthenticated ? 
             !props.loginFlag ? <img alt="logo" className="iconNav" src={loginIcon} style={{width: "20px"}} onClick={() => props.logout()}/> : null :
             !props.loginFlag ? <img alt="logo" className="iconNav" src={loginIcon} style={{width: "20px"}} onClick={() => props.login()}/> : null}

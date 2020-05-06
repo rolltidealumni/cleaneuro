@@ -14,6 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import ImageUploader from 'react-images-upload';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import camera from "../static/camera.svg";
 import Posts from './Posts/Posts';
 import realTime from '../firebase/firebase';
 import { logoutUser } from "../actions";
@@ -25,7 +26,6 @@ function Home (props) {
   const [hideUploader, setHideUploader] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
   const [caption, setCaption] = useState("");
-  const [isValid, setIsValid] = useState(true);
   let history = useHistory();
  
   const handleOpen = () => {
@@ -65,10 +65,10 @@ function Home (props) {
       setImageLoading(progress);
       switch (snapshot.state) {
         case firebase.storage.TaskState.PAUSED: // or 'paused'
-          console.log('Upload is paused');
           break;
         case firebase.storage.TaskState.RUNNING: // or 'running'
-          console.log('Upload is running');
+          break;
+        default:
           break;
       }
     }, function(error) {
@@ -107,9 +107,10 @@ function Home (props) {
     }
     setSnackOpen(false);
   };
- 
+
   return (
     <div style={{marginTop: "16px", color: "#212121" }}>
+      {!props.loginFlag && props.isAuthenticated ? <div onClick={() => handleOpen()} id="cameraBtn"><img alt="logo"className="iconNav" style={{width: '20px'}} src={camera} /></div> : null}
       <Nav 
         loginFlag={false}
         navigate={() => navigate()} 
@@ -148,7 +149,6 @@ function Home (props) {
                 maxFileSize={20242880}
                 singleImage={true}
               /> : null )}
-             <div style={{color: 'red'}} hidden={isValid}>Please paste a valid image link.</div>
             <TextField
                 fullWidth={true}
                 variant="outlined"
