@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { myFirebase } from "../firebase/firebase";
 import validator from 'validator';
+import Nav from "./Nav";
+import phoneLogo from "../static/phone.svg";
+import securityLogo from "../static/security.svg";
 import firebase from 'firebase/app';
 import { Redirect } from "react-router-dom";
-import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/Card';
 import Backdrop from '@material-ui/core/Backdrop';
 import CardActions from '@material-ui/core/Card';
-import logo from "../static/ratemyshot.png";
-import Loader from 'react-loader-spinner';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
@@ -23,7 +23,6 @@ function Login (props) {
   const [apiError, setApiError] = useState(null);
   const [verifyCodeFlag, setVerifyCodeFlag] = useState(props.verifyCode);
   const [verificationCode, setVerificationCode] = useState(null);
-  const [label, setLabel] = useState("Login");
   const [confirmationResult, setConfirmationResult] = useState({});
   const [appVerifier, setAppVerifier] = useState(null);
   
@@ -79,19 +78,21 @@ function Login (props) {
       return true;
     }
   }
-
   useEffect(() => {
     if(!window.recaptchaVerifier) {
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('submit-account', {
-        'size': 'invisible',
-        'callback': function(response) {handleSubmit(); }
+        'size': 'invisible', 
+        'callback': function(response) {
+          handleSubmit(); 
+        }
       });
       setAppVerifier(window.recaptchaVerifier);
-    }
+    } // eslint-disable-next-line
   }, [phone, verifyCodeFlag])
 
   const navigate = () => {
-    window.location = "https://github.com/themorganthompson/gagunk";
+    var win = window.open("https://github.com/themorganthompson/gagunk", '_blank');
+    win.focus();
   };
  
   if (isAuthenticated) {
@@ -100,24 +101,25 @@ function Login (props) {
    
     return ( 
       <div style={{marginTop: "16px"}}>
-         <AppBar
-          className="gagunkNav"
-          title={<img src={logo} style={{width: "40px", marginTop: "12px"}}/>}
-          iconElementRight={
-            <div style={{ padding: "0"}}>
-              <FlatButton className="gagunkbtn" label="About" onClick={() => navigate()}/>
-            </div>}
-          iconStyleLeft={{ display: 'none' }}
+        <Nav 
+          loginFlag={true}
+          navigate={() => navigate()} 
+          isVerifying={props.isVerifying}
+          isAuthenticated={props.isAuthenticated}
         />
         <Backdrop open={true}>
-            <Card className="gagunkLogin" style={{backgroundColor: 'lightgray', width: '80%', margin: 'auto', marginTop: 'auto', textAlign: 'center', maxWidth: '580px'}}>
-                <CardContent style={{backgroundColor: 'white'}}>
-                    <Typography variant="h4" style={{padding: "20px"}}>{label}</Typography>
+            <Card className="gagunkLogin" style={{backgroundColor: 'lightgray', width: '40%', margin: 'auto', marginTop: 'auto', textAlign: 'center', maxWidth: '580px'}}>
+                <CardContent  className="loginWindow" style={{backgroundColor: 'white'}}>
+                    <Typography variant="h4" style={{padding: "20px"}}>
+                      <div className="wrapper">
+                        <div className="loader" style={{display: loading ? "block" : "none"}}></div>
+                      </div>
+                    </Typography>
                     <TextField 
-                      style={{margin: "5px", width: '80%'}} 
+                      style={{margin: "5px", width: '80%', marginBottom: "10px"}} 
                       id="phone" 
                       onChange={(e) => validatePhone(e.target.value)} 
-                      label="Phone" 
+                      label={<span><img alt="phone" src={phoneLogo} width="18px" style={{verticalAlign: "middle", marginRight: "5px"}}/><span style={{verticalAlign: "middle"}}>Phone</span></span>} 
                       error={error || apiError !== null}
                       helperText={error ? "Invalid phone number. Must begin with + and country code" : apiError ? apiError : null}
                       type="tel"
@@ -126,26 +128,25 @@ function Login (props) {
                     />
                     <TextField 
                       style={{
-                        margin: "5px", 
+                        margin: "5px",
+                        marginBottom: "20px",
                         width: '80%',
                         backgroundColor: !verifyCodeFlag ? "lightgray" : undefined
                       }} 
                       id="code" 
                       onChange={(e) => validateCode(e.target.value)} 
-                      label="Verification Code" 
+                      label={<span><img alt="security" src={securityLogo} width="18px" style={{verticalAlign: "middle", marginRight: "5px"}}/><span style={{verticalAlign: "middle"}}>Verification Code</span></span>}
                       variant="outlined" 
                       type="number"
                       maxLength="6"
                       disabled={!verifyCodeFlag}
                      />
-                    <CardActions style={{backgroundColor: 'white'}}>
+                    <CardActions className="loginButtonContainer" style={{backgroundColor: 'white'}}>
                       <FlatButton 
                         className={!error && phone !== null ? "gagunkbtn-submit" : "gagunkbtn-submit-disabled"}
                         id="submit-account" 
-                        disabled={error}
-                        label={loading ? 
-                          <span id="loginLoader"><Loader id="loginLoader" type="Oval" color="white" height={20} width={20}/></span> : "Submit"
-                        }
+                        disabled={error || phone == null || loading}
+                        label="Login"
                         onClick={() => handleSubmit()}
                       />
                     </CardActions>
