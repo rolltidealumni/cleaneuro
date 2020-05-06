@@ -5,9 +5,9 @@ deploy:
 before_script: chmod +x pre-install.sh
 notifications:
   email:
-   - contact@themorganthompson.com
+  - contact@themorganthompson.com
   email:
     recipients:
-     - contact@themorganthompson.com
+      - contact@themorganthompson.com
 language: node_js
 after_success: - surge --project ./build/ --domain ratemyshot.co
