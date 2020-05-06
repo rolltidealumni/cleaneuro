@@ -64,11 +64,27 @@ h3 {
   bottom: 22px !important;
 }
 
+.fileContainer .chooseFileButton {
+  padding: 6px 23px;
+  background: #212121 !important;
+  color: white;
+  border-radius: 0% !important;
+  font-weight: 300;
+  font-size: 14px;
+  text-transform: uppercase !important;
+  margin: 10px 0;
+  transition: all 0.2s ease-in;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
 .gagunkbtn-submit {
   margin-top: 5px !important;
   margin-right: 0px !important;
+  margin-bottom: 20px !important;
   border-radius: 0px !important;
-  width: 100% !important;
+  width: 50%;
   height: 55px !important;
   background-color: #212121 !important;
   color: white !important;
@@ -77,8 +93,9 @@ h3 {
 .gagunkbtn-submit-disabled {
   margin-top: 5px !important;
   margin-right: 0px !important;
+  margin-bottom: 20px !important;
   border-radius: 0px !important;
-  width: 100% !important;
+  width: 50%;
   height: 55px !important;
   background-color: lightgrey !important;
   color: white !important;
@@ -303,6 +320,39 @@ body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) 
 .wrapper {
   background: url("./static/login-logo.svg") center no-repeat;
   background-size: 90%;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {  
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.filewrapper {
+  width: 150px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+.fileloader {
+  border: 10px solid white;
+  border-radius: 50%;
+  border-top: 10px solid #61DBFB;
+  width: 130px;
+  height: 130px;
+  -webkit-animation: spin 1.4s linear infinite;
+  animation: spin 1.4s linear infinite;
+}
+
+.filewrapper {
+  background: url("./static/upload.svg") center no-repeat;
+  background-size: 55%;
 }
 
 @-webkit-keyframes spin {

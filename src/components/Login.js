@@ -135,7 +135,7 @@ function Login (props) {
                       }} 
                       id="code" 
                       onChange={(e) => validateCode(e.target.value)} 
-                      label={<span><img alt="security" src={securityLogo} width="18px" style={{verticalAlign: "middle", marginRight: "5px"}}/><span style={{verticalAlign: "middle"}}>Verifcation Code</span></span>}
+                      label={<span><img alt="security" src={securityLogo} width="18px" style={{verticalAlign: "middle", marginRight: "5px"}}/><span style={{verticalAlign: "middle"}}>Verification Code</span></span>}
                       variant="outlined" 
                       type="number"
                       maxLength="6"

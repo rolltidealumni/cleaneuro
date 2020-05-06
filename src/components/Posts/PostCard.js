@@ -10,7 +10,9 @@
     Moment.locale('en');
 
    const changeRating = (newRating, name ) => {
-    post.updateRating(post.post, post.post.key, newRating);
+     if(post.isAuthenticated) {
+      post.updateRating(post.post, post.post.key, newRating);
+     }
   }
 
   return (

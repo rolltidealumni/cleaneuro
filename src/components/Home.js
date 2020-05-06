@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
+import firebase from 'firebase/app';
+import 'firebase/storage';
 import { useHistory } from "react-router-dom";
 import FlatButton from 'material-ui/FlatButton';
 import Nav from "./Nav";
-import linkLogo from "../static/link.svg";
 import pencilLogo from "../static/pencil.svg";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -11,6 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import ImageUploader from 'react-images-upload';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Posts from './Posts/Posts';
 import realTime from '../firebase/firebase';
@@ -18,7 +20,9 @@ import { logoutUser } from "../actions";
 
 function Home (props) {
   const [openDialog, setOpenDialog] = useState(false);
-  const [imageLink, setImageLink] = useState("");
+  const [image, setImage] = useState(null);
+  const [imageLoading, setImageLoading] = useState(0);
+  const [hideUploader, setHideUploader] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
   const [caption, setCaption] = useState("");
   const [isValid, setIsValid] = useState(true);
@@ -50,16 +54,37 @@ function Home (props) {
     setOpenDialog(false);
   };
 
-  const validate = (e) => {
-    return imageLink.includes('.png') || imageLink.includes('.jpg') ||  imageLink.includes('.jpeg');
-  }
+  const onDrop = (picture, data) => {
+    setHideUploader(true);
+    var base64 = data[0].substring(data[0].indexOf(',')+1)
+    let storageRef = firebase.storage().ref();
+    let path = `images/${picture[0].name}`;
+    let uploadTask = storageRef.child(path).putString(base64, 'base64');
+    uploadTask.on('state_changed', function(snapshot){
+      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      setImageLoading(progress);
+      switch (snapshot.state) {
+        case firebase.storage.TaskState.PAUSED: // or 'paused'
+          console.log('Upload is paused');
+          break;
+        case firebase.storage.TaskState.RUNNING: // or 'running'
+          console.log('Upload is running');
+          break;
+      }
+    }, function(error) {
+      // Handle unsuccessful uploads
+    }, function() {
+      uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        setImage(downloadURL);
+      });
+    });
+}
 
   const handleSubmit = (e) => {
-    if(validate(imageLink)) {
-      let postsRef = realTime.ref('posts');
-     
+    let postsRef = realTime.ref('posts');
+    if (image) {
       postsRef.push({
-        imageLink: imageLink,
+        imageLink: image,
         caption: caption,
         submitted: new Date().toString(),
         oneStar: 0,
@@ -71,16 +96,14 @@ function Home (props) {
       });
       setOpenDialog(false);
       setSnackOpen(true);
-    } else {
-      setIsValid(false);
-    }
+      setHideUploader(false);
+    }   
   }
 
   const handleCloseSnack = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-
     setSnackOpen(false);
   };
  
@@ -101,7 +124,6 @@ function Home (props) {
         </Alert>
       </Snackbar>
       <Dialog
-        modal={true}
         open={openDialog}
       >
         <DialogTitle id="form-dialog-title">Post a Photo!</DialogTitle>
@@ -109,20 +131,24 @@ function Home (props) {
           <DialogContentText>
             <span style={{margin: "0px", marginTop: "0px", fontSize: "14px", color: "#212121" }}>Submit an image and accompanying caption for others to vote on.</span>
             <br/>
-            <TextField
-              hintText="Image URL"
-              fullWidth={true}
-              variant="outlined"
-              style={{marginTop: "20px", marginBottom: "10px", color: "#212121" }}
-              label={<span><img alt="security" src={linkLogo} width="18px" style={{verticalAlign: "middle", marginRight: "5px"}}/><span style={{verticalAlign: "middle"}}>Image URL</span></span>}
-              onKeyPress={e => setImageLink(e.target.value)}
-              onFocus={e =>  setImageLink(e.target.value)}
-              onBlur={e =>  setImageLink(e.target.value)}
-              onChange={e =>  setImageLink(e.target.value)}
-            />
+          </DialogContentText>
+            {(imageLoading > 0 && imageLoading < 100 && !image)? (
+              <div class='filewrapper'><div class='fileloader'></div></div>) :
+              ( image && imageLoading === 100 ? (
+                <center><img src={image} width="40%" alt="preview" /></center>
+              ) : !hideUploader ? 
+              <ImageUploader
+                withIcon={true}
+                withPreview={false}
+                buttonText='Choose image'
+                label="Max file size: 20mb, accepted: jpg, gif, png, jpeg"
+                onChange={(picture, other) => onDrop(picture, other)}
+                imgExtension={['.jpg', '.jpeg', '.png', '.gif']}
+                maxFileSize={20242880}
+                singleImage={true}
+              /> : null )}
              <div style={{color: 'red'}} hidden={isValid}>Please paste a valid image link.</div>
             <TextField
-                hintText="Caption"
                 fullWidth={true}
                 variant="outlined"
                 style={{marginTop: "10px", marginBottom: "5px", color: "#212121" }}
@@ -137,7 +163,7 @@ function Home (props) {
                   label="Submit"
                   primary={true}
                   className="submitBtn"
-                  disabled={!isValid || caption === ""}
+                  disabled={!image || caption === ""}
                   onClick={e => handleSubmit(e)}
                   style={{marginBottom: '10px', width: "100%", marginTop: "20px"}}
             />
@@ -150,7 +176,6 @@ function Home (props) {
                   style={{marginBottom: '10px', width: "100%"}}
              />
             </center>
-          </DialogContentText>
         </DialogContent>
       </Dialog>
       <Posts firebase={realTime} {...props} />
