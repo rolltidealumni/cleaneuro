@@ -1,7 +1,7 @@
 deploy:
   provider: surge
   project: ./build/
-  domain: gagunk.co
+  domain: ratemyshot.co
 before_script: chmod +x pre-install.sh
 notifications:
   email:
@@ -10,4 +10,4 @@ notifications:
     recipients:
      - contact@themorganthompson.com
 language: node_js
-after_success: - surge --project ./build/ --domain gagunk.co
+after_success: - surge --project ./build/ --domain ratemyshot.co
