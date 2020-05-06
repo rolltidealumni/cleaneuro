@@ -1,7 +1,6 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import { useHistory } from "react-router-dom";
-import Loader from 'react-loader-spinner';
 import info from "../static/info.svg";
 import navbar from "../static/navbar.svg";
 import loginIcon from "../static/login.svg";
@@ -19,9 +18,7 @@ return (
       <div style={{ padding: "20px !important", verticalAlign: "middle" }}>
         <img alt="logo" className="iconNav" src={info} style={{width: "20px"}} onClick={() => props.navigate()}/>
         {!props.loginFlag && props.isAuthenticated ? <img alt="logo" className="iconNav" src={camera} style={{width: "20px"}} onClick={() => props.handleOpen()}/> : null}
-        {props.isVerifying ? 
-          (<span id="authLoader"><Loader type="Oval" color="white" height={20} width={20}/></span>) :
-          props.isAuthenticated ? 
+        {props.isAuthenticated ? 
             !props.loginFlag ? <img alt="logo" className="iconNav" src={loginIcon} style={{width: "20px"}} onClick={() => props.logout()}/> : null :
             !props.loginFlag ? <img alt="logo" className="iconNav" src={loginIcon} style={{width: "20px"}} onClick={() => props.login()}/> : null}
       </div>}

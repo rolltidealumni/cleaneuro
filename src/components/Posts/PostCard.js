@@ -6,9 +6,14 @@
   import StarRatings from 'react-star-ratings';
   import Typography from '@material-ui/core/Typography';
   
-  const MyCard = (post) => {
+  const PostCard = (post) => {
     Moment.locale('en');
-    return (
+
+   const changeRating = (newRating, name ) => {
+    post.updateRating(post.post, post.post.key, newRating);
+  }
+
+  return (
       <Card className={'MuiProjectCard--01'}>
         <CardMedia
           className={'MuiCardMedia-root'}
@@ -17,7 +22,7 @@
         />
         <div className={'MuiCard__head'} style={{ marginBottom: '20px'}}>
           <Typography className={'MuiTypography--heading'} style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "0px"}} gutterBottom>
-            <p style={{fontSize: "20px", fontWeight: "400", marginBottom: "2px"}}>{post.post.caption}</p>
+            <span style={{fontSize: "20px", fontWeight: "400", marginBottom: "2px"}}>{post.post.caption}</span>
           </Typography>
           <Typography
             className={'MuiTypography--headLabel'}
@@ -26,15 +31,15 @@
             style={{margin: '5px', fontSize: "11px", paddingLeft: '10px'}}
           >
           <StarRatings
-            rating={3.4}
+            rating={post.post.average ? post.post.average : 0}
             starRatedColor="#212121"
             starHoverColor="#212121"
-            changeRating={() => post.updateRating()}
+            changeRating={(rating) => changeRating(rating)}
             numberOfStars={5}
             name='rating'
             starDimension="15px"
           />
-          <span style={{marginLeft: '5px', fontSize: '13px'}}>({post.post.upvote})</span>
+          <span style={{marginLeft: '5px', fontSize: '13px'}}>({post.post.total})</span>
           </Typography>
           <br/>
           <Typography
@@ -49,4 +54,4 @@
       </Card>
     )};
 
-  export default MyCard;
+  export default PostCard;

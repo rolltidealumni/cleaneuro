@@ -5,6 +5,8 @@ import FlatButton from 'material-ui/FlatButton';
 import Nav from "./Nav";
 import linkLogo from "../static/link.svg";
 import pencilLogo from "../static/pencil.svg";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -17,6 +19,7 @@ import { logoutUser } from "../actions";
 function Home (props) {
   const [openDialog, setOpenDialog] = useState(false);
   const [imageLink, setImageLink] = useState("");
+  const [snackOpen, setSnackOpen] = useState(false);
   const [caption, setCaption] = useState("");
   const [isValid, setIsValid] = useState(true);
   let history = useHistory();
@@ -34,6 +37,10 @@ function Home (props) {
     const { dispatch } = props;
     dispatch(logoutUser());
   };
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
   const login = () => {
     history.push('/login');
@@ -55,15 +62,27 @@ function Home (props) {
         imageLink: imageLink,
         caption: caption,
         submitted: new Date().toString(),
-        upvote: 0,
-        downvote: 0
+        oneStar: 0,
+        twoStars: 0,
+        threeStars: 0,
+        fourStars: 0,
+        fiveStars: 0,
+        total: 0
       });
       setOpenDialog(false);
-      window.location.reload();
+      setSnackOpen(true);
     } else {
       setIsValid(false);
     }
   }
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackOpen(false);
+  };
  
   return (
     <div style={{marginTop: "16px", color: "#212121" }}>
@@ -76,6 +95,11 @@ function Home (props) {
         isVerifying={props.isVerifying}
         isAuthenticated={props.isAuthenticated}
       />
+       <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={() => handleCloseSnack()} severity="success">
+          Your photo was submitted!
+        </Alert>
+      </Snackbar>
       <Dialog
         modal={true}
         open={openDialog}

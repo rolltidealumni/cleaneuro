@@ -12,7 +12,7 @@ const Posts = (props) => {
   const getPosts = async (mounted) => {
     await realTime
       .ref('posts')
-      .orderByChild('upvote')
+      .orderByChild('submitted')
       .on("value", (snapshot) => {
         if(snapshot.val()) {
           postz.push(snapshot.val());  
@@ -26,14 +26,19 @@ const Posts = (props) => {
                 key: keys[i],
                 submitted: child[1].submitted,
                 imageLink: child[1].imageLink,
-                upvote: child[1].upvote,
                 caption: child[1].caption,
-                downvote: child[1].downvote,
+                oneStar: child[1].oneStar,
+                twoStars: child[1].twoStars,
+                threeStars: child[1].threeStars,
+                fourStars: child[1].fourStars,
+                fiveStars: child[1].fiveStars,
+                total: child[1].total,
+                average: (5*child[1].fiveStars + 4*child[1].fourStars + 3*child[1].threeStars + 2*child[1].twoStars + 1*child[1].oneStar) / (child[1].fiveStars+child[1].fourStars+child[1].threeStars+child[1].twoStars+child[1].oneStar)
             });
           });
         }
       });
-    if(mounted) setPosts(ordered.sort((a, b) => (a.upvote < b.upvote) ? 1 : -1));
+    if(mounted) setPosts(ordered.sort((a, b) => (a.average < b.average) ? 1 : -1));
     return(ordered);
   }
 
@@ -42,30 +47,72 @@ const Posts = (props) => {
     getPosts(mounted);
     return () => mounted = false;
     // eslint-disable-next-line
-  }, [posts])
+  }, [posts], props.isVerifying)
 
-  const handleUpvote = (post, key) => {
-    props.firebase.ref('posts/' + key).set({
-      imageLink: post.imageLink,
-      caption: post.caption,
-      submitted: post.submitted,
-      upvote: post.upvote + 1,
-      downvote: post.downvote
-    });
-  }
+  const updateRating = (post, key, rating) => {
+    if (rating === 1) {
+      console.log('1 star');
+      props.firebase.ref('posts/' + key).set({
+        imageLink: post.imageLink,
+        caption: post.caption,
+        submitted: post.submitted,
+        oneStar: post.oneStar + 1,
+        twoStars: post.twoStars,
+        threeStars: post.threeStars,
+        fourStars: post.fourStars,
+        fiveStars: post.oneStar,
+        total: post.total +1
+      });
+    } else if (rating === 2) {
+      props.firebase.ref('posts/' + key).set({
+        imageLink: post.imageLink,
+        caption: post.caption,
+        submitted: post.submitted,
+        oneStar: post.oneStar,
+        twoStars: post.twoStars + 1,
+        threeStars: post.threeStars,
+        fourStars: post.fourStars,
+        fiveStars: post.fiveStars,
+        total: post.total +1
+      });
 
-  const handleDownvote = (post, key) => {
-    props.firebase.ref('posts/' + key).set({
-      imageLink: post.imageLink,
-      caption: post.caption,
-      submitted: post.submitted,
-      upvote: post.upvote,
-      downvote: post.downvote + 1
-    });
-  }
-
-  const handleDelete = (post, key) => {
-    props.firebase.ref('posts/' + key).remove();
+    } else if (rating === 3) {
+      props.firebase.ref('posts/' + key).set({
+        imageLink: post.imageLink,
+        caption: post.caption,
+        submitted: post.submitted,
+        oneStar: post.oneStar,
+        twoStars: post.twoStars,
+        threeStars: post.threeStars + 1,
+        fourStars: post.fourStars,
+        fiveStars: post.fiveStars,
+        total: post.total +1
+      });
+    } else if (rating === 4) {
+      props.firebase.ref('posts/' + key).set({
+        imageLink: post.imageLink,
+        caption: post.caption,
+        submitted: post.submitted,
+        oneStar: post.oneStar,
+        twoStars: post.twoStars,
+        threeStars: post.threeStars,
+        fourStars: post.fourStars + 1,
+        fiveStars: post.fiveStars,
+        total: post.total +1
+      });
+    } else if (rating === 5) {
+      props.firebase.ref('posts/' + key).set({
+        imageLink: post.imageLink,
+        caption: post.caption,
+        submitted: post.submitted,
+        oneStar: post.oneStar,
+        twoStars: post.twoStars,
+        threeStars: post.threeStars,
+        fourStars: post.fourStars,
+        fiveStars: post.fiveStars + 1,
+        total: post.total +1
+      });
+    }
   }
 
   return (
@@ -81,9 +128,7 @@ const Posts = (props) => {
             key={i}
             id={i}
             post={post}
-            onUpvote={(post, key) => handleUpvote(post, post.key)}
-            onDelete={(post, key) => handleDelete(post, post.key)}
-            onDownvote={(post, key) => handleDownvote(post, post.key)}
+            updateRating={(post, i, rating) => updateRating(post, post.key, rating)}
           />)
         }) : null }
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MyCard from "./MyCard";
+import PostCard from "./PostCard";
 
 class Post extends Component {
   constructor(props) {
@@ -20,10 +20,9 @@ class Post extends Component {
                                
 
   render() {
-    // style={{height: (this.onImgLoad(image).width > this.onImgLoad(image).height) ? '315px' : `${this.onImgLoad(image).height+25}px`}}
     return (
         <div className="cardContainer" style={{ marginBottom: '20px' }}>
-             <MyCard post={this.props.post} isAuthenticated={this.props.isAuthenticated} {...this.props} />
+             <PostCard post={this.props.post} isAuthenticated={this.props.isAuthenticated} {...this.props} />
         </div>
       )
     }
