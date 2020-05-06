@@ -35,7 +35,7 @@ function Home (props) {
   };
 
   const navigate = () => {
-    var win = window.open("https://github.com/themorganthompson/gagunk", '_blank');
+    var win = window.open("http://blog.ratemyshot.co/", '_blank');
     win.focus();
   };
  
