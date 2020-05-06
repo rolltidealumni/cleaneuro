@@ -22,7 +22,12 @@ class Post extends Component {
   render() {
     return (
         <div className="cardContainer" style={{ marginBottom: '20px' }}>
-             <PostCard post={this.props.post} isAuthenticated={this.props.isAuthenticated} {...this.props} />
+             <PostCard 
+              post={this.props.post} 
+              isAuthenticated={this.props.isAuthenticated} 
+              showZoomModal={(image) => this.props.showZoomModal(image)}
+              {...this.props} 
+            />
         </div>
       )
     }

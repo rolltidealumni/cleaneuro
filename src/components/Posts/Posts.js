@@ -124,6 +124,7 @@ const Posts = (props) => {
       <div>
         {posts.length > 0 ? posts.map((post, i) => {
           return (<Post
+            showZoomModal={(image) => props.showZoomModal(image)}
             isAuthenticated={props.isAuthenticated}
             key={i}
             id={i}
