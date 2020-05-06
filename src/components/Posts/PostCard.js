@@ -1,5 +1,5 @@
 
-  import React from 'react';
+  import React, { useState } from 'react';
   import Card from '@material-ui/core/Card';
   import CardMedia from '@material-ui/core/CardMedia';
   import Moment from 'moment';
@@ -8,11 +8,16 @@
   
   const PostCard = (post) => {
     Moment.locale('en');
+    const [showZoom, setShowZoom] = useState(false);
 
-   const changeRating = (newRating, name ) => {
+  const changeRating = (newRating, name ) => {
      if(post.isAuthenticated) {
       post.updateRating(post.post, post.post.key, newRating);
      }
+  }
+
+  const toggleZoom = (show) => {
+    setShowZoom(show); 
   }
 
   return (
@@ -21,7 +26,13 @@
           className={'MuiCardMedia-root'}
           style={{height: "300px"}}
           image={post.post.imageLink}
-        />
+          id="cardImage"
+          onClick={() => post.showZoomModal(post.post.imageLink)}
+          onMouseEnter={() => toggleZoom(true)}
+          onMouseLeave={() => toggleZoom(false)}
+        >
+        {showZoom ? <div className="zoomBtn"></div> : null}
+        </CardMedia>
         <div className={'MuiCard__head'} style={{ marginBottom: '20px'}}>
           <Typography className={'MuiTypography--heading'} style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "0px"}} gutterBottom>
             <span style={{fontSize: "20px", fontWeight: "400", marginBottom: "2px"}}>{post.post.caption}</span>

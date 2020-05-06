@@ -19,6 +19,29 @@ h3 {
   color: #212121  !important;
 }
 
+#cardImage:hover {
+  cursor: pointer !important;
+}
+
+.zoomBtn {
+  position: relative;
+  top: 20px;
+  margin-right: 20px;
+  height: 20px;
+  width: 20px;
+  float: right;
+  text-align: center;
+  padding: 5px;
+  vertical-align: middle;
+  color: white;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  background-size: auto;
+  background-position: center;
+  background-image: url('./static/zoom.svg');
+  background-color: rgba(33, 33, 33, 0.8);
+}
+
 .starBtn {
   padding: 5px;
   width: 25px;

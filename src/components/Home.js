@@ -24,6 +24,8 @@ function Home (props) {
   const [image, setImage] = useState(null);
   const [imageLoading, setImageLoading] = useState(0);
   const [hideUploader, setHideUploader] = useState(false);
+  const [zoomImage, setZoomImage] = useState("");
+  const [showZoomModal, setShowZoomModal] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
   const [caption, setCaption] = useState("");
   let history = useHistory();
@@ -80,6 +82,13 @@ function Home (props) {
     });
 }
 
+
+  const openZoomModal = (image) => {
+    setZoomImage(image);
+    setShowZoomModal(true);
+  }
+
+
   const handleSubmit = (e) => {
     let postsRef = realTime.ref('posts');
     if (image) {
@@ -125,6 +134,15 @@ function Home (props) {
           Your photo was submitted!
         </Alert>
       </Snackbar>
+      <Dialog
+        maxWidth="lg"
+        onBackdropClick={() => setShowZoomModal(false)}
+        open={showZoomModal}
+        id="zoomModal"
+        fullWidth={true}
+      >
+        <img alt="zoomimage" src={zoomImage} width="100%" height="auto" onClick={() => setShowZoomModal(false)}/>
+      </Dialog>
       <Dialog
         open={openDialog}
       >
@@ -179,7 +197,7 @@ function Home (props) {
             </center>
         </DialogContent>
       </Dialog>
-      <Posts firebase={realTime} {...props} />
+      <Posts firebase={realTime} showZoomModal={(image) => openZoomModal(image)} {...props} />
     </div>
   );
 }
