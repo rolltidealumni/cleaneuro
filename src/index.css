@@ -149,6 +149,10 @@ h3 {
   }
 }
 
+.MuiPaper-elevation1 {
+  box-shadow: none !important;
+}
+
 @media only screen and (max-width: 920px) {
   .MuiProjectCard--01 {
     width: 100% !important;
@@ -167,12 +171,6 @@ h3 {
 
   .loginWindow {
     height: 100%;
-  }
-
-  .loginButtonContainer {
-    position: absolute;
-    width: 100%;
-    bottom: 0px;
   }
 
   .gagunkbtn-submit {

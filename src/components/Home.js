@@ -97,6 +97,7 @@ function Home (props) {
       setOpenDialog(false);
       setSnackOpen(true);
       setHideUploader(false);
+      setImage(null);
     }   
   }
 
