@@ -10,8 +10,6 @@
     "firebase-admin": "^8.11.0",
     "grpc": "^1.24.2",
     "http2": "^3.3.7",
-    "jQuery": "^1.7.4",
-    "jquery": "^3.5.0",
     "material-design-icons": "^3.0.1",
     "material-ui": "^0.19.4",
     "moment": "^2.25.3",
