@@ -111,8 +111,8 @@ function Login (props) {
             <Card className="gagunkLogin" style={{backgroundColor: 'lightgray', width: '40%', margin: 'auto', marginTop: 'auto', textAlign: 'center', maxWidth: '580px'}}>
                 <CardContent  className="loginWindow" style={{backgroundColor: 'white'}}>
                     <Typography variant="h4" style={{padding: "20px"}}>
-                      <div class="wrapper">
-                        <div class="loader" style={{display: loading ? "block" : "none"}}></div>
+                      <div className="wrapper">
+                        <div className="loader" style={{display: loading ? "block" : "none"}}></div>
                       </div>
                     </Typography>
                     <TextField 

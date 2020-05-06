@@ -198,9 +198,9 @@ h3 {
 
 .submitBtn {
   width: 50%;
-  height: 40px !important;
+  height: 55px !important;
   border-radius: 0px !important;
-  background-color:#61DBFB  !important;
+  background-color:#212121  !important;
   color: white !important;
 }
 
@@ -208,8 +208,8 @@ h3 {
   height: 40px !important;
   border-radius: 0px !important;
   width: 50%;
-  background-color:#D8877B !important;
-  color: white !important;
+  background-color:white !important;
+  color: black !important;
 }
 
 .MuiProjectCard--01 {
@@ -291,7 +291,7 @@ body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) 
 }
 
 .loader {
-  border: 10px solid #f3f3f3;
+  border: 10px solid white;
   border-radius: 50%;
   border-top: 10px solid #61DBFB;
   width: 130px;
@@ -301,8 +301,8 @@ body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) 
 }
 
 .wrapper {
-  background: url('https://camo.githubusercontent.com/c3b5f4259be9b001b785ea8e85e1d7bf29a2140b/68747470733a2f2f692e6962622e636f2f5950746b3354502f726174656d7973686f742e706e67') center no-repeat;
-  background-size:90%;
+  background: url("./static/login-logo.svg") center no-repeat;
+  background-size: 90%;
 }
 
 @-webkit-keyframes spin {

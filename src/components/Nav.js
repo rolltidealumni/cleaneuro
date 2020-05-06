@@ -2,8 +2,8 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import { useHistory } from "react-router-dom";
 import Loader from 'react-loader-spinner';
-import logo from "../static/ratemyshot.png";
 import info from "../static/info.svg";
+import navbar from "../static/navbar.svg";
 import loginIcon from "../static/login.svg";
 import camera from "../static/camera.svg";
 
@@ -14,7 +14,7 @@ return (
   <AppBar
     className="gagunkNav"
     style={{padding: "20px !important"}}
-    title={<img alt="logo" src={logo} onClick={() => { history.push('/')}} style={{width: "40px", marginTop: "12px", cursor: "pointer"}}/>}
+    title={<img alt="logo" src={navbar} onClick={() => { history.push('/')}} style={{width: "40px", marginTop: "12px", cursor: "pointer"}}/>}
     iconElementRight={
       <div style={{ padding: "20px !important", verticalAlign: "middle" }}>
         <img alt="logo" className="iconNav" src={info} style={{width: "20px"}} onClick={() => props.navigate()}/>
