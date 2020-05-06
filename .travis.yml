@@ -10,4 +10,4 @@ notifications:
     recipients:
       - contact@themorganthompson.com
 language: node_js
-after_success: surge ./build/ ratemyshot.co
+after_success: surge build/ ratemyshot.co
