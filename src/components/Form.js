@@ -176,9 +176,9 @@ const handleSubmit = (e) => {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {cameraList.map((camera) => {
+            {cameraList.map((camera, i) => {
               return(
-              <MenuItem value={camera}>{camera}</MenuItem>)
+              <MenuItem key={i} value={camera}>{camera}</MenuItem>)
             })} 
           </Select>
         </FormControl>
@@ -217,9 +217,9 @@ const handleSubmit = (e) => {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {lensList.map((lens) => {
+            {lensList.map((lens, i) => {
               return(
-              <MenuItem value={lens}>{lens}</MenuItem>)
+              <MenuItem key={i} value={lens}>{lens}</MenuItem>)
             })} 
           </Select>
         </FormControl>
@@ -258,9 +258,9 @@ const handleSubmit = (e) => {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {apertureList.map((aperture) => {
+            {apertureList.map((aperture, i) => {
               return(
-              <MenuItem value={aperture}>{aperture}</MenuItem>)
+              <MenuItem key={i}  value={aperture}>{aperture}</MenuItem>)
             })} 
           </Select>
         </FormControl>

@@ -8,6 +8,7 @@ const Posts = (props) => {
   let postz = [];
   let ordered = [];
   const [posts, setPosts] = useState([]);
+  const [postLoading, setPostLoading] = useState(false);
   
   const getPosts = async (mounted) => {
     await realTime
@@ -54,8 +55,8 @@ const Posts = (props) => {
   }, [posts], props.isVerifying)
 
   const updateRating = (post, key, rating) => {
+    setPostLoading({key: key, loading: true});
     if (rating === 1) {
-      console.log('1 star');
       props.firebase.ref('posts/' + key).set({
         imageLink: post.imageLink,
         caption: post.caption,
@@ -137,6 +138,7 @@ const Posts = (props) => {
         total: post.total +1
       });
     }
+    setPostLoading(false);
   }
 
   return (
@@ -148,6 +150,7 @@ const Posts = (props) => {
       <div>
         {posts.length > 0 ? posts.map((post, i) => {
           return (<Post
+            postLoading={postLoading}
             showZoomModal={(image) => props.showZoomModal(image)}
             isAuthenticated={props.isAuthenticated}
             key={i}

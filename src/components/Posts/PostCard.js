@@ -3,6 +3,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
 import cameraLogo from "../../static/camera-two.svg";
+import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
 import category from "../../static/label.svg";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -25,7 +26,7 @@ const PostCard = (post) => {
   };
 
   return (
-    <Card className={"MuiProjectCard--01"}>
+    <Card className={"MuiProjectCard--01"} id="post-card">
       <CardMedia
         className={"MuiCardMedia-root"}
         style={{ height: "300px" }}
@@ -52,7 +53,7 @@ const PostCard = (post) => {
           >
             {post.post.caption}
           </span>
-          <div
+          <span
             style={{
               float: "right",
               fontSize: "10px",
@@ -92,27 +93,38 @@ const PostCard = (post) => {
               style={{ verticalAlign: "middle", marginRight: "3px" }}
             />{" "}
             {post.post.category}
-          </div>
-        </Typography>
-        <Typography
-          className={"MuiTypography--headLabel"}
-          variant={"overline"}
-          gutterBottom
-          style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
-        >
-          <StarRatings
-            rating={post.post.average ? post.post.average : 0}
-            starRatedColor="#212121"
-            starHoverColor="#212121"
-            changeRating={(rating) => changeRating(rating)}
-            numberOfStars={5}
-            name="rating"
-            starDimension="15px"
-          />
-          <span style={{ marginLeft: "5px", fontSize: "13px" }}>
-            ({post.post.total})
           </span>
         </Typography>
+        <Tooltip title="Rate!" placement="right">
+          <Typography
+            className={"MuiTypography--headLabel"}
+            variant={"overline"}
+            gutterBottom
+            style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
+          >
+            <StarRatings
+              rating={post.post.average ? post.post.average : 0}
+              starRatedColor="#212121"
+              starHoverColor="#212121"
+              changeRating={(rating) => changeRating(rating)}
+              numberOfStars={5}
+              name="rating"
+              starDimension="15px"
+            />
+            <span style={{ marginLeft: "5px", fontSize: "13px" }}>
+              {post.postLoading && post.postLoading.key === post.post.key ? (
+                <img
+                  width="19px"
+                  style={{ verticalAlign: "middle", paddingBottom: "2px" }}
+                  src={loading}
+                  alt="loading"
+                />
+              ) : 
+                <span>({post.post.total})</span>
+              }
+            </span>
+          </Typography>
+        </Tooltip>
         <br />
         <Typography
           className={"MuiTypography--overline"}
