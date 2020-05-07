@@ -39,7 +39,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && mv build/index.html build/200.html",
-    "deploy": "surge build/ ratemyshot.co",
+    "deploy": "surge build/ https://ratemyshot.co",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
