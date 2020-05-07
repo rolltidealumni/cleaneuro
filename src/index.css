@@ -19,8 +19,20 @@ h3 {
   color: #212121  !important;
 }
 
+#filterIcon:hover {
+  cursor: pointer !important;
+}
+
 #cardImage:hover {
   cursor: pointer !important;
+}
+
+#sort-pagination {
+  background-color: lightgray;
+  position: absolute;
+  width: 90%;
+  left: 40px;
+  top: 75px;
 }
 
 .fileContainer {
@@ -165,14 +177,14 @@ h3 {
   min-width: 545px;
   margin-right: 20px;
   margin-left: 20px;
-  margin-top: 100px;
+  margin-top: 125px;
 }
 
 @media only screen and (max-width: 632px) {
   .cards {
     min-width: 300px !important;
     /* width: 100% !important;  */
-    margin-top: 100px;
+    margin-top: 125px;
     margin-left: initial !important;
     margin-bottom: 100px !important;
   }
@@ -369,7 +381,7 @@ body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) 
 .loader {
   border: 10px solid white;
   border-radius: 50%;
-  border-top: 10px solid #61DBFB;
+  border-top: 10px solid #212121;
   width: 130px;
   height: 130px;
   -webkit-animation: spin 1.4s linear infinite;
@@ -379,39 +391,6 @@ body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) 
 .wrapper {
   background: url("./static/login-logo.svg") center no-repeat;
   background-size: 90%;
-}
-
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {  
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.filewrapper {
-  width: 150px;
-  height: 150px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 10px;
-}
-
-.fileloader {
-  border: 10px solid white;
-  border-radius: 50%;
-  border-top: 10px solid #61DBFB;
-  width: 130px;
-  height: 130px;
-  -webkit-animation: spin 1.4s linear infinite;
-  animation: spin 1.4s linear infinite;
-}
-
-.filewrapper {
-  background: url("./static/upload.svg") center no-repeat;
-  background-size: 55%;
 }
 
 @-webkit-keyframes spin {

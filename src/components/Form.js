@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import firebase from 'firebase/app';
-import 'firebase/storage';
+import firebase from "firebase/app";
+import "firebase/storage";
 import pencilLogo from "../static/pencil.svg";
-import FlatButton from 'material-ui/FlatButton';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import InputLabel from '@material-ui/core/InputLabel';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import ImageUploader from 'react-images-upload';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import FlatButton from "material-ui/FlatButton";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import InputLabel from "@material-ui/core/InputLabel";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import ImageUploader from "react-images-upload";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import lens from "../static/lens.svg";
 import cameraLogo from "../static/camera-two.svg";
 import aperture from "../static/aperture.svg";
@@ -20,7 +21,7 @@ import category from "../static/label.svg";
 import cameraList from "../static/cameras";
 import apertureList from "../static/aperture";
 import lensList from "../static/lenses";
-import realTime from '../firebase/firebase';
+import realTime from "../firebase/firebase";
 
 const Form = (props) => {
   const [image, setImage] = useState(null);
@@ -32,62 +33,66 @@ const Form = (props) => {
   const [imageLoading, setImageLoading] = useState(0);
   const [hideUploader, setHideUploader] = useState(false);
 
-  
   const onDrop = (picture, data) => {
     setHideUploader(true);
-    var base64 = data[0].substring(data[0].indexOf(',')+1)
+    var base64 = data[0].substring(data[0].indexOf(",") + 1);
     let storageRef = firebase.storage().ref();
     let path = `images/${picture[0].name}`;
-    let uploadTask = storageRef.child(path).putString(base64, 'base64');
-    uploadTask.on('state_changed', function(snapshot){
-      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      setImageLoading(progress);
-      switch (snapshot.state) {
-        case firebase.storage.TaskState.PAUSED:
-          break;
-        case firebase.storage.TaskState.RUNNING:
-          break;
-        default:
-          break;
+    let uploadTask = storageRef.child(path).putString(base64, "base64");
+    uploadTask.on(
+      "state_changed",
+      function (snapshot) {
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setImageLoading(progress);
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED:
+            break;
+          case firebase.storage.TaskState.RUNNING:
+            break;
+          default:
+            break;
+        }
+      },
+      function (error) {
+        // Handle unsuccessful uploads
+      },
+      function () {
+        uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          setImage(downloadURL);
+        });
       }
-    }, function(error) {
-      // Handle unsuccessful uploads
-    }, function() {
-      uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-        setImage(downloadURL);
-      });
-    });
-}
+    );
+  };
 
-const handleSubmit = (e) => {
-  let postsRef = realTime.ref('posts');
-  if (image) {
-    postsRef.push({
-      imageLink: image,
-      caption: caption,
-      submitted: new Date().toString(),
-      aperture: apertureInput,
-      lens: lensInput,
-      camera: cameraInput,
-      category: categoryInput,
-      oneStar: 0,
-      twoStars: 0,
-      threeStars: 0,
-      fourStars: 0,
-      fiveStars: 0,
-      total: 0
-    });
-    props.setOpenDialog(false);
-    props.setSnackOpen(true);
-    setHideUploader(false);
-    setCameraInput("");
-    setLensInput("");
-    setApertureInput("");
-    setCategoryInput("");
-    setImage(null);
-  }   
-}
-  
+  const handleSubmit = (e) => {
+    let postsRef = realTime.ref("posts");
+    if (image) {
+      postsRef.push({
+        imageLink: image,
+        caption: caption,
+        submitted: new Date().toString(),
+        aperture: apertureInput,
+        lens: lensInput,
+        camera: cameraInput,
+        category: categoryInput,
+        oneStar: 0,
+        twoStars: 0,
+        threeStars: 0,
+        fourStars: 0,
+        fiveStars: 0,
+        total: 0,
+      });
+      props.setOpenDialog(false);
+      props.setSnackOpen(true);
+      setHideUploader(false);
+      setCameraInput("");
+      setLensInput("");
+      setApertureInput("");
+      setCategoryInput("");
+      setImage(null);
+    }
+  };
+
   return (
     <Dialog open={props.openDialog}>
       <DialogTitle id="form-dialog-title">Post a Photo!</DialogTitle>
@@ -106,9 +111,11 @@ const handleSubmit = (e) => {
           <br />
         </DialogContentText>
         {imageLoading > 0 && imageLoading < 100 && !image ? (
-          <div class="filewrapper">
-            <div class="fileloader"></div>
-          </div>
+          <LinearProgress
+            variant="determinate"
+            value={imageLoading}
+            style={{ backgroundColor: "#212121" }}
+          />
         ) : image && imageLoading === 100 ? (
           <center>
             <img src={image} width="40%" alt="preview" />
@@ -181,9 +188,12 @@ const handleSubmit = (e) => {
               <em>None</em>
             </MenuItem>
             {cameraList.map((camera, i) => {
-              return(
-              <MenuItem key={i} value={camera}>{camera}</MenuItem>)
-            })} 
+              return (
+                <MenuItem key={i} value={camera}>
+                  {camera}
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
         <FormControl
@@ -222,9 +232,12 @@ const handleSubmit = (e) => {
               <em>None</em>
             </MenuItem>
             {lensList.map((lens, i) => {
-              return(
-              <MenuItem key={i} value={lens}>{lens}</MenuItem>)
-            })} 
+              return (
+                <MenuItem key={i} value={lens}>
+                  {lens}
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
         <FormControl
@@ -263,9 +276,12 @@ const handleSubmit = (e) => {
               <em>None</em>
             </MenuItem>
             {apertureList.map((aperture, i) => {
-              return(
-              <MenuItem key={i}  value={aperture}>{aperture}</MenuItem>)
-            })} 
+              return (
+                <MenuItem key={i} value={aperture}>
+                  {aperture}
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
         <FormControl
@@ -311,25 +327,25 @@ const handleSubmit = (e) => {
             <MenuItem value={"nature"}>nature</MenuItem>
             <MenuItem value={"portrait"}>portrait</MenuItem>
           </Select>
+          <center>
+            <FlatButton
+              label="Submit"
+              primary={true}
+              className="submitBtn"
+              disabled={!image || caption === ""}
+              onClick={(e) => handleSubmit(e)}
+              style={{ marginBottom: "10px", width: "100%", marginTop: "20px" }}
+            />
+            <br />
+            <FlatButton
+              label="Cancel"
+              primary={true}
+              className="cancelBtn"
+              onClick={() => props.handleClose()}
+              style={{ marginBottom: "10px", width: "100%" }}
+            />
+          </center>
         </FormControl>
-        <center>
-          <FlatButton
-            label="Submit"
-            primary={true}
-            className="submitBtn"
-            disabled={!image || caption === ""}
-            onClick={(e) => handleSubmit(e)}
-            style={{ marginBottom: "10px", width: "100%", marginTop: "20px" }}
-          />
-          <br />
-          <FlatButton
-            label="Cancel"
-            primary={true}
-            className="cancelBtn"
-            onClick={() => props.handleClose()}
-            style={{ marginBottom: "10px", width: "100%" }}
-          />
-        </center>
       </DialogContent>
     </Dialog>
   );
