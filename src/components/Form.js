@@ -80,6 +80,10 @@ const handleSubmit = (e) => {
     props.setOpenDialog(false);
     props.setSnackOpen(true);
     setHideUploader(false);
+    setCameraInput("");
+    setLensInput("");
+    setApertureInput("");
+    setCategoryInput("");
     setImage(null);
   }   
 }
