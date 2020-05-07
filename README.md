@@ -6,6 +6,7 @@
 
 * Updated the post card to show camera information to allow users to see the technical details behind a shot
 * Added tooltips to help users identify what action a button takes before clicking
+* Activated SSL security
 
 ## 1.0.0-beta: 2020-05-06
 
