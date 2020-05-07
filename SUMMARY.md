@@ -2,5 +2,5 @@
 
 * [Changelog](README.md)
 * [About](about.md)
-* [Home](https://www.ratemyshot.co/)
+* [Home](https://ratemyshot.co/)
 
