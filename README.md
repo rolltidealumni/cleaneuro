@@ -17,5 +17,3 @@
 * Added the 5-star rating system to post cards to enable users to rate images
 * Enabled login via phone number and verification code
 
-
-
