@@ -22,26 +22,7 @@
     <title>Rate My Shot!</title>
   </head>
   <body>
-    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
-      <!-- TODO: Add SDKs for Firebase products that you want to use
-      https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
-    <script>
-      // Your web app's Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyAmVWAPTXaccP_j52dVJwzEyjHO-XTUoxI",
-        authDomain: "gagunk-app.firebaseapp.com",
-        databaseURL: "https://gagunk-app.firebaseio.com",
-        projectId: "gagunk-app",
-        storageBucket: "gagunk-app.appspot.com",
-        messagingSenderId: "214279252823",
-        appId: "1:214279252823:web:d97b07d9c4d3684878ec12",
-        measurementId: "G-C9CM4WXRJ7"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      firebase.analytics();
-    </script>
+   
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
@@ -56,5 +37,23 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-performance.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAmVWAPTXaccP_j52dVJwzEyjHO-XTUoxI",
+        authDomain: "gagunk-app.firebaseapp.com",
+        databaseURL: "https://gagunk-app.firebaseio.com",
+        projectId: "gagunk-app",
+        storageBucket: "gagunk-app.appspot.com",
+        messagingSenderId: "214279252823",
+        appId: "1:214279252823:web:d97b07d9c4d3684878ec12",
+        measurementId: "G-C9CM4WXRJ7"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var perf = firebase.performance();
+    </script>
   </body>
 </html>
