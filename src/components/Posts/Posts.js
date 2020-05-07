@@ -8,6 +8,7 @@ const Posts = (props) => {
   let postz = [];
   let ordered = [];
   const [posts, setPosts] = useState([]);
+  const [postLoading, setPostLoading] = useState(false);
   
   const getPosts = async (mounted) => {
     await realTime
@@ -26,6 +27,10 @@ const Posts = (props) => {
                 key: keys[i],
                 submitted: child[1].submitted,
                 imageLink: child[1].imageLink,
+                aperture: child[1].aperture,
+                lens: child[1].lens,
+                camera: child[1].camera,
+                category: child[1].category,
                 caption: child[1].caption,
                 oneStar: child[1].oneStar,
                 twoStars: child[1].twoStars,
@@ -50,11 +55,15 @@ const Posts = (props) => {
   }, [posts], props.isVerifying)
 
   const updateRating = (post, key, rating) => {
+    setPostLoading({key: key, loading: true});
     if (rating === 1) {
-      console.log('1 star');
       props.firebase.ref('posts/' + key).set({
         imageLink: post.imageLink,
         caption: post.caption,
+        aperture: post.aperture,
+        lens: post.lens,
+        camera: post.camera,
+        category: post.category,
         submitted: post.submitted,
         oneStar: post.oneStar + 1,
         twoStars: post.twoStars,
@@ -68,6 +77,10 @@ const Posts = (props) => {
         imageLink: post.imageLink,
         caption: post.caption,
         submitted: post.submitted,
+        aperture: post.aperture,
+        lens: post.lens,
+        camera: post.camera,
+        category: post.category,
         oneStar: post.oneStar,
         twoStars: post.twoStars + 1,
         threeStars: post.threeStars,
@@ -81,6 +94,10 @@ const Posts = (props) => {
         imageLink: post.imageLink,
         caption: post.caption,
         submitted: post.submitted,
+        aperture: post.aperture,
+        lens: post.lens,
+        camera: post.camera,
+        category: post.category,
         oneStar: post.oneStar,
         twoStars: post.twoStars,
         threeStars: post.threeStars + 1,
@@ -93,6 +110,10 @@ const Posts = (props) => {
         imageLink: post.imageLink,
         caption: post.caption,
         submitted: post.submitted,
+        aperture: post.aperture,
+        lens: post.lens,
+        camera: post.camera,
+        category: post.category,
         oneStar: post.oneStar,
         twoStars: post.twoStars,
         threeStars: post.threeStars,
@@ -105,6 +126,10 @@ const Posts = (props) => {
         imageLink: post.imageLink,
         caption: post.caption,
         submitted: post.submitted,
+        aperture: post.aperture,
+        lens: post.lens,
+        camera: post.camera,
+        category: post.category,
         oneStar: post.oneStar,
         twoStars: post.twoStars,
         threeStars: post.threeStars,
@@ -113,6 +138,7 @@ const Posts = (props) => {
         total: post.total +1
       });
     }
+    setPostLoading(false);
   }
 
   return (
@@ -124,6 +150,7 @@ const Posts = (props) => {
       <div>
         {posts.length > 0 ? posts.map((post, i) => {
           return (<Post
+            postLoading={postLoading}
             showZoomModal={(image) => props.showZoomModal(image)}
             isAuthenticated={props.isAuthenticated}
             key={i}
