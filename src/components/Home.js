@@ -1,33 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import 'firebase/storage';
+import "firebase/storage";
 import { useHistory } from "react-router-dom";
+import Tooltip from "@material-ui/core/Tooltip";
 import Nav from "./Nav";
 import Form from "./Form";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
-import Dialog from '@material-ui/core/Dialog';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import Dialog from "@material-ui/core/Dialog";
 import camera from "../static/camera.svg";
-import Posts from './Posts/Posts';
-import realTime from '../firebase/firebase';
+import Posts from "./Posts/Posts";
+import realTime from "../firebase/firebase";
 import { logoutUser } from "../actions";
 
-function Home (props) {
+function Home(props) {
   const [openDialog, setOpenDialog] = useState(false);
   const [zoomImage, setZoomImage] = useState("");
   const [showZoomModal, setShowZoomModal] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
   let history = useHistory();
- 
+
   const handleOpen = () => {
     setOpenDialog(true);
   };
 
   const navigate = () => {
-    var win = window.open("http://blog.ratemyshot.co/", '_blank');
+    var win = window.open("http://blog.ratemyshot.co/", "_blank");
     win.focus();
   };
- 
+
   const logout = () => {
     const { dispatch } = props;
     dispatch(logoutUser());
@@ -38,7 +39,7 @@ function Home (props) {
   }
 
   const login = () => {
-    history.push('/login');
+    history.push("/login");
   };
 
   const handleClose = () => {
@@ -48,28 +49,39 @@ function Home (props) {
   const openZoomModal = (image) => {
     setZoomImage(image);
     setShowZoomModal(true);
-  }
+  };
 
   const handleCloseSnack = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setSnackOpen(false);
   };
 
   return (
-    <div style={{marginTop: "16px", color: "#212121" }}>
-      {!props.loginFlag && props.isAuthenticated ? <div onClick={() => handleOpen()} id="cameraBtn"><img alt="logo"className="iconNav" style={{width: '20px'}} src={camera} /></div> : null}
-      <Nav 
+    <div style={{ marginTop: "16px", color: "#212121" }}>
+      {!props.loginFlag && props.isAuthenticated ? (
+        <Tooltip title="Post a Photo">
+          <div onClick={() => handleOpen()} id="cameraBtn">
+            <img
+              alt="logo"
+              className="iconNav"
+              style={{ width: "20px" }}
+              src={camera}
+            />
+          </div>
+        </Tooltip>
+      ) : null}
+      <Nav
         loginFlag={false}
-        navigate={() => navigate()} 
+        navigate={() => navigate()}
         handleOpen={() => handleOpen()}
         logout={() => logout()}
         login={() => login()}
         isVerifying={props.isVerifying}
         isAuthenticated={props.isAuthenticated}
       />
-       <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={() => handleCloseSnack()} severity="success">
           Your photo was submitted!
         </Alert>
@@ -81,25 +93,35 @@ function Home (props) {
         id="zoomModal"
         fullWidth={true}
       >
-        <img alt="zoomimage" src={zoomImage} width="100%" height="auto" onClick={() => setShowZoomModal(false)}/>
+        <img
+          alt="zoomimage"
+          src={zoomImage}
+          width="100%"
+          height="auto"
+          onClick={() => setShowZoomModal(false)}
+        />
       </Dialog>
-      <Form 
+      <Form
         openDialog={openDialog}
         setOpenDialog={(value) => setOpenDialog(value)}
         setSnackOpen={(value) => setSnackOpen(value)}
         handleClose={() => handleClose()}
         isVerifying={props.isVerifying}
       />
-      <Posts firebase={realTime} showZoomModal={(image) => openZoomModal(image)} {...props} />
+      <Posts
+        firebase={realTime}
+        showZoomModal={(image) => openZoomModal(image)}
+        {...props}
+      />
     </div>
   );
 }
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated : state.auth.isAuthenticated,
+    isAuthenticated: state.auth.isAuthenticated,
     isVerifying: state.auth.isVerifying,
-    user: state.auth.user
+    user: state.auth.user,
   };
 }
 

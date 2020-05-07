@@ -5,6 +5,7 @@ import Moment from "moment";
 import cameraLogo from "../../static/camera-two.svg";
 import aperture from "../../static/aperture.svg";
 import category from "../../static/label.svg";
+import Tooltip from "@material-ui/core/Tooltip";
 import lens from "../../static/lens.svg";
 import StarRatings from "react-star-ratings";
 import Typography from "@material-ui/core/Typography";
@@ -34,7 +35,11 @@ const PostCard = (post) => {
         onMouseEnter={() => toggleZoom(true)}
         onMouseLeave={() => toggleZoom(false)}
       >
-        {showZoom ? <div className="zoomBtn"></div> : null}
+        {showZoom ? (
+          <Tooltip title="Zoom">
+            <div className="zoomBtn"></div>
+          </Tooltip>
+        ) : null}
       </CardMedia>
       <div className={"MuiCard__head"} style={{ marginBottom: "20px" }}>
         <Typography
@@ -47,32 +52,46 @@ const PostCard = (post) => {
           >
             {post.post.caption}
           </span>
-          <div style={{float: "right", fontSize: "10px", fontStyle: "italic", marginRight: "20px", marginTop: "18px"}}>
+          <div
+            style={{
+              float: "right",
+              fontSize: "10px",
+              fontStyle: "italic",
+              marginRight: "20px",
+              marginTop: "18px",
+            }}
+          >
             <img
               alt="camera"
               src={cameraLogo}
               width="18px"
               style={{ verticalAlign: "middle", marginRight: "3px" }}
-            /> {post.post.camera}
+            />{" "}
+            {post.post.camera}
+            <br />
             <img
               alt="aperture"
               src={aperture}
               width="18px"
-              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: "5px" }}
-            /> {post.post.aperture}
-            <br/>
+              style={{ verticalAlign: "middle", marginRight: "3px" }}
+            />{" "}
+            {post.post.aperture}
+            <br />
             <img
               alt="lens"
               src={lens}
               width="18px"
               style={{ verticalAlign: "middle", marginRight: "3px" }}
-            /> {post.post.lens}
+            />{" "}
+            {post.post.lens}
+            <br />
             <img
               alt="category"
               src={category}
               width="18px"
-              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: "5px" }}
-            /> {post.post.category}
+              style={{ verticalAlign: "middle", marginRight: "3px" }}
+            />{" "}
+            {post.post.category}
           </div>
         </Typography>
         <Typography
