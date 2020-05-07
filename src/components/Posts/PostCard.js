@@ -47,34 +47,32 @@ const PostCard = (post) => {
           >
             {post.post.caption}
           </span>
-          <div style={{float: "right", fontSize: "10px", fontStyle: "italic", marginRight: "20px", marginTop: "5x"}}>
+          <div style={{float: "right", fontSize: "10px", fontStyle: "italic", marginRight: "20px", marginTop: "18px"}}>
             <img
-              alt="category"
-              src={category}
-              width="18px"
-              style={{ verticalAlign: "middle", marginRight: "5px" }}
-            /> {post.post.category}
-            <br/>
-            <img
-              alt="categcamerary"
+              alt="camera"
               src={cameraLogo}
               width="18px"
-              style={{ verticalAlign: "middle", marginRight: "5px" }}
+              style={{ verticalAlign: "middle", marginRight: "3px" }}
             /> {post.post.camera}
+            <img
+              alt="aperture"
+              src={aperture}
+              width="18px"
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: "5px" }}
+            /> {post.post.aperture}
             <br/>
             <img
               alt="lens"
               src={lens}
               width="18px"
-              style={{ verticalAlign: "middle", marginRight: "5px" }}
+              style={{ verticalAlign: "middle", marginRight: "3px" }}
             /> {post.post.lens}
-            <br/>
             <img
-              alt="aperture"
-              src={aperture}
+              alt="category"
+              src={category}
               width="18px"
-              style={{ verticalAlign: "middle", marginRight: "5px" }}
-            /> {post.post.aperture}
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: "5px" }}
+            /> {post.post.category}
           </div>
         </Typography>
         <Typography
