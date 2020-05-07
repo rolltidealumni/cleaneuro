@@ -219,16 +219,16 @@ const Posts = (props) => {
                 style={{ float: "right" }}
               />
               <Popover
-                marginThreshold={86}
+                // marginThreshold={86}
                 {...bindPopover(popupState)}
-                anchorPosition={{ top: 10, left: 20 }}
+                // anchorPosition={{ top: 10, left: 20 }}
                 anchorOrigin={{
                   vertical: "bottom",
-                  horizontal: "center",
+                  horizontal: "right",
                 }}
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "center",
+                  horizontal: "right",
                 }}
               >
                 <Box p={2}>
