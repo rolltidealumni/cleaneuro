@@ -7,6 +7,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FlatButton from "material-ui/FlatButton";
 import InputLabel from "@material-ui/core/InputLabel";
+import Tooltip from "@material-ui/core/Tooltip";
 import Box from "@material-ui/core/Box";
 import Popover from "@material-ui/core/Popover";
 import cameraLogo from "../../static/camera-two.svg";
@@ -211,13 +212,15 @@ const Posts = (props) => {
         <PopupState variant="popover" popupId="demo-popup-popover">
           {(popupState) => (
             <div id="filter-popover">
-              <img
-                id="filterIcon"
-                src={filter}
-                alt="filter"
-                {...bindTrigger(popupState)}
-                style={{ float: "right" }}
-              />
+              <Tooltip title="Filter">
+                <img
+                  id="filterIcon"
+                  src={filter}
+                  alt="filter"
+                  {...bindTrigger(popupState)}
+                  style={{ float: "right" }}
+                />
+              </Tooltip>
               <Popover
                 // marginThreshold={86}
                 {...bindPopover(popupState)}

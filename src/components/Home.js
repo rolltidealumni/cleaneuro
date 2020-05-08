@@ -21,7 +21,11 @@ function Home(props) {
   let history = useHistory();
 
   const handleOpen = () => {
-    setOpenDialog(true);
+    if (!props.isAuthenticated) {
+      history.push('/login');
+    } else {
+      setOpenDialog(true);
+    }
   };
 
   const navigate = () => {
@@ -60,7 +64,7 @@ function Home(props) {
 
   return (
     <div style={{ marginTop: "16px", color: "#212121" }}>
-      {!props.loginFlag && props.isAuthenticated ? (
+      {!props.loginFlag ? (
         <Tooltip title="Post a Photo">
           <div onClick={() => handleOpen()} id="cameraBtn">
             <img
