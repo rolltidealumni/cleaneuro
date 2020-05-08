@@ -31,7 +31,7 @@ const Posts = (props) => {
   const [cameraValue, setCameraValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
   const [filterValue, setFilterValue] = useState({ value: "", key: "" });
-  const [sort, setSort] = useState({ sort: "average", order: "desc" });
+  const [sort, setSort] = useState({ sort: "total", order: "asc" });
 
   const getPosts = async (mounted) => {
     let postCameras = [];

@@ -106,7 +106,7 @@ const Form = (props) => {
               color: "#212121",
             }}
           >
-            Submit an image and accompanying caption for others to vote on.
+            All fields are required.
           </span>
           <br />
         </DialogContentText>
@@ -114,7 +114,6 @@ const Form = (props) => {
           <LinearProgress
             variant="determinate"
             value={imageLoading}
-            style={{ backgroundColor: "#212121" }}
           />
         ) : image && imageLoading === 100 ? (
           <center>
@@ -154,7 +153,7 @@ const Form = (props) => {
         />
         <FormControl
           variant="outlined"
-          style={{ width: "48%", marginRight: "8px", marginTop: "20px" }}
+          className="half-inputs"
         >
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
@@ -198,7 +197,7 @@ const Form = (props) => {
         </FormControl>
         <FormControl
           variant="outlined"
-          style={{ width: "48%", marginLeft: "8px", marginTop: "20px" }}
+          className="half-inputs-right"
         >
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
@@ -242,7 +241,7 @@ const Form = (props) => {
         </FormControl>
         <FormControl
           variant="outlined"
-          style={{ width: "48%", marginRight: "8px", marginTop: "20px" }}
+          className="half-inputs"
         >
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
@@ -286,7 +285,7 @@ const Form = (props) => {
         </FormControl>
         <FormControl
           variant="outlined"
-          style={{ width: "48%", marginLeft: "8px", marginTop: "20px" }}
+          className="half-inputs-right"
         >
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
@@ -327,6 +326,7 @@ const Form = (props) => {
             <MenuItem value={"nature"}>nature</MenuItem>
             <MenuItem value={"portrait"}>portrait</MenuItem>
           </Select>
+          </FormControl>
           <center>
             <FlatButton
               label="Submit"
@@ -345,7 +345,6 @@ const Form = (props) => {
               style={{ marginBottom: "10px", width: "100%" }}
             />
           </center>
-        </FormControl>
       </DialogContent>
     </Dialog>
   );

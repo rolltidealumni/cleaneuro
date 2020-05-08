@@ -19,6 +19,18 @@ h3 {
   color: #212121  !important;
 }
 
+.half-inputs {
+  width: 48%;
+  margin-top: 20px !important;
+  margin-right: 8px !important;
+}
+
+.half-inputs-right {
+  width: 48%;
+  margin-top: 20px !important;
+  margin-left: 8px !important;
+}
+
 #filterIcon:hover {
   cursor: pointer !important;
 }
@@ -198,10 +210,41 @@ h3 {
     width: 335px !important;
   }
 
+  .half-inputs {
+    width: 100% !important;
+    margin-top: 20px !important;
+    margin-right: 0px !important;
+  }
+  
+  .half-inputs-right {
+    width: 100% !important;
+    margin-top: 20px !important;
+    margin-left: 0px !important;
+  }
+
+  #filterIcon {  
+    margin-right: 35px;
+  }
+
   .gagunkLogin {
     width: 100% !important;
     max-width: none !important;
     height: 70% !important;
+  }
+
+  #cameraBtn {
+    padding: 10px;
+    background-color: #212121;
+    width: 40px;
+    height:40px;
+    position: absolute;
+    bottom: 64px !important;
+    right: 50px;
+    border-radius: 50%;
+    position: fixed !important;
+    cursor: pointer;
+    box-shadow: 0px 3px 2px -1px rgba(0,0,0,0.2), 1px 1px 3px 3px rgba(0,0,0,0.14), 0px 2px 4px 1px rgba(0,0,0,0.12);
+    transition: top 0.3s; 
   }
 
   .card {
