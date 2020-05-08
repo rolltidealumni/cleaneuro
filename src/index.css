@@ -23,12 +23,15 @@ h3 {
   cursor: pointer !important;
 }
 
+#filterIcon {  
+  width: 30px !important;
+}
+
 #cardImage:hover {
   cursor: pointer !important;
 }
 
 #sort-pagination {
-  background-color: lightgray;
   position: absolute;
   width: 90%;
   left: 40px;
@@ -168,16 +171,18 @@ h3 {
   max-width: 550px;
   float: left;
   margin-bottom: 20px;
-  margin-left: 20px;
+  margin-left: 30px;
   margin-right: 20px;
   display: inline-grid;
 }
 
 .cards {
+  align-items: center;
   min-width: 545px;
-  margin-right: 20px;
-  margin-left: 20px;
-  margin-top: 125px;
+  display: flow-root;
+  width: 90%;
+  margin: auto;
+  margin-top: 125px !important;
 }
 
 @media only screen and (max-width: 632px) {

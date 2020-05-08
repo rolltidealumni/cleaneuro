@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Loader from "react-loader-spinner";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import FlatButton from 'material-ui/FlatButton';
+import FlatButton from "material-ui/FlatButton";
 import InputLabel from "@material-ui/core/InputLabel";
 import Box from "@material-ui/core/Box";
 import Popover from "@material-ui/core/Popover";
@@ -469,7 +469,7 @@ const Posts = (props) => {
                         setLensValue("");
                         setCameraValue("");
                         setCategoryValue("");
-                        setFilterValue({key: "", value: ""});
+                        setFilterValue({ key: "", value: "" });
                       }}
                       style={{ marginBottom: "10px", width: "100%" }}
                     />
@@ -493,27 +493,23 @@ const Posts = (props) => {
               />
             </center>
           </div>
-        ) : (
-          <div>
-            {posts.length > 0
-              ? posts.map((post, i) => {
-                  return (
-                    <Post
-                      postLoading={postLoading}
-                      showZoomModal={(image) => props.showZoomModal(image)}
-                      isAuthenticated={props.isAuthenticated}
-                      key={i}
-                      id={i}
-                      post={post}
-                      updateRating={(post, i, rating) =>
-                        updateRating(post, post.key, rating)
-                      }
-                    />
-                  );
-                })
-              : null}
-          </div>
-        )}
+        ) : posts.length > 0 ? (
+          posts.map((post, i) => {
+            return (
+              <Post
+                postLoading={postLoading}
+                showZoomModal={(image) => props.showZoomModal(image)}
+                isAuthenticated={props.isAuthenticated}
+                key={i}
+                id={i}
+                post={post}
+                updateRating={(post, i, rating) =>
+                  updateRating(post, post.key, rating)
+                }
+              />
+            );
+          })
+        ) : null}
       </div>
     </div>
   );
