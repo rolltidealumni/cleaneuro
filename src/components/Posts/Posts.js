@@ -79,6 +79,7 @@ const Posts = (props) => {
                     child[1].oneStar),
               });
             });
+            setPostLoading(false);
           }
         });
     } else {
@@ -125,6 +126,7 @@ const Posts = (props) => {
                     child[1].oneStar),
               });
             });
+            setPostLoading(false);
           }
         });
     }
@@ -165,8 +167,8 @@ const Posts = (props) => {
       let mounted = true;
       getPosts(mounted);
       return () => (mounted = false);
-      // eslint-disable-next-line
     },
+    // eslint-disable-next-line
     [posts],
     props.isVerifying
   );
@@ -500,9 +502,9 @@ const Posts = (props) => {
           posts.map((post, i) => {
             return (
               <Post
-                postLoading={postLoading}
                 showZoomModal={(image) => props.showZoomModal(image)}
                 isAuthenticated={props.isAuthenticated}
+                postLoading={postLoading}
                 key={i}
                 id={i}
                 post={post}
@@ -512,7 +514,7 @@ const Posts = (props) => {
               />
             );
           })
-        ) : null}
+        ) : <span>There are no posts to display</span>}
       </div>
     </div>
   );

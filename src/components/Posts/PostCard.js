@@ -120,7 +120,7 @@ const PostCard = (post) => {
                   alt="loading"
                 />
               ) : 
-                <span>({post.post.total})</span>
+                 null
               }
             </span>
           </Typography>

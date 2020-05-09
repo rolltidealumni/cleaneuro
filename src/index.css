@@ -1,3 +1,5 @@
+/* BLUE: #00AADC */
+
 body {
   margin: 0;
   background-color: #FAFAFA;
@@ -159,7 +161,7 @@ h3 {
   border-radius: 0px !important;
   width: 50%;
   height: 55px !important;
-  background-color: #212121 !important;
+  background-color: #F8504D !important;
   color: white !important;
 }
 
@@ -417,24 +419,32 @@ body > div:nth-child(7) > div > div:nth-child(1) > div > div > div:nth-child(3) 
   color: grey !important;
 }
 
-
 /* Login logo loader --- */
 .wrapper {
-  width: 152px;
-  height: 152px;
+  width: 100px;
+  height: 100px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 3px;
+  background-color: lightgray;
 }
 
 .loader {
-  border: 10px solid white;
+  border: 8px solid #212121;
   border-radius: 50%;
-  border-top: 10px solid #212121;
-  width: 130px;
-  height: 130px;
+  border-top: 8px solid #F8504D;
+  width: 80px;
+  height: 80px;
   -webkit-animation: spin 1.4s linear infinite;
   animation: spin 1.4s linear infinite;
 }
+
+.loader-off {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
 
 .wrapper {
   background: url("./static/login-logo.svg") center no-repeat;

@@ -3,7 +3,7 @@ import AppBar from "material-ui/AppBar";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import info from "../static/info.svg";
-import navbar from "../static/login-logo.svg";
+import navbar from "../static/logo.svg";
 import loginIcon from "../static/account.svg";
 
 function Nav(props) {
@@ -20,7 +20,7 @@ function Nav(props) {
           onClick={() => {
             history.push("/");
           }}
-          style={{ width: "40px", marginTop: "12px", cursor: "pointer" }}
+          style={{ width: "30px", marginTop: "16px", cursor: "pointer" }}
         />
       }
       iconElementRight={

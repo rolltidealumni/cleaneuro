@@ -4,6 +4,7 @@ import "firebase/storage";
 import pencilLogo from "../static/pencil.svg";
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
+import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -28,6 +29,7 @@ const Form = (props) => {
   const [caption, setCaption] = useState("");
   const [cameraInput, setCameraInput] = useState("");
   const [lensInput, setLensInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const [apertureInput, setApertureInput] = useState("");
   const [categoryInput, setCategoryInput] = useState("");
   const [imageLoading, setImageLoading] = useState(0);
@@ -66,6 +68,7 @@ const Form = (props) => {
 
   const handleSubmit = (e) => {
     let postsRef = realTime.ref("posts");
+    setLoading(true);
     if (image) {
       postsRef.push({
         imageLink: image,
@@ -85,6 +88,7 @@ const Form = (props) => {
       props.setOpenDialog(false);
       props.setSnackOpen(true);
       setHideUploader(false);
+      setLoading(false);
       setCameraInput("");
       setLensInput("");
       setApertureInput("");
@@ -111,10 +115,7 @@ const Form = (props) => {
           <br />
         </DialogContentText>
         {imageLoading > 0 && imageLoading < 100 && !image ? (
-          <LinearProgress
-            variant="determinate"
-            value={imageLoading}
-          />
+          <LinearProgress variant="determinate" value={imageLoading} />
         ) : image && imageLoading === 100 ? (
           <center>
             <img src={image} width="40%" alt="preview" />
@@ -151,10 +152,7 @@ const Form = (props) => {
           onBlur={(e) => setCaption(e.target.value)}
           onChange={(e) => setCaption(e.target.value)}
         />
-        <FormControl
-          variant="outlined"
-          className="half-inputs"
-        >
+        <FormControl variant="outlined" className="half-inputs">
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
               <img
@@ -195,10 +193,7 @@ const Form = (props) => {
             })}
           </Select>
         </FormControl>
-        <FormControl
-          variant="outlined"
-          className="half-inputs-right"
-        >
+        <FormControl variant="outlined" className="half-inputs-right">
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
               <img
@@ -239,10 +234,7 @@ const Form = (props) => {
             })}
           </Select>
         </FormControl>
-        <FormControl
-          variant="outlined"
-          className="half-inputs"
-        >
+        <FormControl variant="outlined" className="half-inputs">
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
               <img
@@ -283,10 +275,7 @@ const Form = (props) => {
             })}
           </Select>
         </FormControl>
-        <FormControl
-          variant="outlined"
-          className="half-inputs-right"
-        >
+        <FormControl variant="outlined" className="half-inputs-right">
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
               <img
@@ -326,25 +315,39 @@ const Form = (props) => {
             <MenuItem value={"nature"}>nature</MenuItem>
             <MenuItem value={"portrait"}>portrait</MenuItem>
           </Select>
-          </FormControl>
-          <center>
-            <FlatButton
-              label="Submit"
-              primary={true}
-              className="submitBtn"
-              disabled={!image || caption === ""}
-              onClick={(e) => handleSubmit(e)}
-              style={{ marginBottom: "10px", width: "100%", marginTop: "20px" }}
-            />
-            <br />
-            <FlatButton
-              label="Cancel"
-              primary={true}
-              className="cancelBtn"
-              onClick={() => props.handleClose()}
-              style={{ marginBottom: "10px", width: "100%" }}
-            />
-          </center>
+        </FormControl>
+        <center>
+          <FlatButton
+            label={
+              loading ? (
+                <img
+                  width="35px"
+                  style={{
+                    verticalAlign: "middle",
+                    paddingBottom: "2px",
+                  }}
+                  src={loadingSpinner}
+                  alt="loading"
+                />
+              ) : (
+                "Submit"
+              )
+            }
+            primary={true}
+            className="submitBtn"
+            disabled={!image || caption === ""}
+            onClick={(e) => handleSubmit(e)}
+            style={{ marginBottom: "10px", width: "100%", marginTop: "20px" }}
+          />
+          <br />
+          <FlatButton
+            label="Cancel"
+            primary={true}
+            className="cancelBtn"
+            onClick={() => props.handleClose()}
+            style={{ marginBottom: "10px", width: "100%" }}
+          />
+        </center>
       </DialogContent>
     </Dialog>
   );
