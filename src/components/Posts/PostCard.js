@@ -101,6 +101,7 @@ const PostCard = (post) => {
               backgroundColor: "#EEEEEE",
               padding: "10px",
               borderRadius: "4px",
+              width: "100px",
               overflow: "scroll",
               float: "right",
               zIndex: "1",
