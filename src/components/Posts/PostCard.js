@@ -63,6 +63,7 @@ const PostCard = (post) => {
             <div className="editBtn"></div>
           </Tooltip>
         ) : null}
+        {post.adminFlag ? <div id="edit-mobile-only" className="editBtn"></div> : null }
       </CardMedia>
       <div
         id="editor-pick"
@@ -100,7 +101,9 @@ const PostCard = (post) => {
               backgroundColor: "#EEEEEE",
               padding: "10px",
               borderRadius: "4px",
+              overflow: "scroll",
               float: "right",
+              zIndex: "1",
               fontSize: "10px",
               fontStyle: "italic",
               marginRight: "20px",

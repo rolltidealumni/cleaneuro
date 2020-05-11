@@ -102,11 +102,9 @@ function Login(props) {
     } // eslint-disable-next-line
   }, [phone, verifyCodeFlag]);
 
+
   const navigate = () => {
-    var win = window.open(
-      "https://github.com/themorganthompson/gagunk",
-      "_blank"
-    );
+    var win = window.open("http://blog.ratemyshot.co/", "_blank");
     win.focus();
   };
 

@@ -23,6 +23,7 @@ function Home(props) {
   const [editPost, setEditPost] = useState(null);
   const [updateOpen, setUpdateOpen] = useState(false);
   const [adminFlag, setAdminFlag] = useState(false);
+  const [bottomNav, setBottomNav] = useState(0);
   const [snackOpen, setSnackOpen] = useState(false);
   let history = useHistory();
   const isAdmin = props.user ? admin.filter((a) => props.user.phoneNumber === a) : false;
@@ -61,6 +62,7 @@ function Home(props) {
     setUpdateOpen(false);
     setSnackOpen(false);
     setShowEditModal(false);
+    setBottomNav(0);
   };
 
   const openZoomModal = (image) => {
@@ -99,6 +101,7 @@ function Home(props) {
         navigate={() => navigate()}
         handleOpen={() => handleOpen()}
         logout={() => logout()}
+        bottomNav={bottomNav}
         login={() => login()}
         isVerifying={props.isVerifying}
         isAuthenticated={props.isAuthenticated}
