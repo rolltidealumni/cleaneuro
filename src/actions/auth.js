@@ -128,6 +128,7 @@ export const verifyAccount = (user) => dispatch => {
       .signOut()
       .then(() => {
         dispatch(receiveAccount());
+
     })
   }).catch(function(error) {
     dispatch(accountError(error.message));

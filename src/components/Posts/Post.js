@@ -10,6 +10,7 @@ class Post extends Component {
           post={this.props}
           isAuthenticated={this.props.isAuthenticated}
           showZoomModal={(image) => this.props.showZoomModal(image)}
+          showEditModal={(post) => this.props.showEditModal(post)}
           {...this.props}
         />
       </div>

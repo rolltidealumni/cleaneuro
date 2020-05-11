@@ -66,6 +66,7 @@ const Posts = (props) => {
                 fourStars: child[1].fourStars,
                 fiveStars: child[1].fiveStars,
                 total: child[1].total,
+                editorspick: child[1].editorspick,
                 average:
                   (5 * child[1].fiveStars +
                     4 * child[1].fourStars +
@@ -112,6 +113,7 @@ const Posts = (props) => {
                 threeStars: child[1].threeStars,
                 fourStars: child[1].fourStars,
                 fiveStars: child[1].fiveStars,
+                editorspick: child[1].editorspick,
                 total: child[1].total,
                 average:
                   (5 * child[1].fiveStars +
@@ -504,7 +506,9 @@ const Posts = (props) => {
               <Post
                 showZoomModal={(image) => props.showZoomModal(image)}
                 isAuthenticated={props.isAuthenticated}
+                showEditModal={(post) => props.showEditModal(post)}
                 postLoading={postLoading}
+                adminFlag={props.adminFlag}
                 key={i}
                 id={i}
                 post={post}
@@ -514,7 +518,9 @@ const Posts = (props) => {
               />
             );
           })
-        ) : <span>There are no posts to display</span>}
+        ) : (
+          <span>There are no posts to display</span>
+        )}
       </div>
     </div>
   );
@@ -524,6 +530,7 @@ function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     isVerifying: state.auth.isVerifying,
+    user: state.auth.user,
   };
 }
 
