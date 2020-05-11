@@ -519,7 +519,7 @@ const Posts = (props) => {
             );
           })
         ) : (
-          <span>There are no posts to display</span>
+          <span className="no-results">There are no posts to display</span>
         )}
       </div>
     </div>

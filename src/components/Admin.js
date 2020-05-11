@@ -68,40 +68,27 @@ const Admin = (props) => {
 
   return (
     <Dialog open={props.openDialog}>
-      <DialogTitle id="form-dialog-title">Edit Post</DialogTitle>
+      <DialogTitle id="form-dialog-title">
+        Edit Post{" "}
+        <span
+          style={{
+            float: "right",
+            margin: "0px",
+            fontSize: "14px",
+            position: "relative",
+            bottom: "8px",
+          }}
+        >
+          Editor's Pick
+          <RedSwitch
+            checked={editorspick}
+            onChange={(e) => setEditorsPick(!editorspick)}
+            name="checkedA"
+            inputProps={{ "aria-label": "secondary checkbox" }}
+          />
+        </span>
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText style={{ marginBottom: "40px"}}>
-          <span>
-            <span
-              style={{
-                float: "left",
-                margin: "0px",
-                marginTop: "0px",
-                fontSize: "14px",
-                color: "#212121",
-              }}
-            >
-              All fields are required.
-            </span>
-            <span
-              style={{
-                float: "right",
-                margin: "0px",
-                fontSize: "14px",
-                position: "relative",
-                bottom: "8px"
-              }}
-            >
-              Editor's Pick
-              <RedSwitch
-                checked={editorspick}
-                onChange={(e) => setEditorsPick(!editorspick)}
-                name="checkedA"
-                inputProps={{ "aria-label": "secondary checkbox" }}
-              />
-            </span>
-          </span>
-        </DialogContentText>
         <div
           style={{
             backgroundImage: "url('" + image + "')",

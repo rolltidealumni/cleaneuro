@@ -141,7 +141,9 @@ const Form = (props) => {
         ) : null}
         <TextField
           fullWidth={true}
+          helperText={caption.length > 15 ? "Caption cannot exceed 15 characters" : null}
           variant="outlined"
+          error={caption.length > 15}
           style={{ marginTop: "10px", marginBottom: "5px", color: "#212121" }}
           label={
             <span>

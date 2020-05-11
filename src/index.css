@@ -251,6 +251,10 @@ h3 {
     margin-left: 0px !important;
   }
 
+  .no-results {
+    margin-left: 25px !important;
+  }
+
   #filterIcon {  
     margin-right: 35px;
   }
@@ -366,6 +370,7 @@ h3 {
   height: 55px !important;
   border-radius: 0px !important;
   background-color:#F8504D  !important;
+  z-index: 123000;
   color: white !important;
 }
 
