@@ -154,7 +154,7 @@ h3 {
   background-color: #f8504d;
   width: 40px;
   height: 40px;
-  bottom: 50px;
+  bottom: 84px;
   right: 20px;
   border-radius: 50%;
   position: fixed !important;
@@ -348,7 +348,7 @@ h3 {
     width: 40px;
     height: 40px;
     position: absolute;
-    bottom: 64px !important;
+    bottom: 84px !important;
     right: 50px;
     border-radius: 50%;
     position: fixed !important;
@@ -416,7 +416,7 @@ h3 {
     width: 40px;
     height: 40px;
     position: absolute;
-    bottom: 64px !important;
+    bottom: 84px !important;
     right: 50px;
     border-radius: 50%;
     position: fixed !important;
@@ -541,7 +541,7 @@ body
   text-align: center;
   padding: 25px;
   margin-top: 50px !important;
-  height: 120px;
+  height: 20px;
   bottom: 0px;
   left: 0px;
   right: 0px;
