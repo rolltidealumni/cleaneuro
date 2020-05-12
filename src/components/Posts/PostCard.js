@@ -37,21 +37,19 @@ const PostCard = (post) => {
         onClick={
           showZoom && !post.adminFlag
             ? () => post.showZoomModal(post.post.imageLink)
-            : showEdit && post.adminFlag
+            : post.adminFlag
             ? () => post.showEditModal(post.post)
-            : () => post.showZoomModal(post.post.imageLink)
+            : null
         }
         onMouseEnter={
-          showZoom && !post.adminFlag
+          !showZoom && !post.adminFlag
             ? () => toggleZoom(true)
-            : post.adminFlag ?
-             () => setShowEdit(true) : () => toggleZoom(true)
+            : null
         }
         onMouseLeave={
           showZoom && !post.adminFlag
           ? () => toggleZoom(false)
-          : post.adminFlag ?
-          () => setShowEdit(false) : () => toggleZoom(false)
+          : null
         }
       >
         {showZoom && !post.adminFlag ? (

@@ -18,7 +18,6 @@ function Nav(props) {
   useEffect(() => {
     if (history.location.pathname === "/login") {
       $("#loginBottom").click();
-      console.log(history.location.pathname)
       setValue(3);
     };
   }, [value]);

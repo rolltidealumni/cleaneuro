@@ -248,6 +248,7 @@ h3 {
 
 .cardContainer {
   max-width: 550px;
+  min-width: 331px;
   float: left;
   margin-bottom: 20px;
   margin-left: 30px;

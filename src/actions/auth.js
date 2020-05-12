@@ -109,11 +109,9 @@ export const loginUser = (email, password) => dispatch => {
 
 export const createUser = (phoneNumber, appVerifier) => dispatch => {
   dispatch(requestAccount());
-  console.log(phoneNumber);
   myFirebase
     .auth().signInWithPhoneNumber(phoneNumber, appVerifier)
     .then(function (confirmationResult) {
-      console.log(confirmationResult);
       dispatch(receiveAccount(confirmationResult));
       window.confirmationResult = confirmationResult;
     }).catch(function (error) {
