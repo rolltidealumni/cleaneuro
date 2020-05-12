@@ -1,6 +1,15 @@
 # Changelog
 
-## 1.2.0-beta: 2020-05-07
+## 1.2.0-beta: 2020-05-11
+
+### Added
+
+* Updated the post card UI 
+* Added filter functionality to allow users to narrow down photos according to their interests
+* Added a bottom navigation bar for mobile users
+* Various bug fixes
+
+## 1.1.0-beta: 2020-05-07
 
 ### Added
 
