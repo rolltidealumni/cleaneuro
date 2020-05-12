@@ -4,4 +4,5 @@
 * [Privacy](privacy.md)
 * [About](about.md)
 * [Home](https://ratemyshot.co/)
+* [Contact](contact.md)
 
