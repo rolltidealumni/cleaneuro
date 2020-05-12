@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import "firebase/storage";
 import { useHistory } from "react-router-dom";
@@ -26,14 +26,21 @@ function Home(props) {
   const [bottomNav, setBottomNav] = useState(0);
   const [snackOpen, setSnackOpen] = useState(false);
   let history = useHistory();
-  const isAdmin = props.user ? admin.filter((a) => props.user.phoneNumber === a) : false;
-  if (props.user && isAdmin[0] === props.user.phoneNumber && !adminFlag && props.user.phoneNumber !== undefined) {
+  const isAdmin = props.user
+    ? admin.filter((a) => props.user.phoneNumber === a)
+    : false;
+  if (
+    props.user &&
+    isAdmin[0] === props.user.phoneNumber &&
+    !adminFlag &&
+    props.user.phoneNumber !== undefined
+  ) {
     setAdminFlag(true);
   }
 
   const handleOpen = () => {
     if (!props.isAuthenticated) {
-      history.push('/login');
+      history.push("/login");
     } else {
       setOpenDialog(true);
     }
@@ -106,14 +113,22 @@ function Home(props) {
         isVerifying={props.isVerifying}
         isAuthenticated={props.isAuthenticated}
       />
-      <Snackbar open={snackOpen} autoHideDuration={6000} onClose={() => handleClose()}>
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={6000}
+        onClose={() => handleClose()}
+      >
         <Alert onClose={() => handleCloseSnack()} severity="success">
           Your photo was submitted!
         </Alert>
       </Snackbar>
-      <Snackbar open={updateOpen} autoHideDuration={6000} onClose={() => handleClose()}>
+      <Snackbar
+        open={updateOpen}
+        autoHideDuration={6000}
+        onClose={() => handleClose()}
+      >
         <Alert onClose={() => handleCloseSnack()} severity="success">
-         Post updated!
+          Post updated!
         </Alert>
       </Snackbar>
       <Dialog
@@ -131,14 +146,16 @@ function Home(props) {
           onClick={() => setShowZoomModal(false)}
         />
       </Dialog>
-      {showEditModal ? <Admin
-        openDialog={showEditModal}
-        post={editPost}
-        setOpenDialog={(value) => setShowEditModal(value)}
-        setSnackOpen={(value) => setUpdateOpen(value)}
-        handleClose={() => handleClose()}
-        isVerifying={props.isVerifying}
-      /> : null}
+      {showEditModal ? (
+        <Admin
+          openDialog={showEditModal}
+          post={editPost}
+          setOpenDialog={(value) => setShowEditModal(value)}
+          setSnackOpen={(value) => setUpdateOpen(value)}
+          handleClose={() => handleClose()}
+          isVerifying={props.isVerifying}
+        />
+      ) : null}
       <Form
         openDialog={openDialog}
         setOpenDialog={(value) => setOpenDialog(value)}
@@ -153,6 +170,11 @@ function Home(props) {
         adminFlag={adminFlag}
         {...props}
       />
+      <div id="footerArea">
+        <span id="footer">
+          © Rate My Shot | All Rights Reserved | <a href="https://blog.ratemyshot.co/" target="_blank">Help</a> | <a href="https://blog.ratemyshot.co/privacy" target="_blank">Privacy Policy</a>
+        </span>
+      </div>
     </div>
   );
 }
@@ -161,7 +183,7 @@ function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     isVerifying: state.auth.isVerifying,
-    user: state.auth.user
+    user: state.auth.user,
   };
 }
 

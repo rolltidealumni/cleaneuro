@@ -9,6 +9,7 @@
     "firebase": "^4.13.1",
     "firebase-admin": "^8.11.0",
     "grpc": "^1.24.2",
+    "gulp-cli": "^2.2.0",
     "http2": "^3.3.7",
     "jquery": "^3.5.1",
     "material-design-icons": "^3.0.1",
@@ -38,12 +39,20 @@
     "validator": "^13.0.0"
   },
   "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-terser": "^1.2.0",
+    "gulp-uglify-es": "^2.0.0",
     "react-scripts": "latest",
-    "surge": "^0.21.3"
+    "surge": "^0.21.3",
+    "uglifyjs-webpack-plugin": "^1.2.7"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && mv build/index.html build/200.html",
+    "build": "gulp && react-scripts build && mv build/index.html build/200.html",
+    "build-deploy": "gulp && react-scripts build && mv build/index.html build/200.html && npm run-script deploy",
     "deploy": "surge build/ https://ratemyshot.co",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
