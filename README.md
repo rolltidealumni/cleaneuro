@@ -7,6 +7,7 @@
 * Updated the post card UI 
 * Added filter functionality to allow users to narrow down photos according to their interests
 * Added a bottom navigation bar for mobile users
+* Added the ability for our team to choose and identify photos we find special, known as: Editor's Pick!
 * Various bug fixes
 
 ## 1.1.0-beta: 2020-05-07
