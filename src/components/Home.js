@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import "firebase/storage";
 import { useHistory } from "react-router-dom";
 import Tooltip from "@material-ui/core/Tooltip";
+import admin from "../static/admin";
 import Nav from "./Nav";
+import Admin from "./Admin";
 import Form from "./Form";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -17,11 +19,24 @@ function Home(props) {
   const [openDialog, setOpenDialog] = useState(false);
   const [zoomImage, setZoomImage] = useState("");
   const [showZoomModal, setShowZoomModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editPost, setEditPost] = useState(null);
+  const [updateOpen, setUpdateOpen] = useState(false);
+  const [adminFlag, setAdminFlag] = useState(false);
+  const [bottomNav, setBottomNav] = useState(0);
   const [snackOpen, setSnackOpen] = useState(false);
   let history = useHistory();
+  const isAdmin = props.user ? admin.filter((a) => props.user.phoneNumber === a) : false;
+  if (props.user && isAdmin[0] === props.user.phoneNumber && !adminFlag && props.user.phoneNumber !== undefined) {
+    setAdminFlag(true);
+  }
 
   const handleOpen = () => {
-    setOpenDialog(true);
+    if (!props.isAuthenticated) {
+      history.push('/login');
+    } else {
+      setOpenDialog(true);
+    }
   };
 
   const navigate = () => {
@@ -44,11 +59,20 @@ function Home(props) {
 
   const handleClose = () => {
     setOpenDialog(false);
+    setUpdateOpen(false);
+    setSnackOpen(false);
+    setShowEditModal(false);
+    setBottomNav(0);
   };
 
   const openZoomModal = (image) => {
     setZoomImage(image);
     setShowZoomModal(true);
+  };
+
+  const openEditModal = (post) => {
+    setEditPost(post);
+    setShowEditModal(true);
   };
 
   const handleCloseSnack = (event, reason) => {
@@ -60,7 +84,7 @@ function Home(props) {
 
   return (
     <div style={{ marginTop: "16px", color: "#212121" }}>
-      {!props.loginFlag && props.isAuthenticated ? (
+      {!props.loginFlag ? (
         <Tooltip title="Post a Photo">
           <div onClick={() => handleOpen()} id="cameraBtn">
             <img
@@ -77,13 +101,19 @@ function Home(props) {
         navigate={() => navigate()}
         handleOpen={() => handleOpen()}
         logout={() => logout()}
+        bottomNav={bottomNav}
         login={() => login()}
         isVerifying={props.isVerifying}
         isAuthenticated={props.isAuthenticated}
       />
-      <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={snackOpen} autoHideDuration={6000} onClose={() => handleClose()}>
         <Alert onClose={() => handleCloseSnack()} severity="success">
           Your photo was submitted!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={updateOpen} autoHideDuration={6000} onClose={() => handleClose()}>
+        <Alert onClose={() => handleCloseSnack()} severity="success">
+         Post updated!
         </Alert>
       </Snackbar>
       <Dialog
@@ -101,6 +131,14 @@ function Home(props) {
           onClick={() => setShowZoomModal(false)}
         />
       </Dialog>
+      {showEditModal ? <Admin
+        openDialog={showEditModal}
+        post={editPost}
+        setOpenDialog={(value) => setShowEditModal(value)}
+        setSnackOpen={(value) => setUpdateOpen(value)}
+        handleClose={() => handleClose()}
+        isVerifying={props.isVerifying}
+      /> : null}
       <Form
         openDialog={openDialog}
         setOpenDialog={(value) => setOpenDialog(value)}
@@ -111,6 +149,8 @@ function Home(props) {
       <Posts
         firebase={realTime}
         showZoomModal={(image) => openZoomModal(image)}
+        showEditModal={(post) => openEditModal(post)}
+        adminFlag={adminFlag}
         {...props}
       />
     </div>
@@ -121,7 +161,7 @@ function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     isVerifying: state.auth.isVerifying,
-    user: state.auth.user,
+    user: state.auth.user
   };
 }
 

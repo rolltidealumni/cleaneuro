@@ -4,17 +4,17 @@ import "firebase/storage";
 import pencilLogo from "../static/pencil.svg";
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
+import { withStyles } from "@material-ui/core/styles";
 import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import InputLabel from "@material-ui/core/InputLabel";
 import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Switch from "@material-ui/core/Switch";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import ImageUploader from "react-images-upload";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import lens from "../static/lens.svg";
 import cameraLogo from "../static/camera-two.svg";
 import aperture from "../static/aperture.svg";
@@ -24,126 +24,85 @@ import apertureList from "../static/aperture";
 import lensList from "../static/lenses";
 import realTime from "../firebase/firebase";
 
-const Form = (props) => {
-  const [image, setImage] = useState(null);
-  const [caption, setCaption] = useState("");
-  const [cameraInput, setCameraInput] = useState("");
-  const [lensInput, setLensInput] = useState("");
+const Admin = (props) => {
+  const [caption, setCaption] = useState(props.post.caption);
+  const [cameraInput, setCameraInput] = useState(props.post.camera);
+  const [lensInput, setLensInput] = useState(props.post.lens);
   const [loading, setLoading] = useState(false);
-  const [apertureInput, setApertureInput] = useState("");
-  const [categoryInput, setCategoryInput] = useState("");
-  const [imageLoading, setImageLoading] = useState(0);
-  const [hideUploader, setHideUploader] = useState(false);
+  const [apertureInput, setApertureInput] = useState(props.post.aperture);
+  const [categoryInput, setCategoryInput] = useState(props.post.category);
+  const image = props.post ? props.post.imageLink : "";
+  const [editorspick, setEditorsPick] = useState(props.post.editorspick);
 
-  const onDrop = (picture, data) => {
-    setHideUploader(true);
-    var base64 = data[0].substring(data[0].indexOf(",") + 1);
-    let storageRef = firebase.storage().ref();
-    let path = `images/${picture[0].name}`;
-    let uploadTask = storageRef.child(path).putString(base64, "base64");
-    uploadTask.on(
-      "state_changed",
-      function (snapshot) {
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setImageLoading(progress);
-        switch (snapshot.state) {
-          case firebase.storage.TaskState.PAUSED:
-            break;
-          case firebase.storage.TaskState.RUNNING:
-            break;
-          default:
-            break;
-        }
+  const RedSwitch = withStyles({
+    switchBase: {
+      color: "lightgray",
+      "&$checked": {
+        color: "#F8504D",
       },
-      function (error) {
-        // Handle unsuccessful uploads
+      "&$checked + $track": {
+        backgroundColor: "lightgray",
       },
-      function () {
-        uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-          setImage(downloadURL);
-        });
-      }
-    );
-  };
+    },
+    checked: {},
+    track: {},
+  })(Switch);
 
   const handleSubmit = (e) => {
-    let postsRef = realTime.ref("posts");
     setLoading(true);
-    if (image) {
-      postsRef.push({
-        imageLink: image,
-        caption: caption,
-        submitted: new Date().toString(),
-        aperture: apertureInput,
-        lens: lensInput,
-        camera: cameraInput,
-        category: categoryInput,
-        oneStar: 0,
-        twoStars: 0,
-        threeStars: 0,
-        fourStars: 0,
-        fiveStars: 0,
-        total: 0,
-      });
-      props.setOpenDialog(false);
-      props.setSnackOpen(true);
-      setHideUploader(false);
-      setLoading(false);
-      setCameraInput("");
-      setLensInput("");
-      setApertureInput("");
-      setCategoryInput("");
-      setImage(null);
-    }
+    realTime.ref("posts/" + props.post.key).update({
+      editorspick: editorspick,
+      caption: caption,
+      aperture: apertureInput,
+      lens: lensInput,
+      camera: cameraInput,
+      category: categoryInput,
+    });
+    props.setOpenDialog(false);
+    props.setSnackOpen(true);
+    setCameraInput("");
+    setLensInput("");
+    setApertureInput("");
+    setCategoryInput("");
   };
 
   return (
     <Dialog open={props.openDialog}>
-      <DialogTitle id="form-dialog-title">Post a Photo!</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          <span
-            style={{
-              margin: "0px",
-              marginTop: "0px",
-              fontSize: "14px",
-              color: "#212121",
-            }}
-          >
-            All fields are required.
-          </span>
-          <br />
-        </DialogContentText>
-        {imageLoading > 0 && imageLoading < 100 && !image ? (
-          <LinearProgress variant="determinate" value={imageLoading} color="primary" />
-        ) : image && imageLoading === 100 ? (
-          <div
-            style={{
-              backgroundImage: "url('" + image + "')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              marginBottom: "20px",
-              marginTop: "20px",
-              height: "180px",
-            }}
-          ></div>
-        ) : !hideUploader ? (
-          <ImageUploader
-            withIcon={true}
-            withPreview={false}
-            buttonText="Choose image"
-            label="Max file size: 20mb, accepted: jpg, gif, png, jpeg"
-            onChange={(picture, other) => onDrop(picture, other)}
-            imgExtension={[".jpg", ".jpeg", ".png", ".gif"]}
-            maxFileSize={20242880}
-            singleImage={true}
+      <DialogTitle id="form-dialog-title">
+        Edit Post{" "}
+        <span
+          style={{
+            float: "right",
+            margin: "0px",
+            fontSize: "14px",
+            position: "relative",
+            bottom: "8px",
+          }}
+        >
+          Editor's Pick
+          <RedSwitch
+            checked={editorspick}
+            onChange={(e) => setEditorsPick(!editorspick)}
+            name="checkedA"
+            inputProps={{ "aria-label": "secondary checkbox" }}
           />
-        ) : null}
+        </span>
+      </DialogTitle>
+      <DialogContent>
+        <div
+          style={{
+            backgroundImage: "url('" + image + "')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            marginBottom: "20px",
+            marginTop: "20px",
+            height: "180px",
+          }}
+        ></div>
         <TextField
+          value={caption}
           fullWidth={true}
-          helperText={caption.length > 15 ? "Caption cannot exceed 15 characters" : null}
           variant="outlined"
-          error={caption.length > 15}
           style={{ marginTop: "10px", marginBottom: "5px", color: "#212121" }}
           label={
             <span>
@@ -344,7 +303,6 @@ const Form = (props) => {
             }
             primary={true}
             className="submitBtn"
-            disabled={!image || caption === ""}
             onClick={(e) => handleSubmit(e)}
             style={{ marginBottom: "10px", width: "100%", marginTop: "20px" }}
           />
@@ -362,4 +320,4 @@ const Form = (props) => {
   );
 };
 
-export default Form;
+export default Admin;

@@ -3,6 +3,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
 import cameraLogo from "../../static/camera-two.svg";
+import loyalty from "../../static/loyalty.svg";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
 import category from "../../static/label.svg";
@@ -14,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 const PostCard = (post) => {
   Moment.locale("en");
   const [showZoom, setShowZoom] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   const changeRating = (newRating, name) => {
     if (post.isAuthenticated) {
@@ -32,17 +34,56 @@ const PostCard = (post) => {
         style={{ height: "300px" }}
         image={post.post.imageLink}
         id="cardImage"
-        onClick={() => post.showZoomModal(post.post.imageLink)}
-        onMouseEnter={() => toggleZoom(true)}
-        onMouseLeave={() => toggleZoom(false)}
+        onClick={
+          showZoom && !post.adminFlag
+            ? () => post.showZoomModal(post.post.imageLink)
+            : post.adminFlag
+            ? () => post.showEditModal(post.post)
+            : null
+        }
+        onMouseEnter={
+          !showZoom && !post.adminFlag
+            ? () => toggleZoom(true)
+            : null
+        }
+        onMouseLeave={
+          showZoom && !post.adminFlag
+          ? () => toggleZoom(false)
+          : null
+        }
       >
-        {showZoom ? (
+        {showZoom && !post.adminFlag ? (
           <Tooltip title="Zoom">
             <div className="zoomBtn"></div>
           </Tooltip>
+        ) : showEdit ? (
+          <Tooltip title="Edit">
+            <div className="editBtn"></div>
+          </Tooltip>
         ) : null}
+        {post.adminFlag ? <div id="edit-mobile-only" className="editBtn"></div> : null }
       </CardMedia>
-      <div className={"MuiCard__head"} style={{ marginBottom: "20px" }}>
+      <div
+        id="editor-pick"
+        style={{ display: post.post.editorspick ? "block" : "none" }}
+      >
+        {" "}
+        <img
+          alt="loyalty"
+          src={loyalty}
+          width="18px"
+          style={{ verticalAlign: "middle", marginRight: "3px" }}
+        />{" "}
+        Editor's Pick
+      </div>
+      <div
+        className={"MuiCard__head"}
+        style={{
+          marginBottom: "20px",
+          position: post.post.editorspick ? "relative" : "initial",
+          top: post.post.editorspick ? "-30px" : "initial",
+        }}
+      >
         <Typography
           className={"MuiTypography--heading"}
           style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "0px" }}
@@ -55,11 +96,17 @@ const PostCard = (post) => {
           </span>
           <span
             style={{
+              backgroundColor: "#EEEEEE",
+              padding: "10px",
+              borderRadius: "4px",
+              width: "100px",
+              overflow: "scroll",
               float: "right",
+              zIndex: "1",
               fontSize: "10px",
               fontStyle: "italic",
               marginRight: "20px",
-              marginTop: "18px",
+              marginTop: "6px"
             }}
           >
             <img
@@ -119,9 +166,7 @@ const PostCard = (post) => {
                   src={loading}
                   alt="loading"
                 />
-              ) : 
-                <span>({post.post.total})</span>
-              }
+              ) : null}
             </span>
           </Typography>
         </Tooltip>
