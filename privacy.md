@@ -14,29 +14,29 @@ This privacy notice applies to all information collected through our website \(s
 
 **TABLE OF CONTENTS**
 
-[1. WHAT INFORMATION DO WE COLLECT?](https://app.termly.io/dashboard/website/433260/privacy-policy#infocollect)
+1. WHAT INFORMATION DO WE COLLECT?
 
-[2. HOW DO WE USE YOUR INFORMATION?](https://app.termly.io/dashboard/website/433260/privacy-policy#infouse)
+2. HOW DO WE USE YOUR INFORMATION?
 
-[3. WILL YOUR INFORMATION BE SHARED WITH ANYONE?](https://app.termly.io/dashboard/website/433260/privacy-policy#infoshare)
+3. WILL YOUR INFORMATION BE SHARED WITH ANYONE?
 
-[4. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?](https://app.termly.io/dashboard/website/433260/privacy-policy#cookies)
+4. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?
 
-[5. HOW LONG DO WE KEEP YOUR INFORMATION?](https://app.termly.io/dashboard/website/433260/privacy-policy#inforetain)
+5. HOW LONG DO WE KEEP YOUR INFORMATION?
 
-[6. HOW DO WE KEEP YOUR INFORMATION SAFE?](https://app.termly.io/dashboard/website/433260/privacy-policy#infosafe)
+6. HOW DO WE KEEP YOUR INFORMATION SAFE?
 
-[7. DO WE COLLECT INFORMATION FROM MINORS?](https://app.termly.io/dashboard/website/433260/privacy-policy#infominors)
+7. DO WE COLLECT INFORMATION FROM MINORS?
 
-[8. WHAT ARE YOUR PRIVACY RIGHTS?](https://app.termly.io/dashboard/website/433260/privacy-policy#privacyrights)
+8. WHAT ARE YOUR PRIVACY RIGHTS?
 
-[9. CONTROLS FOR DO-NOT-TRACK FEATURES](https://app.termly.io/dashboard/website/433260/privacy-policy#DNT)
+9. CONTROLS FOR DO-NOT-TRACK FEATURES
 
-[10. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?](https://app.termly.io/dashboard/website/433260/privacy-policy#caresidents)
+10. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
 
-[11. DO WE MAKE UPDATES TO THIS POLICY?](https://app.termly.io/dashboard/website/433260/privacy-policy#policyupdates)
+11. DO WE MAKE UPDATES TO THIS POLICY?
 
-[12. HOW CAN YOU CONTACT US ABOUT THIS POLICY?](https://app.termly.io/dashboard/website/433260/privacy-policy#contact)
+12. HOW CAN YOU CONTACT US ABOUT THIS POLICY?
 
 **1. WHAT INFORMATION DO WE COLLECT?**
 
