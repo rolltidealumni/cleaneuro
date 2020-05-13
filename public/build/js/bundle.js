@@ -1071,7 +1071,7 @@ function Home(props) {
       />
       <div id="footerArea">
         <span id="footer">
-          © Rate My Shot | All Rights Reserved | <a href="https://blog.ratemyshot.co/" target="_blank">Help</a> | <a href="https://blog.ratemyshot.co/privacy" target="_blank">Privacy Policy</a>
+          © Rate My Shot | All Rights Reserved | <a href="https://blog.ratemyshot.co/contact" target="_blank">Help</a> | <a href="https://blog.ratemyshot.co/privacy" target="_blank">Privacy Policy</a>
         </span>
       </div>
     </div>
@@ -1355,6 +1355,7 @@ import { useHistory } from "react-router-dom";
 import camera from "../static/camera.svg";
 import homeLogo from "../static/home.svg";
 import info from "../static/info.svg";
+import help from "../static/help.svg";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
@@ -1364,11 +1365,19 @@ function Nav(props) {
   let history = useHistory();
   const [value, setValue] = useState(0);
 
+  const goToHelp = () => {
+    var win = window.open(
+      "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
+      "_blank"
+    );
+    win.focus();
+  };
+
   useEffect(() => {
     if (history.location.pathname === "/login") {
       $("#loginBottom").click();
       setValue(3);
-    };
+    }
   }, [value]);
 
   return (
@@ -1398,6 +1407,15 @@ function Nav(props) {
                 src={info}
                 style={{ width: "20px" }}
                 onClick={() => props.navigate()}
+              />
+            </Tooltip>
+            <Tooltip title="Help">
+              <img
+                alt="help"
+                className="iconNav"
+                src={help}
+                style={{ width: "20px" }}
+                onClick={() => goToHelp()}
               />
             </Tooltip>
             {props.isAuthenticated ? (
@@ -1451,6 +1469,9 @@ function Nav(props) {
                 props.login();
                 break;
               }
+            case 4:
+              goToHelp();
+              break;
           }
         }}
         showLabels={false}
@@ -1467,12 +1488,20 @@ function Nav(props) {
           value={1}
           icon={<img alt="icon1" src={info} style={{ width: "20px" }} />}
         />
-        {props.isAuthenticated ? <BottomNavigationAction
+        <BottomNavigationAction
           label={"•"}
-          value={2}
-          id="cameraBottom"
-          icon={<img alt="icon2" src={camera} style={{ width: "20px" }} />}
-        /> : null} 
+          id="infoBottom"
+          value={4}
+          icon={<img alt="icon1" src={help} style={{ width: "20px" }} />}
+        />
+        {props.isAuthenticated ? (
+          <BottomNavigationAction
+            label={"•"}
+            value={2}
+            id="cameraBottom"
+            icon={<img alt="icon2" src={camera} style={{ width: "20px" }} />}
+          />
+        ) : null}
         <BottomNavigationAction
           label={"•"}
           value={3}

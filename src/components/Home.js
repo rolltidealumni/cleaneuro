@@ -172,7 +172,7 @@ function Home(props) {
       />
       <div id="footerArea">
         <span id="footer">
-          © Rate My Shot | All Rights Reserved | <a href="https://blog.ratemyshot.co/" target="_blank">Help</a> | <a href="https://blog.ratemyshot.co/privacy" target="_blank">Privacy Policy</a>
+          © Rate My Shot | All Rights Reserved | <a href="https://blog.ratemyshot.co/contact" target="_blank">Help</a> | <a href="https://blog.ratemyshot.co/privacy" target="_blank">Privacy Policy</a>
         </span>
       </div>
     </div>
