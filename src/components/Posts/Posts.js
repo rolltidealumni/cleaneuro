@@ -31,9 +31,10 @@ const Posts = (props) => {
   const [cameraValue, setCameraValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
   const [filterValue, setFilterValue] = useState({ value: "", key: "" });
-  const [sort, setSort] = useState({ sort: "total", order: "asc" });
+  const [sort] = useState({ sort: "total", order: "asc" });
 
   const getPosts = async (mounted) => {
+    setPostLoading(true);
     let postCameras = [];
     let postLens = [];
     let postAperture = [];
@@ -176,7 +177,7 @@ const Posts = (props) => {
   );
 
   const updateRating = (post, key, rating) => {
-    setPostLoading({ key: key, loading: true });
+    setPostLoading(true);
     if (rating === 1) {
       props.firebase.ref("posts/" + key).update({
         oneStar: post.oneStar + 1,
@@ -206,9 +207,9 @@ const Posts = (props) => {
     setPostLoading(false);
   };
 
-  const updateSort = (value, order) => {
-    setSort({ sort: value, order: order });
-  };
+  // const updateSort = (value, order) => {
+  //   setSort({ sort: value, order: order });
+  // };
 
   return (
     <div>
@@ -488,7 +489,7 @@ const Posts = (props) => {
         </PopupState>
       </div>
       <div className="cards">
-        {props.isVerifying ? (
+        {postLoading ? (
           <div id="loader">
             <center>
               <Loader
@@ -522,6 +523,20 @@ const Posts = (props) => {
           <span className="no-results">There are no posts to display</span>
         )}
       </div>
+      {!postLoading ? (
+        <div id="footerArea">
+          <span id="footer">
+            © Rate My Shot | All Rights Reserved |{" "}
+            <a href="https://blog.ratemyshot.co/contact" target="_blank" rel="noopener noreferrer" >
+              Help
+            </a>{" "}
+            |{" "}
+            <a href="https://blog.ratemyshot.co/privacy" target="_blank" rel="noopener noreferrer" >
+              Privacy Policy
+            </a>
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 };

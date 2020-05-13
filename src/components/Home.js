@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import "firebase/storage";
 import { useHistory } from "react-router-dom";
@@ -23,7 +23,6 @@ function Home(props) {
   const [editPost, setEditPost] = useState(null);
   const [updateOpen, setUpdateOpen] = useState(false);
   const [adminFlag, setAdminFlag] = useState(false);
-  const [bottomNav, setBottomNav] = useState(0);
   const [snackOpen, setSnackOpen] = useState(false);
   let history = useHistory();
   const isAdmin = props.user
@@ -69,7 +68,6 @@ function Home(props) {
     setUpdateOpen(false);
     setSnackOpen(false);
     setShowEditModal(false);
-    setBottomNav(0);
   };
 
   const openZoomModal = (image) => {
@@ -108,7 +106,6 @@ function Home(props) {
         navigate={() => navigate()}
         handleOpen={() => handleOpen()}
         logout={() => logout()}
-        bottomNav={bottomNav}
         login={() => login()}
         isVerifying={props.isVerifying}
         isAuthenticated={props.isAuthenticated}
@@ -170,11 +167,6 @@ function Home(props) {
         adminFlag={adminFlag}
         {...props}
       />
-      <div id="footerArea">
-        <span id="footer">
-          © Rate My Shot | All Rights Reserved | <a href="https://blog.ratemyshot.co/contact" target="_blank">Help</a> | <a href="https://blog.ratemyshot.co/privacy" target="_blank">Privacy Policy</a>
-        </span>
-      </div>
     </div>
   );
 }

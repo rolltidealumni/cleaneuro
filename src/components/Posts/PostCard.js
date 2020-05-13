@@ -15,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 const PostCard = (post) => {
   Moment.locale("en");
   const [showZoom, setShowZoom] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
+  const [showEdit] = useState(false);
 
   const changeRating = (newRating, name) => {
     if (post.isAuthenticated) {

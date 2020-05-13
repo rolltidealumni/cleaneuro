@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
 import Home from "./Home";
+import Contests from "./Contests";
 import Login from "./Login";
 
 function App(props) {
@@ -18,8 +19,9 @@ function App(props) {
       >
         <Home {...props} />
       </ProtectedRoute>
-      <Route  path="/login" render={(props) => <Login {...props} />}/>
-      <Route  path="/activate" render={(props) => <Login {...props} />}/>
+      <Route path="/login" render={(props) => <Login {...props} />} />
+      <Route path="/activate" render={(props) => <Login {...props} />} />
+      <Route path="/contests" render={(props) => <Contests {...props} />} />
     </Switch>
   );
 }
@@ -27,7 +29,7 @@ function App(props) {
 function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    isVerifying: state.auth.isVerifying
+    isVerifying: state.auth.isVerifying,
   };
 }
 

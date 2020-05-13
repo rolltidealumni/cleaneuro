@@ -255,6 +255,32 @@ h3 {
   display: inline-grid;
 }
 
+.breadcrumbs {
+  position: fixed;
+  top: 84px;
+  padding-left: 29px;
+}
+
+.MuiBreadcrumbs-li > p {
+  font-size: 12px !important;
+}
+
+.breadcrumbs > ol {
+  font-size: 12px !important;
+}
+
+.contestContainer {
+  max-width: 331px;
+  color: #212121 !important;
+  min-width: 331px;
+  float: left;
+  max-height: 515px;
+  margin-bottom: 20px;
+  margin-left: 30px;
+  margin-right: 20px;
+  display: inline-grid;
+}
+
 .cards {
   align-items: center;
   min-width: 545px;
@@ -538,6 +564,21 @@ body
 }
 
 #footerArea {
+  position: static;
+  text-align: center;
+  padding: 25px;
+  margin-top: 50px !important;
+  height: 20px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+  color: white !important;
+  background-color: #212121;
+}
+
+#footerArea-fixed {
+  position: fixed;
   text-align: center;
   padding: 25px;
   margin-top: 50px !important;

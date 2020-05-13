@@ -5,6 +5,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import camera from "../static/camera.svg";
 import homeLogo from "../static/home.svg";
+import trophy from "../static/trophy.svg";
 import info from "../static/info.svg";
 import help from "../static/help.svg";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -21,7 +22,7 @@ function Nav(props) {
       "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
       "_blank"
     );
-    win.focus();
+    if (win) win.focus();
   };
 
   useEffect(() => {
@@ -29,7 +30,7 @@ function Nav(props) {
       $("#loginBottom").click();
       setValue(3);
     }
-  }, [value]);
+  }, [value, history.location.pathname]);
 
   return (
     <span>
@@ -51,6 +52,15 @@ function Nav(props) {
             className="desktop-nav-icons"
             style={{ padding: "20px !important", verticalAlign: "middle" }}
           >
+            <Tooltip title="Contests">
+              <img
+                alt="contest"
+                className="iconNav"
+                src={trophy}
+                style={{ width: "20px" }}
+                onClick={() => history.push("/contests")}
+              />
+            </Tooltip>
             <Tooltip title="Info">
               <img
                 alt="logo"
@@ -69,6 +79,7 @@ function Nav(props) {
                 onClick={() => goToHelp()}
               />
             </Tooltip>
+
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <Tooltip title="Logout">
@@ -114,15 +125,20 @@ function Nav(props) {
             case 3:
               if (!props.loginFlag && props.isAuthenticated) {
                 props.logout();
-                setValue(0);
                 break;
               } else if (!props.loginFlag) {
                 props.login();
                 break;
               }
+              break;
             case 4:
               goToHelp();
               break;
+            case 5:
+              history.push("/contests");
+              break;
+            default: 
+            break;
           }
         }}
         showLabels={false}
@@ -144,6 +160,12 @@ function Nav(props) {
           id="infoBottom"
           value={4}
           icon={<img alt="icon1" src={help} style={{ width: "20px" }} />}
+        />
+        <BottomNavigationAction
+          label={"•"}
+          value={5}
+          id="trophyBottom"
+          icon={<img alt="icon3" src={trophy} style={{ width: "20px" }} />}
         />
         {props.isAuthenticated ? (
           <BottomNavigationAction
