@@ -125,6 +125,7 @@ function Nav(props) {
             case 3:
               if (!props.loginFlag && props.isAuthenticated) {
                 props.logout();
+                history.push("/");
                 break;
               } else if (!props.loginFlag) {
                 props.login();

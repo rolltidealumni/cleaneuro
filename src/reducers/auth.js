@@ -115,8 +115,7 @@ export default (
         isVerifying: false,
         isLoggingIn: false,
         verifyingError: false,
-        loginError: false,
-        user: action.user
+        loginError: false
       };
     default:
       return state;

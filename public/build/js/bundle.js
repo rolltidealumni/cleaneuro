@@ -174,7 +174,6 @@ export const verifyAuth = () => dispatch => {
 };
 export * from "./auth";
 import React, { useState } from "react";
-import firebase from "firebase/app";
 import "firebase/storage";
 import pencilLogo from "../static/pencil.svg";
 import FlatButton from "material-ui/FlatButton";
@@ -184,7 +183,6 @@ import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import InputLabel from "@material-ui/core/InputLabel";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Switch from "@material-ui/core/Switch";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -502,6 +500,7 @@ import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
 import Home from "./Home";
+import Contests from "./Contests";
 import Login from "./Login";
 
 function App(props) {
@@ -517,8 +516,9 @@ function App(props) {
       >
         <Home {...props} />
       </ProtectedRoute>
-      <Route  path="/login" render={(props) => <Login {...props} />}/>
-      <Route  path="/activate" render={(props) => <Login {...props} />}/>
+      <Route path="/login" render={(props) => <Login {...props} />} />
+      <Route path="/activate" render={(props) => <Login {...props} />} />
+      <Route path="/contests" render={(props) => <Contests {...props} />} />
     </Switch>
   );
 }
@@ -526,11 +526,779 @@ function App(props) {
 function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    isVerifying: state.auth.isVerifying
+    isVerifying: state.auth.isVerifying,
   };
 }
 
 export default connect(mapStateToProps)(App);
+
+import React, { useState } from "react";
+import firebase from "firebase/app";
+import "firebase/storage";
+import pencilLogo from "../static/pencil.svg";
+import FlatButton from "material-ui/FlatButton";
+import TextField from "@material-ui/core/TextField";
+import loadingSpinner from "../static/loading.gif";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import InputLabel from "@material-ui/core/InputLabel";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import ImageUploader from "react-images-upload";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import lens from "../static/lens.svg";
+import cameraLogo from "../static/camera-two.svg";
+import aperture from "../static/aperture.svg";
+import cameraList from "../static/cameras";
+import apertureList from "../static/aperture";
+import lensList from "../static/lenses";
+import realTime from "../firebase/firebase";
+
+const ContestForm = (props) => {
+  const [image, setImage] = useState(null);
+  const [caption, setCaption] = useState("");
+  const [cameraInput, setCameraInput] = useState("");
+  const [lensInput, setLensInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [apertureInput, setApertureInput] = useState("");
+  const [imageLoading, setImageLoading] = useState(0);
+  const [hideUploader, setHideUploader] = useState(false);
+
+  const onDrop = (picture, data) => {
+    setHideUploader(true);
+    var base64 = data[0].substring(data[0].indexOf(",") + 1);
+    let storageRef = firebase.storage().ref();
+    let path = `images/${picture[0].name}`;
+    let uploadTask = storageRef.child(path).putString(base64, "base64");
+    uploadTask.on(
+      "state_changed",
+      function (snapshot) {
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setImageLoading(progress);
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED:
+            break;
+          case firebase.storage.TaskState.RUNNING:
+            break;
+          default:
+            break;
+        }
+      },
+      function (error) {
+        // Handle unsuccessful uploads
+      },
+      function () {
+        uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          setImage(downloadURL);
+        });
+      }
+    );
+  };
+
+  const handleSubmit = (e) => {
+    let postsRef = realTime.ref("contest-submissions");
+    setLoading(true);
+    if (image) {
+      postsRef.push({
+        contest: props.contest.key,
+        imageLink: image,
+        caption: caption,
+        submitted: new Date().toString(),
+        aperture: apertureInput,
+        lens: lensInput,
+        camera: cameraInput,
+        user: props.user
+      });
+      props.setOpenDialog(false);
+      props.setSnackOpen(true);
+      setHideUploader(false);
+      setLoading(false);
+      setCameraInput("");
+      setLensInput("");
+      setApertureInput("");
+      setImage(null);
+    }
+  };
+
+  return (
+    <Dialog open={props.openDialog}>
+      <DialogTitle id="form-dialog-title">{props.contest ? props.contest.title : " "} Contest Entry</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          <span
+            style={{
+              margin: "0px",
+              marginTop: "0px",
+              fontSize: "14px",
+              color: "#212121",
+            }}
+          >
+            All fields are required.
+          </span>
+          <br />
+        </DialogContentText>
+        {imageLoading > 0 && imageLoading < 100 && !image ? (
+          <LinearProgress variant="determinate" value={imageLoading} color="primary" />
+        ) : image && imageLoading === 100 ? (
+          <div
+            style={{
+              backgroundImage: "url('" + image + "')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              marginBottom: "20px",
+              marginTop: "20px",
+              height: "180px",
+            }}
+          ></div>
+        ) : !hideUploader ? (
+          <ImageUploader
+            withIcon={true}
+            withPreview={false}
+            buttonText="Choose image"
+            label="Max file size: 20mb, accepted: jpg, gif, png, jpeg"
+            onChange={(picture, other) => onDrop(picture, other)}
+            imgExtension={[".jpg", ".jpeg", ".png", ".gif"]}
+            maxFileSize={20242880}
+            singleImage={true}
+          />
+        ) : null}
+        <TextField
+          fullWidth={true}
+          helperText={caption.length > 15 ? "Caption cannot exceed 15 characters" : null}
+          variant="outlined"
+          error={caption.length > 15}
+          style={{ marginTop: "10px", marginBottom: "5px", color: "#212121" }}
+          label={
+            <span>
+              <img
+                alt="security"
+                src={pencilLogo}
+                width="18px"
+                style={{ verticalAlign: "middle", marginRight: "5px" }}
+              />
+              <span style={{ verticalAlign: "middle" }}>Caption</span>
+            </span>
+          }
+          onKeyPress={(e) => setCaption(e.target.value)}
+          onFocus={(e) => setCaption(e.target.value)}
+          onBlur={(e) => setCaption(e.target.value)}
+          onChange={(e) => setCaption(e.target.value)}
+        />
+        <FormControl variant="outlined" className="half-inputs">
+          <InputLabel id="demo-simple-select-outlined-label">
+            <span>
+              <img
+                alt="camera"
+                src={cameraLogo}
+                width="18px"
+                style={{ verticalAlign: "middle", marginRight: "5px" }}
+              />
+              <span style={{ verticalAlign: "middle" }}>Camera</span>
+            </span>
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={cameraInput}
+            onChange={(e) => setCameraInput(e.target.value)}
+            label={
+              <span>
+                <img
+                  alt="camera"
+                  src={cameraLogo}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "5px" }}
+                />
+                <span style={{ verticalAlign: "middle" }}>Camera</span>
+              </span>
+            }
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {cameraList.map((camera, i) => {
+              return (
+                <MenuItem key={i} value={camera}>
+                  {camera}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        <FormControl variant="outlined" className="half-inputs-right">
+          <InputLabel id="demo-simple-select-outlined-label">
+            <span>
+              <img
+                alt="lens"
+                src={lens}
+                width="18px"
+                style={{ verticalAlign: "middle", marginRight: "5px" }}
+              />
+              <span style={{ verticalAlign: "middle" }}>Lens</span>
+            </span>
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={lensInput}
+            onChange={(e) => setLensInput(e.target.value)}
+            label={
+              <span>
+                <img
+                  alt="lens"
+                  src={lens}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "5px" }}
+                />
+                <span style={{ verticalAlign: "middle" }}>Lens</span>
+              </span>
+            }
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {lensList.map((lens, i) => {
+              return (
+                <MenuItem key={i} value={lens}>
+                  {lens}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        <FormControl variant="outlined" className="full-inputs">
+          <InputLabel id="demo-simple-select-outlined-label">
+            <span>
+              <img
+                alt="aperture"
+                src={aperture}
+                width="18px"
+                style={{ verticalAlign: "middle", marginRight: "5px" }}
+              />
+              <span style={{ verticalAlign: "middle" }}>Aperture</span>
+            </span>
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={apertureInput}
+            onChange={(e) => setApertureInput(e.target.value)}
+            label={
+              <span>
+                <img
+                  alt="category"
+                  src={aperture}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "5px" }}
+                />
+                <span style={{ verticalAlign: "middle" }}>Aperture</span>
+              </span>
+            }
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {apertureList.map((aperture, i) => {
+              return (
+                <MenuItem key={i} value={aperture}>
+                  {aperture}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        <center>
+          <FlatButton
+            label={
+              loading ? (
+                <img
+                  width="35px"
+                  style={{
+                    verticalAlign: "middle",
+                    paddingBottom: "2px",
+                  }}
+                  src={loadingSpinner}
+                  alt="loading"
+                />
+              ) : (
+                "Submit"
+              )
+            }
+            primary={true}
+            className="submitBtn"
+            disabled={!image || caption === ""}
+            onClick={(e) => handleSubmit(e)}
+            style={{ marginBottom: "10px", width: "100%", marginTop: "20px" }}
+          />
+          <br />
+          <FlatButton
+            label="Cancel"
+            primary={true}
+            className="cancelBtn"
+            onClick={() => props.handleClose()}
+            style={{ marginBottom: "10px", width: "100%" }}
+          />
+        </center>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default ContestForm;
+
+import React, { useState, useEffect } from "react";
+import realTime from "./../firebase/firebase";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import Chip from "@material-ui/core/Chip";
+import trophy from "../static/trophy.svg";
+import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import Link from "@material-ui/core/Link";
+import loadingSpinner from "../static/loading.gif";
+import Nav from "./Nav";
+import Moment from "moment";
+import clsx from "clsx";
+import Card from "@material-ui/core/Card";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import CardMedia from "@material-ui/core/CardMedia";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import FlatButton from "material-ui/FlatButton";
+import IconButton from "@material-ui/core/IconButton";
+import ShareIcon from "@material-ui/icons/Share";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Typography from "@material-ui/core/Typography";
+import Collapse from "@material-ui/core/Collapse";
+import Loader from "react-loader-spinner";
+import ContestForm from "./ContestForm";
+import { logoutUser } from "../actions";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
+}));
+
+const Contests = (props) => {
+  let history = useHistory();
+  let contestz = [];
+  let ordered = [];
+  const [user, setUser] = useState(props.user ? props.user.uid : {});
+  const [success, setSuccess] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [disableEnterButton, setDisableEnterButton] = useState(false);
+  const [enterButtonLoading, setEnterButtonLoading] = useState(false);
+  const [bottomNav] = useState(5);
+  const [openSubmit, setOpenSubmit] = useState(false);
+  const [contest, setContest] = useState(null);
+  const [contests, setContests] = useState([]);
+  const classes = useStyles();
+  const [expanded, setExpanded] = useState(false);
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      setCopied(false);
+      setSuccess(false);
+      return;
+    }
+    setCopied(false);
+    setSuccess(false);
+  };
+
+  const navigate = () => {
+    var win = window.open("http://blog.ratemyshot.co/", "_blank");
+    win.focus();
+  };
+
+  const login = () => {
+    if (!props.isAuthenticated) {
+      history.push("/login");
+    }
+  };
+
+  const route = () => {
+    history.push("/");
+  };
+
+  const logout = () => {
+    const { dispatch } = props;
+    dispatch(logoutUser());
+  };
+
+  const getContests = async (mounted) => {
+    setLoading(true);
+    await realTime
+      .ref("contests")
+      .orderByChild("endDate")
+      .on("value", (snapshot) => {
+        if (snapshot.val()) {
+          contestz.push(snapshot.val());
+          let keys = Object.keys(contestz[0]);
+          let result = Object.keys(contestz[0]).map(function (key) {
+            return [Number(key), contestz[0][key]];
+          });
+          result.forEach(function (child, i) {
+            ordered.push({
+              index: i,
+              key: keys[i],
+              endDate: child[1].endDate,
+              title: child[1].title,
+              coverImage: child[1].coverImage,
+              category: child[1].category,
+              description: child[1].description,
+              details: child[1].details,
+            });
+          });
+          setLoading(false);
+        }
+      });
+
+    if (user) {
+      setEnterButtonLoading(true);
+      realTime
+        .ref("contest-submissions")
+        .orderByChild("user")
+        .equalTo(user)
+        .on("value", (snapshot) => {
+          if (snapshot.val()) {
+            let submissionResult = [];
+            let orderedSub = [];
+            submissionResult.push(snapshot.val());
+            let submissionKeys = Object.keys(submissionResult[0]);
+            let subResult = Object.keys(submissionResult[0]).map(function (
+              key
+            ) {
+              return [Number(key), submissionResult[0][key]];
+            });
+            subResult.forEach(function (child, i) {
+              orderedSub.push({
+                index: i,
+                key: submissionKeys[i],
+                user: child[1].user,
+              });
+            });
+            if (orderedSub[0].user === user) {
+              setDisableEnterButton(true);
+            } else {
+            setEnterButtonLoading(false);
+            }
+          } else {
+            setEnterButtonLoading(false);
+          }
+        });
+    }
+
+    if (mounted) {
+      setContests(ordered);
+    }
+    return ordered;
+  };
+
+  useEffect(
+    () => {
+      let mounted = true;
+      getContests(mounted);
+      setUser(props.user ? props.user.uid : {});
+      return () => (mounted = false);
+    },
+    // eslint-disable-next-line
+    [contests],
+    props.isVerifying,
+    props.user
+  );
+
+  const openSubmitDialog = (contest) => {
+    setContest(contest);
+    setOpenSubmit(true);
+  };
+
+  const handleClose = () => {
+    setOpenSubmit(false);
+  };
+
+  return (
+    <div style={{ marginTop: "16px", color: "#212121" }}>
+      <Nav
+        loginFlag={false}
+        navigate={() => navigate()}
+        handleOpen={() => false}
+        logout={() => logout()}
+        bottomNav={bottomNav}
+        login={() => login()}
+        isVerifying={props.isVerifying}
+        isAuthenticated={props.isAuthenticated}
+      />
+      <ContestForm
+        contest={contest}
+        user={user}
+        openDialog={openSubmit}
+        setOpenDialog={(value) => setOpenSubmit(value)}
+        setSnackOpen={(value) => setSuccess(value)}
+        handleClose={() => handleClose()}
+        isVerifying={props.isVerifying}
+      />
+      <Snackbar
+        open={copied}
+        anchorOrigin={{ horizontal: "center", vertical: "top" }}
+        autoHideDuration={4000}
+        onClose={() => handleCloseSnack()}
+      >
+        <Alert onClose={() => handleCloseSnack()} severity="success">
+          Copied!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={success}
+        anchorOrigin={{ horizontal: "center", vertical: "top" }}
+        autoHideDuration={4000}
+        onClose={() => handleCloseSnack()}
+      >
+        <Alert onClose={() => handleCloseSnack()} severity="success">
+          Your post has been entered! Good luck <span role="img" aria-label="smile">😊</span>
+        </Alert>
+      </Snackbar>
+      <div className="cards">
+        <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
+          <Link
+            color="inherit"
+            onClick={() => {
+              route();
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            Home
+          </Link>
+          <Typography color="textPrimary">Contests</Typography>
+        </Breadcrumbs>
+        {loading ? (
+          <div id="loader">
+            <center>
+              <Loader
+                style={{ margin: "200px" }}
+                type="Oval"
+                color="#61dbfb"
+                height={60}
+                width={60}
+              />
+            </center>
+          </div>
+        ) : contests.length > 0 ? (
+          contests.map((contest, i) => {
+            return (
+              <Card className="contestContainer" key={i}>
+                <CardMedia
+                  image={contest.coverImage}
+                  title={contest.title}
+                  style={{ height: "200px" }}
+                />
+                <div
+                  id="editor-pick"
+                  style={{
+                    display: disableEnterButton ? "block" : "none",
+                    marginBottom: "-28px",
+                    width: "74px"
+                  }}
+                >
+                  {" "}
+                  <img
+                    alt="trophy"
+                    src={trophy}
+                    width="18px"
+                    style={{ verticalAlign: "middle", marginRight: "3px" }}
+                  />{" "}
+                  Entered
+                </div>
+                <div
+                  className={"MuiCard__head"}
+                  style={{
+                    marginBottom: "0px",
+                    position: disableEnterButton ? "relative" : "initial",
+                  }}
+                ></div>
+                <CardContent style={{ paddingBottom: "0px" }}>
+                  <Typography
+                    variant="h4"
+                    component="p"
+                    style={{ fontSize: "19px", fontWeight: "550" }}
+                  >
+                    {contest.title}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    component="p"
+                    style={{ fontSize: "12px" }}
+                  >
+                    {contest.category}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    component="p"
+                    style={{ marginTop: "14px" }}
+                  >
+                    {contest.description}
+                  </Typography>
+                  <center>
+                    {!disableEnterButton && props.isAuthenticated ? (
+                      <FlatButton
+                        label={
+                          enterButtonLoading ? (
+                            <img
+                              width="35px"
+                              style={{
+                                verticalAlign: "middle",
+                                paddingBottom: "2px",
+                              }}
+                              src={loadingSpinner}
+                              alt="loading"
+                            />
+                          ) : (
+                            "Enter"
+                          )
+                        }
+                        primary={true}
+                        disabled={disableEnterButton}
+                        className={
+                          disableEnterButton
+                            ? "disabledContestBtn"
+                            : "contestBtn"
+                        }
+                        onClick={() => openSubmitDialog(contest)}
+                        style={{
+                          marginBottom: "10px",
+                          marginTop: "20px",
+                        }}
+                      />
+                    ) : null}
+                  </center>
+                </CardContent>
+                <CardActions disableSpacing>
+                  <Tooltip placement="right" title="Copy link">
+                    <CopyToClipboard
+                      text="https://ratemyshot.co/contests"
+                      onCopy={() => setCopied(true)}
+                    >
+                      <IconButton aria-label="share">
+                        <ShareIcon />
+                      </IconButton>
+                    </CopyToClipboard>
+                  </Tooltip>
+                  <IconButton
+                    className={clsx(classes.expand, {
+                      [classes.expandOpen]: expanded,
+                    })}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                  >
+                    <ExpandMoreIcon />
+                  </IconButton>
+                </CardActions>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                  <CardContent style={{ paddingTop: "0px" }}>
+                    <Typography
+                      variant="body2"
+                      component="p"
+                      style={{ marginTop: "0px" }}
+                      paragraph
+                    >
+                      <Typography
+                        variant="h5"
+                        component="p"
+                        style={{
+                          fontSize: "15px",
+                          marginBottom: "5px",
+                          fontWeight: "550",
+                        }}
+                      >
+                        {" "}
+                        Details
+                      </Typography>
+                      {contest.details}
+                    </Typography>
+                    <Chip
+                      label={
+                        "Ends in " +
+                        Moment(new Date(contest.endDate)).diff(
+                          Moment(),
+                          "days"
+                        ) +
+                        " days"
+                      }
+                      variant="outlined"
+                    ></Chip>
+                  </CardContent>
+                </Collapse>
+              </Card>
+            );
+          })
+        ) : (
+          <span className="no-results">There are no contests to display</span>
+        )}
+      </div>
+      <div id="footerArea-fixed">
+        <span id="footer">
+          © Rate My Shot | All Rights Reserved |{" "}
+          <a
+            href="https://blog.ratemyshot.co/contact"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Help
+          </a>{" "}
+          |{" "}
+          <a
+            href="https://blog.ratemyshot.co/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
+          </a>
+        </span>
+      </div>
+    </div>
+  );
+};
+
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    isVerifying: state.auth.isVerifying,
+    user: state.auth.user,
+  };
+}
+
+export default connect(mapStateToProps)(Contests);
+
 import React, { useState } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
@@ -897,7 +1665,7 @@ const Form = (props) => {
 
 export default Form;
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import "firebase/storage";
 import { useHistory } from "react-router-dom";
@@ -922,8 +1690,8 @@ function Home(props) {
   const [editPost, setEditPost] = useState(null);
   const [updateOpen, setUpdateOpen] = useState(false);
   const [adminFlag, setAdminFlag] = useState(false);
-  const [bottomNav, setBottomNav] = useState(0);
   const [snackOpen, setSnackOpen] = useState(false);
+  const [userID, setUserID] = useState(false);
   let history = useHistory();
   const isAdmin = props.user
     ? admin.filter((a) => props.user.phoneNumber === a)
@@ -934,7 +1702,12 @@ function Home(props) {
     !adminFlag &&
     props.user.phoneNumber !== undefined
   ) {
+    setUserID(props.user.uid);
     setAdminFlag(true);
+  }
+
+  if (!isAdmin && !userID) {
+    setUserID(props.user.uid);
   }
 
   const handleOpen = () => {
@@ -968,15 +1741,16 @@ function Home(props) {
     setUpdateOpen(false);
     setSnackOpen(false);
     setShowEditModal(false);
-    setBottomNav(0);
   };
 
   const openZoomModal = (image) => {
+    console.log(props.user);
     setZoomImage(image);
     setShowZoomModal(true);
   };
 
   const openEditModal = (post) => {
+    console.log(props.user);
     setEditPost(post);
     setShowEditModal(true);
   };
@@ -1007,7 +1781,6 @@ function Home(props) {
         navigate={() => navigate()}
         handleOpen={() => handleOpen()}
         logout={() => logout()}
-        bottomNav={bottomNav}
         login={() => login()}
         isVerifying={props.isVerifying}
         isAuthenticated={props.isAuthenticated}
@@ -1069,11 +1842,6 @@ function Home(props) {
         adminFlag={adminFlag}
         {...props}
       />
-      <div id="footerArea">
-        <span id="footer">
-          © Rate My Shot | All Rights Reserved | <a href="https://blog.ratemyshot.co/contact" target="_blank">Help</a> | <a href="https://blog.ratemyshot.co/privacy" target="_blank">Privacy Policy</a>
-        </span>
-      </div>
     </div>
   );
 }
@@ -1354,6 +2122,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import camera from "../static/camera.svg";
 import homeLogo from "../static/home.svg";
+import trophy from "../static/trophy.svg";
 import info from "../static/info.svg";
 import help from "../static/help.svg";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -1370,7 +2139,7 @@ function Nav(props) {
       "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
       "_blank"
     );
-    win.focus();
+    if (win) win.focus();
   };
 
   useEffect(() => {
@@ -1378,7 +2147,7 @@ function Nav(props) {
       $("#loginBottom").click();
       setValue(3);
     }
-  }, [value]);
+  }, [value, history.location.pathname]);
 
   return (
     <span>
@@ -1400,6 +2169,15 @@ function Nav(props) {
             className="desktop-nav-icons"
             style={{ padding: "20px !important", verticalAlign: "middle" }}
           >
+            <Tooltip title="Contests">
+              <img
+                alt="contest"
+                className="iconNav"
+                src={trophy}
+                style={{ width: "20px" }}
+                onClick={() => history.push("/contests")}
+              />
+            </Tooltip>
             <Tooltip title="Info">
               <img
                 alt="logo"
@@ -1418,6 +2196,7 @@ function Nav(props) {
                 onClick={() => goToHelp()}
               />
             </Tooltip>
+
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <Tooltip title="Logout">
@@ -1463,15 +2242,21 @@ function Nav(props) {
             case 3:
               if (!props.loginFlag && props.isAuthenticated) {
                 props.logout();
-                setValue(0);
+                history.push("/");
                 break;
               } else if (!props.loginFlag) {
                 props.login();
                 break;
               }
+              break;
             case 4:
               goToHelp();
               break;
+            case 5:
+              history.push("/contests");
+              break;
+            default: 
+            break;
           }
         }}
         showLabels={false}
@@ -1493,6 +2278,12 @@ function Nav(props) {
           id="infoBottom"
           value={4}
           icon={<img alt="icon1" src={help} style={{ width: "20px" }} />}
+        />
+        <BottomNavigationAction
+          label={"•"}
+          value={5}
+          id="trophyBottom"
+          icon={<img alt="icon3" src={trophy} style={{ width: "20px" }} />}
         />
         {props.isAuthenticated ? (
           <BottomNavigationAction
@@ -1682,8 +2473,7 @@ export default (
         isVerifying: false,
         isLoggingIn: false,
         verifyingError: false,
-        loginError: false,
-        user: action.user
+        loginError: false
       };
     default:
       return state;

@@ -24,6 +24,7 @@ function Home(props) {
   const [updateOpen, setUpdateOpen] = useState(false);
   const [adminFlag, setAdminFlag] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
+  const [userID, setUserID] = useState(false);
   let history = useHistory();
   const isAdmin = props.user
     ? admin.filter((a) => props.user.phoneNumber === a)
@@ -34,7 +35,12 @@ function Home(props) {
     !adminFlag &&
     props.user.phoneNumber !== undefined
   ) {
+    setUserID(props.user.uid);
     setAdminFlag(true);
+  }
+
+  if (!isAdmin && !userID) {
+    setUserID(props.user.uid);
   }
 
   const handleOpen = () => {
@@ -71,11 +77,13 @@ function Home(props) {
   };
 
   const openZoomModal = (image) => {
+    console.log(props.user);
     setZoomImage(image);
     setShowZoomModal(true);
   };
 
   const openEditModal = (post) => {
+    console.log(props.user);
     setEditPost(post);
     setShowEditModal(true);
   };
