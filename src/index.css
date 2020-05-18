@@ -291,6 +291,7 @@ h3 {
   align-items: center;
   min-width: 545px;
   display: flow-root;
+  margin-bottom: 100px !important;
   width: 90%;
   margin: auto;
   margin-top: 125px !important;
@@ -408,6 +409,10 @@ h3 {
   }
 
   #footerArea-fixed {
+    display: none !important;
+  }
+
+  #footerArea {
     display: none !important;
   }
 
@@ -592,7 +597,7 @@ body
 }
 
 #footerArea {
-  position: static;
+  position: fixed;
   text-align: center;
   padding: 25px;
   margin-top: 50px !important;
