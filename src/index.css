@@ -407,6 +407,10 @@ h3 {
     width: 100% !important;
   }
 
+  #footerArea-fixed {
+    display: none !important;
+  }
+
   .cardContainer {
     width: 95% !important;
     max-width: none !important;
