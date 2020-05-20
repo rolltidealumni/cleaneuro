@@ -415,25 +415,17 @@ const Contests = (props) => {
         )}
       </div>
       <div id="footerArea">
-        <span id="footer">
-          © Rate My Shot | All Rights Reserved |{" "}
-          <a
-            href="https://blog.ratemyshot.co/contact"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Help
-          </a>{" "}
-          |{" "}
-          <a
-            href="https://blog.ratemyshot.co/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Privacy Policy
-          </a>
-        </span>
-      </div>
+          <span id="footer">
+            © Rate My Shot / All Rights Reserved /{" "}
+            <a href="https://blog.ratemyshot.co/contact" target="_blank" rel="noopener noreferrer" >
+              Help
+            </a>{" "}
+            /{" "}
+            <a href="https://blog.ratemyshot.co/privacy" target="_blank" rel="noopener noreferrer" >
+              Privacy Policy
+            </a>
+          </span>
+        </div>
     </div>
   );
 };

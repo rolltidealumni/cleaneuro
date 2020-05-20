@@ -13,11 +13,9 @@ const store = configureStore();
 
 const muiTheme = getMuiTheme({
   palette: {
-    accent1Color: "deepOrange500",
-    primary: "blue",
-    secondary: {
-      main: "#f44336",
-    },
+    accent1Color: "#FBC02D",
+    primary: "#FBC02D",
+    secondary: "#FBC02D"
   },
 });
 
