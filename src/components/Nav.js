@@ -44,7 +44,7 @@ function Nav(props) {
             onClick={() => {
               history.push("/");
             }}
-            style={{ width: "30px", marginTop: "16px", cursor: "pointer" }}
+            style={{ width: "80px", marginTop: "18px", cursor: "pointer" }}
           />
         }
         iconElementRight={
@@ -149,18 +149,6 @@ function Nav(props) {
           id="homeBottom"
           value={0}
           icon={<img alt="icon0" src={homeLogo} style={{ width: "20px" }} />}
-        />
-        <BottomNavigationAction
-          label={"•"}
-          id="infoBottom"
-          value={1}
-          icon={<img alt="icon1" src={info} style={{ width: "20px" }} />}
-        />
-        <BottomNavigationAction
-          label={"•"}
-          id="infoBottom"
-          value={4}
-          icon={<img alt="icon1" src={help} style={{ width: "20px" }} />}
         />
         <BottomNavigationAction
           label={"•"}

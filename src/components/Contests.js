@@ -414,7 +414,7 @@ const Contests = (props) => {
           <span className="no-results">There are no contests to display</span>
         )}
       </div>
-      <div id="footerArea-fixed">
+      <div id="footerArea">
         <span id="footer">
           © Rate My Shot | All Rights Reserved |{" "}
           <a

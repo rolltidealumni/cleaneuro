@@ -3,9 +3,8 @@ import { connect } from "react-redux";
 import { myFirebase } from "../firebase/firebase";
 import validator from "validator";
 import loadingSpinner from "../static/loading.gif";
-import Nav from "./Nav";
-import phoneLogo from "../static/phone.svg";
-import securityLogo from "../static/security.svg";
+import arrow from "../static/arrow.svg";
+import loginLogo from "../static/login-logo.svg";
 import firebase from "firebase/app";
 import { Redirect } from "react-router-dom";
 import FlatButton from "material-ui/FlatButton";
@@ -102,7 +101,6 @@ function Login(props) {
     } // eslint-disable-next-line
   }, [phone, verifyCodeFlag]);
 
-
   const navigate = () => {
     var win = window.open("http://blog.ratemyshot.co/", "_blank");
     win.focus();
@@ -112,119 +110,104 @@ function Login(props) {
     return <Redirect to="/" />;
   } else {
     return (
-      <div style={{ marginTop: "16px" }}>
-        <Nav
-          loginFlag={true}
-          navigate={() => navigate()}
-          isVerifying={props.isVerifying}
-          isAuthenticated={props.isAuthenticated}
-        />
-        <Backdrop open={true}>
-          <Card
-            className="gagunkLogin"
-            style={{
-              backgroundColor: "lightgray",
-              width: "40%",
-              margin: "auto",
-              marginTop: "auto",
-              textAlign: "center",
-              maxWidth: "580px",
-            }}
-          >
-            <CardContent
-              className="loginWindow"
-              style={{ backgroundColor: "white" }}
-            >
-              <Typography variant="h4" style={{ padding: "20px" }}>
-                <div className="wrapper"></div>
-              </Typography>
-              <TextField
-                style={{ margin: "5px", width: "80%", marginBottom: "10px" }}
-                id="phone"
-                onChange={(e) => validatePhone(e.target.value)}
-                label={
-                  <span>
-                    <img
-                      alt="phone"
-                      src={phoneLogo}
-                      width="18px"
-                      style={{ verticalAlign: "middle", marginRight: "5px" }}
-                    />
-                    <span style={{ verticalAlign: "middle" }}>Phone</span>
-                  </span>
-                }
-                error={error || apiError !== null}
-                helperText={
-                  error
-                    ? "Invalid phone number. Must begin with + and country code"
-                    : apiError
-                    ? apiError
-                    : null
-                }
-                type="tel"
-                disabled={verifyCodeFlag}
-                variant="outlined"
-              />
-              <TextField
+      <div style={{ float: "right", marginTop: "16px", height: "100%", width: "40%", textAlign: "center" }}>
+        <Typography variant="h4" style={{ padding: "20px" }}>
+          <div className="wrapper"></div>
+        </Typography>
+        <div>
+          Relish in a{" "}
+          <span style={{ color: "#FBC02D", fontWeight: "bold" }}>
+            no-bullshit
+          </span>
+        </div>
+        <div>creative space.</div>
+        <TextField
+          style={{
+            margin: "5px",
+            width: "80%",
+            marginBottom: "10px",
+            marginTop: "18px",
+          }}
+          id="phone"
+          onChange={(e) => validatePhone(e.target.value)}
+          label={
+            <span>
+              <span
                 style={{
-                  margin: "5px",
-                  marginBottom: "20px",
-                  width: "80%",
-                  backgroundColor: !verifyCodeFlag ? "lightgray" : undefined,
+                  marginRight: "10px",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  color: "#FBC02D",
                 }}
-                id="code"
-                onChange={(e) => validateCode(e.target.value)}
-                label={
-                  <span>
-                    <img
-                      alt="security"
-                      src={securityLogo}
-                      width="18px"
-                      style={{ verticalAlign: "middle", marginRight: "5px" }}
-                    />
-                    <span style={{ verticalAlign: "middle" }}>
-                      Verification Code
-                    </span>
-                  </span>
-                }
-                variant="outlined"
-                type="number"
-                maxLength="6"
-                disabled={!verifyCodeFlag}
-              />
-              <CardActions
-                className="loginButtonContainer"
-                style={{ backgroundColor: "white" }}
               >
-                <FlatButton
-                  className={
-                    !error && phone !== null
-                      ? "gagunkbtn-submit"
-                      : "gagunkbtn-submit-disabled"
-                  }
-                  id="submit-account"
-                  disabled={error || phone == null || loading}
-                  label={
-                    loading ? (
-                      <img
-                        width="35px"
-                        style={{
-                          verticalAlign: "middle",
-                          paddingBottom: "2px",
-                        }}
-                        src={loadingSpinner}
-                        alt="loading"
-                      />
-                    ) : (
-                      "Login"
-                    )
-                  }
-                  onClick={() => handleSubmit()}
+                + 1
+              </span>
+              <span style={{ verticalAlign: "middle" }}>
+                Mobile Phone Number
+              </span>
+            </span>
+          }
+          error={error || apiError !== null}
+          helperText={
+            error
+              ? "Invalid phone number. Must begin with + and country code"
+              : apiError
+              ? apiError
+              : null
+          }
+          type="tel"
+          disabled={verifyCodeFlag}
+          variant="outlined"
+        />
+        <TextField
+          style={{
+            margin: "5px",
+            marginBottom: "20px",
+            width: "80%",
+            backgroundColor: !verifyCodeFlag ? "lightgray" : undefined,
+          }}
+          id="code"
+          onChange={(e) => validateCode(e.target.value)}
+          label={
+            <span>
+              <span style={{ verticalAlign: "middle" }}>Verification Code</span>
+            </span>
+          }
+          variant="outlined"
+          type="number"
+          maxLength="6"
+          disabled={!verifyCodeFlag}
+        />
+        <CardActions
+          className="loginButtonContainer"
+          style={{ backgroundColor: "white" }}
+        >
+          <FlatButton
+            className={
+              !error && phone !== null
+                ? "gagunkbtn-submit"
+                : "gagunkbtn-submit-disabled"
+            }
+            id="submit-account"
+            disabled={error || phone == null || loading}
+            label={
+              loading ? (
+                <img
+                  width="35px"
+                  style={{
+                    verticalAlign: "middle",
+                    paddingBottom: "2px",
+                  }}
+                  src={loadingSpinner}
+                  alt="loading"
                 />
-              </CardActions>
-            </CardContent>
-          </Card>
-        </Backdrop>
+              ) : (
+                <img src={arrow} fill={"grey"} height={20} />
+              )
+            }
+            onClick={() => handleSubmit()}
+          />
+        </CardActions>
       </div>
     );
   }
