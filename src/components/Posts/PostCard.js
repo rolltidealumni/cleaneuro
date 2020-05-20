@@ -6,9 +6,11 @@ import cameraLogo from "../../static/camera-two.svg";
 import loyalty from "../../static/loyalty.svg";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
+import ImageLoader from "react-load-image";
 import category from "../../static/label.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import lens from "../../static/lens.svg";
+import Skeleton from '@material-ui/lab/Skeleton';
 import StarRatings from "react-star-ratings";
 import Typography from "@material-ui/core/Typography";
 
@@ -29,40 +31,42 @@ const PostCard = (post) => {
 
   return (
     <Card className={"MuiProjectCard--01"} id="post-card">
-      <CardMedia
-        className={"MuiCardMedia-root"}
-        style={{ height: "300px" }}
-        image={post.post.imageLink}
-        id="cardImage"
-        onClick={
-          showZoom && !post.adminFlag
-            ? () => post.showZoomModal(post.post.imageLink)
-            : post.adminFlag
-            ? () => post.showEditModal(post.post)
-            : null
-        }
-        onMouseEnter={
-          !showZoom && !post.adminFlag
-            ? () => toggleZoom(true)
-            : null
-        }
-        onMouseLeave={
-          showZoom && !post.adminFlag
-          ? () => toggleZoom(false)
-          : null
-        }
-      >
-        {showZoom && !post.adminFlag ? (
-          <Tooltip title="Zoom">
-            <div className="zoomBtn"></div>
-          </Tooltip>
-        ) : showEdit ? (
-          <Tooltip title="Edit">
-            <div className="editBtn"></div>
-          </Tooltip>
-        ) : null}
-        {post.adminFlag ? <div id="edit-mobile-only" className="editBtn"></div> : null }
-      </CardMedia>
+      <ImageLoader src={post.post.imageLink}>
+        <CardMedia
+          className={"MuiCardMedia-root"}
+          style={{ height: "300px" }}
+          image={post.post.imageLink}
+          id="cardImage"
+          onClick={
+            showZoom && !post.adminFlag
+              ? () => post.showZoomModal(post.post.imageLink)
+              : post.adminFlag
+              ? () => post.showEditModal(post.post)
+              : null
+          }
+          onMouseEnter={
+            !showZoom && !post.adminFlag ? () => toggleZoom(true) : null
+          }
+          onMouseLeave={
+            showZoom && !post.adminFlag ? () => toggleZoom(false) : null
+          }
+        >
+          {showZoom && !post.adminFlag ? (
+            <Tooltip title="Zoom">
+              <div className="zoomBtn"></div>
+            </Tooltip>
+          ) : showEdit ? (
+            <Tooltip title="Edit">
+              <div className="editBtn"></div>
+            </Tooltip>
+          ) : null}
+          {post.adminFlag ? (
+            <div id="edit-mobile-only" className="editBtn"></div>
+          ) : null}
+        </CardMedia>
+        <div>There was an error loading this image</div>
+        <Skeleton animation="wave" variant="rect" height={300} />
+      </ImageLoader>
       <div
         id="editor-pick"
         style={{ display: post.post.editorspick ? "block" : "none" }}
@@ -106,7 +110,7 @@ const PostCard = (post) => {
               fontSize: "10px",
               fontStyle: "italic",
               marginRight: "20px",
-              marginTop: "6px"
+              marginTop: "6px",
             }}
           >
             <img
