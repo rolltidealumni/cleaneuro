@@ -1853,10 +1853,9 @@ import { connect } from "react-redux";
 import { myFirebase } from "../firebase/firebase";
 import validator from "validator";
 import { makeStyles } from "@material-ui/core/styles";
-import loadingSpinner from "../static/loading.gif";
 import arrow from "../static/arrow.svg";
-import loginLogo from "../static/login-logo.svg";
 import firebase from "firebase/app";
+import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import FlatButton from "material-ui/FlatButton";
 import CardActions from "@material-ui/core/Card";
@@ -1881,6 +1880,7 @@ const CssTextField = makeStyles((theme) => ({
 }));
 
 function Login(props) {
+  let history = useHistory();
   const classes = CssTextField();
   let { isAuthenticated } = props;
   const [phone, setPhone] = useState(null);
@@ -1967,11 +1967,6 @@ function Login(props) {
     } // eslint-disable-next-line
   }, [phone, verifyCodeFlag]);
 
-  const navigate = () => {
-    var win = window.open("http://blog.ratemyshot.co/", "_blank");
-    win.focus();
-  };
-
   if (isAuthenticated) {
     return <Redirect to="/" />;
   } else {
@@ -1992,7 +1987,7 @@ function Login(props) {
           }}
         >
           <Typography variant="h4" style={{ padding: "20px" }}>
-            <div className="wrapper"></div>
+            <div className="wrapper" style={{cursor: "pointer"}}  onClick={() => history.push("/")}></div>
           </Typography>
           <div >
             Artive is <br/>
@@ -2065,7 +2060,7 @@ function Login(props) {
                 loading ? (
                   <span style={{color: "black"}}>...</span>
                 ) : (
-                  <img src={arrow} fill={"grey"} height={20} />
+                  <img src={arrow} fill={"grey"} height={20} alt="arrow" />
                 )
               }
               onClick={() => handleSubmit()}
