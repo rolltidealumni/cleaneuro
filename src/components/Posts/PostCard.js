@@ -7,6 +7,7 @@ import loyalty from "../../static/loyalty.svg";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
 import ImageLoader from "react-load-image";
+import { useHistory } from "react-router-dom";
 import category from "../../static/label.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import lens from "../../static/lens.svg";
@@ -15,6 +16,7 @@ import StarRatings from "react-star-ratings";
 import Typography from "@material-ui/core/Typography";
 
 const PostCard = (post) => {
+  let history = useHistory();
   Moment.locale("en");
   const [showZoom, setShowZoom] = useState(false);
   const [showEdit] = useState(false);
@@ -24,6 +26,10 @@ const PostCard = (post) => {
       post.updateRating(post.post, post.post.key, newRating);
     }
   };
+
+  const openUniquePost = (post) => {
+    history.push('post/'+post.key);
+  }
 
   const toggleZoom = (show) => {
     setShowZoom(show);
@@ -94,7 +100,8 @@ const PostCard = (post) => {
           gutterBottom
         >
           <span
-            style={{ fontSize: "20px", fontWeight: "400", marginBottom: "2px" }}
+            onClick={() => openUniquePost(post.post)}
+            style={{ cursor: 'pointer', fontSize: "20px", fontWeight: "400", marginBottom: "2px" }}
           >
             {post.post.caption}
           </span>

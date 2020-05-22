@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Loader from "react-loader-spinner";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import LinearProgress from '@material-ui/core/LinearProgress';
 import FlatButton from "material-ui/FlatButton";
 import InputLabel from "@material-ui/core/InputLabel";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -490,17 +491,7 @@ const Posts = (props) => {
       </div>
       <div className="cards">
         {postLoading ? (
-          <div id="loader">
-            <center>
-              <Loader
-                style={{ margin: "200px" }}
-                type="Oval"
-                color="#61dbfb"
-                height={60}
-                width={60}
-              />
-            </center>
-          </div>
+           <LinearProgress id="line-progress" style={{display: 'absolute', top: '48px', backgroundColor: 'white'}} />
         ) : posts.length > 0 ? (
           posts.map((post, i) => {
             return (

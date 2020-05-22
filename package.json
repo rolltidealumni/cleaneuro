@@ -7,6 +7,7 @@
     "@material-ui/core": "^4.9.13",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.52",
+    "@material/linear-progress": "^6.0.0",
     "firebase": "^4.13.1",
     "firebase-admin": "^8.11.0",
     "grpc": "^1.24.2",

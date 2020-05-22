@@ -1742,7 +1742,6 @@ function Home(props) {
   };
 
   const openEditModal = (post) => {
-    console.log(props.user);
     setEditPost(post);
     setShowEditModal(true);
   };
@@ -2113,11 +2112,11 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
 import loginIcon from "../static/account.svg";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 function Nav(props) {
   let history = useHistory();
   const [value, setValue] = useState(0);
-
   const goToHelp = () => {
     var win = window.open(
       "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
@@ -2207,7 +2206,6 @@ function Nav(props) {
         }
         iconStyleLeft={{ display: "none" }}
       />
-
       <BottomNavigation
         value={value}
         className="bottom-nav"

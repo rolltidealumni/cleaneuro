@@ -6,8 +6,28 @@ body {
   font-family: 'Nunito' !important;
 }
 
+#unique-card {
+  width: 90%;
+  margin-top: 150px !important;
+  margin: auto;
+  margin-bottom: 200px !important;
+  height: 500 !important;
+}
+
+#line-progress {
+  top: 64px;
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  background-color: white;
+}
+
 .rc-anchor .rc-anchor-invisible .rc-anchor-light .rc-anchor-invisible-hover {
   display: none !important;
+}
+
+.MuiLinearProgress-barColorPrimary {
+  background-color: #e0e0e0 !important;
 }
 
 .MuiOutlinedInput-input:-webkit-autofill {
@@ -283,7 +303,7 @@ h3 {
 }
 
 .breadcrumbs {
-  position: fixed;
+  position: absolute;
   top: 84px;
   padding-left: 29px;
 }
@@ -335,6 +355,10 @@ h3 {
     display: block !important;
     width: 100% !important;
     float: left !important;
+  }
+
+  #unique-card {
+    width: 90% !important;
   }
 
   .bottom-nav {
@@ -459,6 +483,10 @@ h3 {
 @media only screen and (max-width: 920px) {
   .MuiProjectCard--01 {
     width: 100% !important;
+  }
+
+  #unique-card {
+    width: 90% !important;
   }
 
   #footerArea {

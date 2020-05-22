@@ -36,7 +36,7 @@ const Admin = (props) => {
     switchBase: {
       color: "lightgray",
       "&$checked": {
-        color: "#F8504D",
+        color: "#fbc02d",
       },
       "&$checked + $track": {
         backgroundColor: "lightgray",

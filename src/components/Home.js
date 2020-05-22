@@ -83,7 +83,6 @@ function Home(props) {
   };
 
   const openEditModal = (post) => {
-    console.log(props.user);
     setEditPost(post);
     setShowEditModal(true);
   };
