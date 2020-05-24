@@ -1965,7 +1965,9 @@ function Login(props) {
         }
       );
       setAppVerifier(window.recaptchaVerifier);
-    } // eslint-disable-next-line
+    };
+    window.scrollTo(0, 0);
+    // eslint-disable-next-line
   }, [phone, verifyCodeFlag]);
 
   if (isAuthenticated) {

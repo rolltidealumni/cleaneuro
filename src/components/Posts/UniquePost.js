@@ -171,7 +171,8 @@ const UniquePost = (post) => {
         <Typography color="textPrimary">{postResponse.caption}</Typography>
       </Breadcrumbs>
       <Card className={"MuiProjectCard--01"} id="unique-card"
-        style={{ height: height === '300px' ? '433px' : '857px',
+        style={{ 
+          height: height !== null && height === '300px' ? '433px' : 'initial',
           width:  height === '300px' ? '90%' : '50%' }}
       >
         <ImageLoader src={postResponse.imageLink} onLoad={(t) => isPortrait(t, postResponse)}>
@@ -179,7 +180,7 @@ const UniquePost = (post) => {
             className={"MuiCardMedia-root"}
             style={{
               height: height ? height : '300px',
-              backgroundPosition: 'bottom center',
+              backgroundPosition: height !== null && height === '300px'? 'bottom center' : 'center center',
             }}
             image={postResponse.imageLink}
             id="cardImage-unique"
