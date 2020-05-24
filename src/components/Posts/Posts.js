@@ -517,7 +517,7 @@ const Posts = (props) => {
       {!postLoading ? (
         <div id="footerArea">
           <span id="footer">
-            © Rate My Shot / All Rights Reserved /{" "}
+            © 2020 artive, LLC / All Rights Reserved /{" "}
             <a href="https://blog.ratemyshot.co/contact" target="_blank" rel="noopener noreferrer" >
               Help
             </a>{" "}

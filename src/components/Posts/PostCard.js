@@ -55,7 +55,7 @@ const PostCard = (post) => {
 
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
-        style={{height: getHeight(post.post.imageLink) === '300px' ? '433px' : 'initial'}}
+        style={{height: getHeight(post.post.imageLink) === '300px' ? '433px' : '857px'}}
       >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
         <CardMedia

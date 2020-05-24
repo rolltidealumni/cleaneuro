@@ -171,7 +171,7 @@ const UniquePost = (post) => {
         <Typography color="textPrimary">{postResponse.caption}</Typography>
       </Breadcrumbs>
       <Card className={"MuiProjectCard--01"} id="unique-card"
-        style={{ height: height === '300px' ? '433px' : 'initial',
+        style={{ height: height === '300px' ? '433px' : '857px',
           width:  height === '300px' ? '90%' : '50%' }}
       >
         <ImageLoader src={postResponse.imageLink} onLoad={(t) => isPortrait(t, postResponse)}>
