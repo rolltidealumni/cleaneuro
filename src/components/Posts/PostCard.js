@@ -20,6 +20,7 @@ const PostCard = (post) => {
   Moment.locale("en");
   const [showZoom, setShowZoom] = useState(false);
   const [showEdit] = useState(false);
+  const [portraitPhoto, setPortraitPhoto] = useState([{}]);
 
   const changeRating = (newRating, name) => {
     if (post.isAuthenticated) {
@@ -28,61 +29,66 @@ const PostCard = (post) => {
   };
 
   const openUniquePost = (post) => {
-    history.push('post/'+post.key);
+    history.push('post/' + post.key);
   }
+
+  const isPortrait = ({ target: img }, thisPost) => {
+    let obj = {
+      height: img.naturalHeight,
+      width: img.naturalWidth,
+      imageLink: thisPost.post.imageLink
+    };
+    if (img.naturalHeight > img.naturalWidth) {
+      portraitPhoto.push(obj);
+      setPortraitPhoto(portraitPhoto)
+    };
+  };
 
   const toggleZoom = (show) => {
     setShowZoom(show);
   };
 
+  const getHeight = (val) => {
+    var obj = portraitPhoto.find(({ imageLink }) => imageLink === val);
+    return obj ? '724px' : '300px';
+  }
+
   return (
-    <Card className={"MuiProjectCard--01"} id="post-card">
-      <ImageLoader src={post.post.imageLink}>
+    <Card className={"MuiProjectCard--01"} id="post-card"
+        style={{height: getHeight(post.post.imageLink) === '300px' ? '433px' : 'initial'}}
+      >
+      <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
         <CardMedia
           className={"MuiCardMedia-root"}
-          style={{ height: "300px" }}
+          style={{
+            height: getHeight(post.post.imageLink),
+            backgroundPosition: 'bottom center',
+            cursor: 'pointer'
+          }}
           image={post.post.imageLink}
           id="cardImage"
           onClick={
-            showZoom && !post.adminFlag
-              ? () => post.showZoomModal(post.post.imageLink)
+            !post.adminFlag
+              ? () => openUniquePost(post.post)
               : post.adminFlag
-              ? () => post.showEditModal(post.post)
-              : null
-          }
-          onMouseEnter={
-            !showZoom && !post.adminFlag ? () => toggleZoom(true) : null
-          }
-          onMouseLeave={
-            showZoom && !post.adminFlag ? () => toggleZoom(false) : null
+                ? () => post.showEditModal(post.post)
+                : null
           }
         >
-          {showZoom && !post.adminFlag ? (
-            <Tooltip title="Zoom">
-              <div className="zoomBtn"></div>
-            </Tooltip>
-          ) : showEdit ? (
-            <Tooltip title="Edit">
-              <div className="editBtn"></div>
-            </Tooltip>
-          ) : null}
-          {post.adminFlag ? (
-            <div id="edit-mobile-only" className="editBtn"></div>
-          ) : null}
         </CardMedia>
         <div>There was an error loading this image</div>
         <Skeleton animation="wave" variant="rect" height={300} />
       </ImageLoader>
       <div
         id="editor-pick"
-        style={{ display: post.post.editorspick ? "block" : "none" }}
+        style={{ display: post.post.editorspick ? "block" : "none", color: 'black' }}
       >
         {" "}
         <img
           alt="loyalty"
           src={loyalty}
           width="18px"
-          style={{ verticalAlign: "middle", marginRight: "3px" }}
+          style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
         />{" "}
         Editor's Pick
       </div>
@@ -111,7 +117,7 @@ const PostCard = (post) => {
               padding: "10px",
               borderRadius: "4px",
               width: "100px",
-              overflow: "scroll",
+              overflow: "hidden",
               float: "right",
               zIndex: "1",
               fontSize: "10px",

@@ -211,7 +211,7 @@ const Admin = (props) => {
     switchBase: {
       color: "lightgray",
       "&$checked": {
-        color: "#F8504D",
+        color: "#fbc02d",
       },
       "&$checked + $track": {
         backgroundColor: "lightgray",
@@ -502,6 +502,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Home from "./Home";
 import Contests from "./Contests";
 import Login from "./Login";
+import UniquePost from "./Posts/UniquePost";
 
 function App(props) {
   const { isAuthenticated, isVerifying } = props;
@@ -518,6 +519,7 @@ function App(props) {
       </ProtectedRoute>
       <Route path="/login" render={(props) => <Login {...props} />} />
       <Route path="/activate" render={(props) => <Login {...props} />} />
+      <Route path="/post/:id" render={(props) => <UniquePost {...props} />} />
       <Route path="/contests" render={(props) => <Contests {...props} />} />
     </Switch>
   );

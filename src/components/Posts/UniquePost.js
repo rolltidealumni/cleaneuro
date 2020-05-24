@@ -24,8 +24,10 @@ const UniquePost = (post) => {
   Moment.locale("en");
   let ordered = [];
   let history = useHistory();
+  const [portraitPhoto, setPortraitPhoto] = useState([{}]);
   let params = useParams();
   const [openDialog, setOpenDialog] = useState(false);
+  const [height, setHeight] = useState(null);
   const [showZoom, setShowZoom] = useState(false);
   const [postLoading, setPostLoading] = useState(false);
   const [showEdit] = useState(false);
@@ -66,7 +68,7 @@ const UniquePost = (post) => {
       getPost(mounted, params.id);
       return () => (mounted = false);
     },
-  [post]);
+    [post]);
 
   const route = () => {
     history.push("/");
@@ -127,6 +129,24 @@ const UniquePost = (post) => {
       });
   }
 
+  const isPortrait = ({ target: img }, thisPost) => {
+    let obj = {
+      height: img.naturalHeight,
+      width: img.naturalWidth,
+      imageLink: thisPost.imageLink
+    };
+    if (img.naturalHeight > img.naturalWidth) {
+      portraitPhoto.push(obj);
+      setPortraitPhoto(portraitPhoto);
+      getHeight(thisPost.imageLink);
+    };
+  };
+
+  const getHeight = (val) => {
+    var obj = portraitPhoto.find(({ imageLink }) => imageLink === val);
+    setHeight(obj ? '724px' : '300px');
+  };
+
   return (
     <>
       <Nav
@@ -150,11 +170,17 @@ const UniquePost = (post) => {
           </Link>
         <Typography color="textPrimary">{postResponse.caption}</Typography>
       </Breadcrumbs>
-      <Card className={"MuiProjectCard--01"} id="unique-card">
-        <ImageLoader src={postResponse.imageLink}>
+      <Card className={"MuiProjectCard--01"} id="unique-card"
+        style={{ height: height === '300px' ? '433px' : 'initial',
+          width:  height === '300px' ? '90%' : '50%' }}
+      >
+        <ImageLoader src={postResponse.imageLink} onLoad={(t) => isPortrait(t, postResponse)}>
           <CardMedia
             className={"MuiCardMedia-root"}
-            style={{ height: "500px" }}
+            style={{
+              height: height ? height : '300px',
+              backgroundPosition: 'bottom center',
+            }}
             image={postResponse.imageLink}
             id="cardImage-unique"
           >
@@ -176,7 +202,7 @@ const UniquePost = (post) => {
         </ImageLoader>
         <div
           id="editor-pick"
-          style={{ display: postResponse.editorspick ? "block" : "none" }}
+          style={{ display: postResponse.editorspick ? "block" : "none", color: 'black' }}
         >
           {" "}
           <img
@@ -195,105 +221,108 @@ const UniquePost = (post) => {
             top: postResponse.editorspick ? "-30px" : "initial",
           }}
         >
-          <Typography
-            className={"MuiTypography--heading"}
-            style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "0px" }}
-            gutterBottom
-          >
-            <span
-              style={{ fontSize: "20px", fontWeight: "400", marginBottom: "2px" }}
-            >
-              {postResponse.caption}
-            </span>
-            <span
-              style={{
-                backgroundColor: "#EEEEEE",
-                padding: "10px",
-                borderRadius: "4px",
-                width: "100px",
-                overflow: "scroll",
-                float: "right",
-                zIndex: "1",
-                fontSize: "10px",
-                fontStyle: "italic",
-                marginRight: "20px",
-                marginTop: "6px",
-              }}
-            >
-              <img
-                alt="camera"
-                src={cameraLogo}
-                width="18px"
-                style={{ verticalAlign: "middle", marginRight: "3px" }}
-              />{" "}
-              {postResponse.camera}
-              <br />
-              <img
-                alt="aperture"
-                src={aperture}
-                width="18px"
-                style={{ verticalAlign: "middle", marginRight: "3px" }}
-              />{" "}
-              {postResponse.aperture}
-              <br />
-              <img
-                alt="lens"
-                src={lens}
-                width="18px"
-                style={{ verticalAlign: "middle", marginRight: "3px" }}
-              />{" "}
-              {postResponse.lens}
-              <br />
-              <img
-                alt="category"
-                src={category}
-                width="18px"
-                style={{ verticalAlign: "middle", marginRight: "3px" }}
-              />{" "}
-              {postResponse.category}
-            </span>
-          </Typography>
-          <Tooltip title="Rate!" placement="right">
+          {!postLoading ?
             <Typography
-              className={"MuiTypography--headLabel"}
-              variant={"overline"}
+              className={"MuiTypography--heading"}
+              style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "0px" }}
               gutterBottom
-              style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
             >
-              <StarRatings
-                rating={postResponse.average ? postResponse.average : 0}
-                starRatedColor="#212121"
-                starHoverColor="#212121"
-                changeRating={(rating) => changeRating(rating)}
-                numberOfStars={5}
-                name="rating"
-                starDimension="15px"
-              />
-              <span style={{ marginLeft: "5px", fontSize: "13px" }}>
-                {postResponse.postLoading && postResponse.postLoading.key === postResponse.key ? (
-                  <img
-                    width="19px"
-                    style={{ verticalAlign: "middle", paddingBottom: "2px" }}
-                    src={loading}
-                    alt="loading"
-                  />
-                ) : null}
+              <span
+                style={{ fontSize: "20px", fontWeight: "400", marginBottom: "2px" }}
+              >
+                {postResponse.caption}
               </span>
-            </Typography>
-          </Tooltip>
+              <span
+                style={{
+                  backgroundColor: "#EEEEEE",
+                  padding: "10px",
+                  borderRadius: "4px",
+                  width: "100px",
+                  overflow: "scroll",
+                  float: "right",
+                  zIndex: "1",
+                  fontSize: "10px",
+                  fontStyle: "italic",
+                  marginRight: "20px",
+                  marginTop: "6px",
+                }}
+              >
+                <img
+                  alt="camera"
+                  src={cameraLogo}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}
+                {postResponse.camera}
+                <br />
+                <img
+                  alt="aperture"
+                  src={aperture}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}
+                {postResponse.aperture}
+                <br />
+                <img
+                  alt="lens"
+                  src={lens}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}
+                {postResponse.lens}
+                <br />
+                <img
+                  alt="category"
+                  src={category}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}
+                {postResponse.category}
+              </span>
+            </Typography> : null}
+          {!postLoading ?
+            <Tooltip title="Rate!" placement="right">
+              <Typography
+                className={"MuiTypography--headLabel"}
+                variant={"overline"}
+                gutterBottom
+                style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
+              >
+                <StarRatings
+                  rating={postResponse.average ? postResponse.average : 0}
+                  starRatedColor="#212121"
+                  starHoverColor="#212121"
+                  changeRating={(rating) => changeRating(rating)}
+                  numberOfStars={5}
+                  name="rating"
+                  starDimension="15px"
+                />
+                <span style={{ marginLeft: "5px", fontSize: "13px" }}>
+                  {postResponse.postLoading && postResponse.postLoading.key === postResponse.key ? (
+                    <img
+                      width="19px"
+                      style={{ verticalAlign: "middle", paddingBottom: "2px" }}
+                      src={loading}
+                      alt="loading"
+                    />
+                  ) : null}
+                </span>
+              </Typography>
+            </Tooltip> : null}
           <br />
-          <Typography
-            className={"MuiTypography--overline"}
-            variant={"overline"}
-            style={{
-              marginLeft: "15px",
-              fontSize: "13px",
-              textTransform: "none",
-            }}
-            gutterBottom
-          >
-            {Moment(new Date(postResponse.submitted)).format("MMMM D, YYYY")}
-          </Typography>
+          {!postLoading ?
+            <Typography
+              className={"MuiTypography--overline"}
+              variant={"overline"}
+              style={{
+                marginLeft: "15px",
+                fontSize: "13px",
+                textTransform: "none",
+              }}
+              gutterBottom
+            >
+              {Moment(new Date(postResponse.submitted)).format("MMMM D, YYYY")}
+            </Typography> : null}
         </div>
       </Card>
     </>

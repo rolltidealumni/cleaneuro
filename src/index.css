@@ -7,11 +7,9 @@ body {
 }
 
 #unique-card {
-  width: 90%;
   margin-top: 150px !important;
   margin: auto;
   margin-bottom: 200px !important;
-  height: 500 !important;
 }
 
 #line-progress {
@@ -293,8 +291,6 @@ h3 {
 }
 
 .cardContainer {
-  max-width: 550px;
-  min-width: 331px;
   float: left;
   margin-bottom: 20px;
   margin-left: 30px;
@@ -700,7 +696,6 @@ body
 
 #post-card {
   scroll-snap-stop: always;
-  height: 433px;
 }
 
 .loader {

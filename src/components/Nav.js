@@ -52,15 +52,6 @@ function Nav(props) {
             className="desktop-nav-icons"
             style={{ padding: "20px !important", verticalAlign: "middle" }}
           >
-            <Tooltip title="Contests">
-              <img
-                alt="contest"
-                className="iconNav"
-                src={trophy}
-                style={{ width: "20px" }}
-                onClick={() => history.push("/contests")}
-              />
-            </Tooltip>
             <Tooltip title="Info">
               <img
                 alt="logo"
@@ -148,12 +139,6 @@ function Nav(props) {
           id="homeBottom"
           value={0}
           icon={<img alt="icon0" src={homeLogo} style={{ width: "20px" }} />}
-        />
-        <BottomNavigationAction
-          label={"•"}
-          value={5}
-          id="trophyBottom"
-          icon={<img alt="icon3" src={trophy} style={{ width: "20px" }} />}
         />
         {props.isAuthenticated ? (
           <BottomNavigationAction
