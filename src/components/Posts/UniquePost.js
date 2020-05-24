@@ -171,16 +171,18 @@ const UniquePost = (post) => {
         <Typography color="textPrimary">{postResponse.caption}</Typography>
       </Breadcrumbs>
       <Card className={"MuiProjectCard--01"} id="unique-card"
-        style={{ 
-          height: height !== null && height === '300px' ? '433px' : 'initial',
-          width:  height === '300px' ? '90%' : '50%' }}
+        style={{
+          height: height ? undefined : '493px',
+          paddingBottom: '19px',
+          width: height === '300px' ? '90%' : '50%'
+        }}
       >
         <ImageLoader src={postResponse.imageLink} onLoad={(t) => isPortrait(t, postResponse)}>
           <CardMedia
             className={"MuiCardMedia-root"}
             style={{
-              height: height ? height : '300px',
-              backgroundPosition: height !== null && height === '300px'? 'bottom center' : 'center center',
+              height: height ? height : '350px',
+              backgroundPosition: height !== null && height === '300px' ? 'bottom center' : 'center center',
             }}
             image={postResponse.imageLink}
             id="cardImage-unique"
@@ -202,19 +204,6 @@ const UniquePost = (post) => {
           <Skeleton animation="wave" variant="rect" height={300} />
         </ImageLoader>
         <div
-          id="editor-pick"
-          style={{ display: postResponse.editorspick ? "block" : "none", color: 'black' }}
-        >
-          {" "}
-          <img
-            alt="loyalty"
-            src={loyalty}
-            width="18px"
-            style={{ verticalAlign: "middle", marginRight: "3px" }}
-          />{" "}
-        Editor's Pick
-      </div>
-        <div
           className={"MuiCard__head"}
           style={{
             marginBottom: "20px",
@@ -225,7 +214,7 @@ const UniquePost = (post) => {
           {!postLoading ?
             <Typography
               className={"MuiTypography--heading"}
-              style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "0px" }}
+              style={{ marginLeft: "15px", marginTop: postResponse.editorspick ? "45px" : "15px", marginBottom: "0px" }}
               gutterBottom
             >
               <span
@@ -248,6 +237,16 @@ const UniquePost = (post) => {
                   marginTop: "6px",
                 }}
               >
+                <div
+                  id="editor-pick"
+                  style={{
+                    display: "block",
+                    color: !postResponse.editorspick ? 'white' : 'black',
+                    backgroundColor: !postResponse.editorspick ? 'rgb(28, 28, 28)' : '#fbc02d'
+                  }}
+                >
+
+                  {!postResponse.editorspick ? "Metadata" : "Editor's Pick!"}</div>
                 <img
                   alt="camera"
                   src={cameraLogo}

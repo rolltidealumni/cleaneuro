@@ -55,8 +55,8 @@ const PostCard = (post) => {
 
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
-        style={{height: getHeight(post.post.imageLink) === '300px' ? '433px' : '886px'}}
-      >
+      style={{ height: getHeight(post.post.imageLink) === '300px' ? '458px' : '886px' }}
+    >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
         <CardMedia
           className={"MuiCardMedia-root"}
@@ -79,7 +79,7 @@ const PostCard = (post) => {
         <div>There was an error loading this image</div>
         <Skeleton animation="wave" variant="rect" height={300} />
       </ImageLoader>
-      <div
+      {/* <div
         id="editor-pick"
         style={{ display: post.post.editorspick ? "block" : "none", color: 'black' }}
       >
@@ -91,7 +91,7 @@ const PostCard = (post) => {
           style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
         />{" "}
         Editor's Pick
-      </div>
+      </div> */}
       <div
         className={"MuiCard__head"}
         style={{
@@ -102,7 +102,7 @@ const PostCard = (post) => {
       >
         <Typography
           className={"MuiTypography--heading"}
-          style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "0px" }}
+          style={{ marginLeft: "15px", marginTop: post.post.editorspick ? "45px" : "15px", marginBottom: "0px" }}
           gutterBottom
         >
           <span
@@ -126,6 +126,20 @@ const PostCard = (post) => {
               marginTop: "6px",
             }}
           >
+            <div
+              id="editor-pick"
+              style={{ display: "block", 
+                color: !post.post.editorspick ? 'white' : 'black',
+                backgroundColor: !post.post.editorspick ? 'rgb(28, 28, 28)' : '#fbc02d' }}
+            >
+              {/* <img
+                alt="loyalty"
+                src={loyalty}
+                width="18px"
+                style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
+              />{" "} */}
+        {!post.post.editorspick ? "Metadata" : "Editor's Pick!"}
+      </div>
             <img
               alt="camera"
               src={cameraLogo}
@@ -198,7 +212,7 @@ const PostCard = (post) => {
           }}
           gutterBottom
         >
-          {Moment(new Date(post.post.submitted)).format("MMMM D, YYYY")}
+          {Moment(new Date(post.post.submitted)).format("MMMM D")}
         </Typography>
       </div>
     </Card>

@@ -716,16 +716,16 @@ body
 }
 
 #editor-pick {
-  color: #fff;
   display: block;
-  background-color: #fbc02d;
-  width: 100px;
+  width: 168px;
   position: relative;
-  border-radius: 1px;
+  float: left;
+  /* border-radius: 8px; */
   font-size: 13px;
   padding: 5px;
-  bottom: 29px;
-  left: 0;
+  padding-left: 10px;
+  top: -10px;
+  left: -10px;
 }
 
 .wrapper {
