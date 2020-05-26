@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import "firebase/storage";
 import { useHistory } from "react-router-dom";
@@ -7,6 +7,7 @@ import admin from "../static/admin";
 import Nav from "./Nav";
 import Admin from "./Admin";
 import Form from "./Form";
+import Slide from '@material-ui/core/Slide';
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import Dialog from "@material-ui/core/Dialog";
@@ -14,6 +15,10 @@ import camera from "../static/camera.svg";
 import Posts from "./Posts/Posts";
 import realTime from "../firebase/firebase";
 import { logoutUser } from "../actions";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function Home(props) {
   const [openDialog, setOpenDialog] = useState(false);
@@ -23,8 +28,8 @@ function Home(props) {
   const [editPost, setEditPost] = useState(null);
   const [updateOpen, setUpdateOpen] = useState(false);
   const [adminFlag, setAdminFlag] = useState(false);
-  const [bottomNav, setBottomNav] = useState(0);
   const [snackOpen, setSnackOpen] = useState(false);
+  const [userID, setUserID] = useState(false);
   let history = useHistory();
   const isAdmin = props.user
     ? admin.filter((a) => props.user.phoneNumber === a)
@@ -35,7 +40,12 @@ function Home(props) {
     !adminFlag &&
     props.user.phoneNumber !== undefined
   ) {
+    setUserID(props.user.uid);
     setAdminFlag(true);
+  }
+
+  if (!isAdmin && !userID) {
+    setUserID(props.user.uid);
   }
 
   const handleOpen = () => {
@@ -69,10 +79,10 @@ function Home(props) {
     setUpdateOpen(false);
     setSnackOpen(false);
     setShowEditModal(false);
-    setBottomNav(0);
   };
 
   const openZoomModal = (image) => {
+    console.log(props.user);
     setZoomImage(image);
     setShowZoomModal(true);
   };
@@ -108,7 +118,6 @@ function Home(props) {
         navigate={() => navigate()}
         handleOpen={() => handleOpen()}
         logout={() => logout()}
-        bottomNav={bottomNav}
         login={() => login()}
         isVerifying={props.isVerifying}
         isAuthenticated={props.isAuthenticated}
@@ -133,6 +142,8 @@ function Home(props) {
       </Snackbar>
       <Dialog
         maxWidth="lg"
+        keepMounted
+        TransitionComponent={Transition}
         onBackdropClick={() => setShowZoomModal(false)}
         open={showZoomModal}
         id="zoomModal"
@@ -170,11 +181,6 @@ function Home(props) {
         adminFlag={adminFlag}
         {...props}
       />
-      <div id="footerArea">
-        <span id="footer">
-          © Rate My Shot | All Rights Reserved | <a href="https://blog.ratemyshot.co/" target="_blank">Help</a> | <a href="https://blog.ratemyshot.co/privacy" target="_blank">Privacy Policy</a>
-        </span>
-      </div>
     </div>
   );
 }

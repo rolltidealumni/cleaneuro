@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import firebase from "firebase/app";
 import "firebase/storage";
 import pencilLogo from "../static/pencil.svg";
 import FlatButton from "material-ui/FlatButton";
@@ -9,7 +8,6 @@ import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import InputLabel from "@material-ui/core/InputLabel";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Switch from "@material-ui/core/Switch";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -38,7 +36,7 @@ const Admin = (props) => {
     switchBase: {
       color: "lightgray",
       "&$checked": {
-        color: "#F8504D",
+        color: "#fbc02d",
       },
       "&$checked + $track": {
         backgroundColor: "lightgray",

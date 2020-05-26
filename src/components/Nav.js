@@ -5,22 +5,32 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import camera from "../static/camera.svg";
 import homeLogo from "../static/home.svg";
+import trophy from "../static/trophy.svg";
 import info from "../static/info.svg";
+import help from "../static/help.svg";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
 import loginIcon from "../static/account.svg";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 function Nav(props) {
   let history = useHistory();
   const [value, setValue] = useState(0);
+  const goToHelp = () => {
+    var win = window.open(
+      "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
+      "_blank"
+    );
+    if (win) win.focus();
+  };
 
   useEffect(() => {
     if (history.location.pathname === "/login") {
       $("#loginBottom").click();
       setValue(3);
-    };
-  }, [value]);
+    }
+  }, [value, history.location.pathname]);
 
   return (
     <span>
@@ -34,7 +44,7 @@ function Nav(props) {
             onClick={() => {
               history.push("/");
             }}
-            style={{ width: "30px", marginTop: "16px", cursor: "pointer" }}
+            style={{ width: "80px", marginTop: "18px", cursor: "pointer" }}
           />
         }
         iconElementRight={
@@ -51,6 +61,16 @@ function Nav(props) {
                 onClick={() => props.navigate()}
               />
             </Tooltip>
+            <Tooltip title="Help">
+              <img
+                alt="help"
+                className="iconNav"
+                src={help}
+                style={{ width: "20px" }}
+                onClick={() => goToHelp()}
+              />
+            </Tooltip>
+
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <Tooltip title="Logout">
@@ -77,7 +97,6 @@ function Nav(props) {
         }
         iconStyleLeft={{ display: "none" }}
       />
-
       <BottomNavigation
         value={value}
         className="bottom-nav"
@@ -96,12 +115,21 @@ function Nav(props) {
             case 3:
               if (!props.loginFlag && props.isAuthenticated) {
                 props.logout();
-                setValue(0);
+                history.push("/");
                 break;
               } else if (!props.loginFlag) {
                 props.login();
                 break;
               }
+              break;
+            case 4:
+              goToHelp();
+              break;
+            case 5:
+              history.push("/contests");
+              break;
+            default: 
+            break;
           }
         }}
         showLabels={false}
@@ -112,18 +140,14 @@ function Nav(props) {
           value={0}
           icon={<img alt="icon0" src={homeLogo} style={{ width: "20px" }} />}
         />
-        <BottomNavigationAction
-          label={"•"}
-          id="infoBottom"
-          value={1}
-          icon={<img alt="icon1" src={info} style={{ width: "20px" }} />}
-        />
-        {props.isAuthenticated ? <BottomNavigationAction
-          label={"•"}
-          value={2}
-          id="cameraBottom"
-          icon={<img alt="icon2" src={camera} style={{ width: "20px" }} />}
-        /> : null} 
+        {props.isAuthenticated ? (
+          <BottomNavigationAction
+            label={"•"}
+            value={2}
+            id="cameraBottom"
+            icon={<img alt="icon2" src={camera} style={{ width: "20px" }} />}
+          />
+        ) : null}
         <BottomNavigationAction
           label={"•"}
           value={3}

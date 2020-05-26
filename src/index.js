@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -13,11 +13,9 @@ const store = configureStore();
 
 const muiTheme = getMuiTheme({
   palette: {
-    accent1Color: "deepOrange500",
-    primary: "blue",
-    secondary: {
-      main: "#f44336",
-    },
+    accent1Color: "#FBC02D",
+    primary: "#FBC02D",
+    secondary: "#FBC02D"
   },
 });
 

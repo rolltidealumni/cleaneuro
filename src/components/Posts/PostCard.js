@@ -6,16 +6,21 @@ import cameraLogo from "../../static/camera-two.svg";
 import loyalty from "../../static/loyalty.svg";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
+import ImageLoader from "react-load-image";
+import { useHistory } from "react-router-dom";
 import category from "../../static/label.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import lens from "../../static/lens.svg";
+import Skeleton from '@material-ui/lab/Skeleton';
 import StarRatings from "react-star-ratings";
 import Typography from "@material-ui/core/Typography";
 
 const PostCard = (post) => {
+  let history = useHistory();
   Moment.locale("en");
   const [showZoom, setShowZoom] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
+  const [showEdit] = useState(false);
+  const [portraitPhoto, setPortraitPhoto] = useState([{}]);
 
   const changeRating = (newRating, name) => {
     if (post.isAuthenticated) {
@@ -23,59 +28,70 @@ const PostCard = (post) => {
     }
   };
 
+  const openUniquePost = (post) => {
+    history.push('post/' + post.key);
+  }
+
+  const isPortrait = ({ target: img }, thisPost) => {
+    let obj = {
+      height: img.naturalHeight,
+      width: img.naturalWidth,
+      imageLink: thisPost.post.imageLink
+    };
+    if (img.naturalHeight > img.naturalWidth) {
+      portraitPhoto.push(obj);
+      setPortraitPhoto(portraitPhoto)
+    };
+  };
+
   const toggleZoom = (show) => {
     setShowZoom(show);
   };
 
+  const getHeight = (val) => {
+    var obj = portraitPhoto.find(({ imageLink }) => imageLink === val);
+    return obj ? '724px' : '300px';
+  }
+
   return (
-    <Card className={"MuiProjectCard--01"} id="post-card">
-      <CardMedia
-        className={"MuiCardMedia-root"}
-        style={{ height: "300px" }}
-        image={post.post.imageLink}
-        id="cardImage"
-        onClick={
-          showZoom && !post.adminFlag
-            ? () => post.showZoomModal(post.post.imageLink)
-            : post.adminFlag
-            ? () => post.showEditModal(post.post)
-            : null
-        }
-        onMouseEnter={
-          !showZoom && !post.adminFlag
-            ? () => toggleZoom(true)
-            : null
-        }
-        onMouseLeave={
-          showZoom && !post.adminFlag
-          ? () => toggleZoom(false)
-          : null
-        }
-      >
-        {showZoom && !post.adminFlag ? (
-          <Tooltip title="Zoom">
-            <div className="zoomBtn"></div>
-          </Tooltip>
-        ) : showEdit ? (
-          <Tooltip title="Edit">
-            <div className="editBtn"></div>
-          </Tooltip>
-        ) : null}
-        {post.adminFlag ? <div id="edit-mobile-only" className="editBtn"></div> : null }
-      </CardMedia>
-      <div
+    <Card className={"MuiProjectCard--01"} id="post-card"
+      style={{ height: getHeight(post.post.imageLink) === '300px' ? '458px' : '886px' }}
+    >
+      <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
+        <CardMedia
+          className={"MuiCardMedia-root"}
+          style={{
+            height: getHeight(post.post.imageLink),
+            backgroundPosition: 'bottom center',
+            cursor: 'pointer'
+          }}
+          image={post.post.imageLink}
+          id="cardImage"
+          onClick={
+            !post.adminFlag
+              ? () => openUniquePost(post.post)
+              : post.adminFlag
+                ? () => post.showEditModal(post.post)
+                : null
+          }
+        >
+        </CardMedia>
+        <div>There was an error loading this image</div>
+        <Skeleton animation="wave" variant="rect" height={300} />
+      </ImageLoader>
+      {/* <div
         id="editor-pick"
-        style={{ display: post.post.editorspick ? "block" : "none" }}
+        style={{ display: post.post.editorspick ? "block" : "none", color: 'black' }}
       >
         {" "}
         <img
           alt="loyalty"
           src={loyalty}
           width="18px"
-          style={{ verticalAlign: "middle", marginRight: "3px" }}
+          style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
         />{" "}
         Editor's Pick
-      </div>
+      </div> */}
       <div
         className={"MuiCard__head"}
         style={{
@@ -86,11 +102,12 @@ const PostCard = (post) => {
       >
         <Typography
           className={"MuiTypography--heading"}
-          style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "0px" }}
+          style={{ marginLeft: "15px", marginTop: post.post.editorspick ? "45px" : "15px", marginBottom: "0px" }}
           gutterBottom
         >
           <span
-            style={{ fontSize: "20px", fontWeight: "400", marginBottom: "2px" }}
+            onClick={() => openUniquePost(post.post)}
+            style={{ cursor: 'pointer', fontSize: "20px", fontWeight: "400", marginBottom: "2px" }}
           >
             {post.post.caption}
           </span>
@@ -100,15 +117,29 @@ const PostCard = (post) => {
               padding: "10px",
               borderRadius: "4px",
               width: "100px",
-              overflow: "scroll",
+              overflow: "hidden",
               float: "right",
               zIndex: "1",
               fontSize: "10px",
               fontStyle: "italic",
               marginRight: "20px",
-              marginTop: "6px"
+              marginTop: "6px",
             }}
           >
+            <div
+              id="editor-pick"
+              style={{ display: "block", 
+                color: !post.post.editorspick ? 'white' : 'black',
+                backgroundColor: !post.post.editorspick ? 'rgb(28, 28, 28)' : '#fbc02d' }}
+            >
+              {/* <img
+                alt="loyalty"
+                src={loyalty}
+                width="18px"
+                style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
+              />{" "} */}
+        {!post.post.editorspick ? "Metadata" : "Editor's Pick!"}
+      </div>
             <img
               alt="camera"
               src={cameraLogo}
@@ -181,7 +212,7 @@ const PostCard = (post) => {
           }}
           gutterBottom
         >
-          {Moment(new Date(post.post.submitted)).format("MMMM D, YYYY")}
+          {/* {Moment(new Date(post.post.submitted)).format("MMMM D")} */}
         </Typography>
       </div>
     </Card>

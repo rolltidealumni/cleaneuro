@@ -2,21 +2,36 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { myFirebase } from "../firebase/firebase";
 import validator from "validator";
-import loadingSpinner from "../static/loading.gif";
-import Nav from "./Nav";
-import phoneLogo from "../static/phone.svg";
-import securityLogo from "../static/security.svg";
+import { makeStyles } from "@material-ui/core/styles";
+import arrow from "../static/arrow.svg";
 import firebase from "firebase/app";
+import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import FlatButton from "material-ui/FlatButton";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/Card";
-import Backdrop from "@material-ui/core/Backdrop";
 import CardActions from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
+const CssTextField = makeStyles((theme) => ({
+  root: {
+    "& input:valid:hover + fieldset": {
+      borderColor: "#FBC02D",
+      borderWidth: 2,
+    },
+    "& input:valid:focus + fieldset": {
+      borderColor: "#FBC02D",
+      padding: "4px !important", // override inline-style
+    },
+    "&input:-internal-autofill-selected": {
+      backgroundColor: "lightcoral !important",
+    },
+  },
+  focused: {},
+}));
+
 function Login(props) {
+  let history = useHistory();
+  const classes = CssTextField();
   let { isAuthenticated } = props;
   const [phone, setPhone] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -99,132 +114,111 @@ function Login(props) {
         }
       );
       setAppVerifier(window.recaptchaVerifier);
-    } // eslint-disable-next-line
+    };
+    window.scrollTo(0, 0);
+    // eslint-disable-next-line
   }, [phone, verifyCodeFlag]);
-
-
-  const navigate = () => {
-    var win = window.open("http://blog.ratemyshot.co/", "_blank");
-    win.focus();
-  };
 
   if (isAuthenticated) {
     return <Redirect to="/" />;
   } else {
     return (
-      <div style={{ marginTop: "16px" }}>
-        <Nav
-          loginFlag={true}
-          navigate={() => navigate()}
-          isVerifying={props.isVerifying}
-          isAuthenticated={props.isAuthenticated}
-        />
-        <Backdrop open={true}>
-          <Card
-            className="gagunkLogin"
+      <div>
+        <div id="login-cover-image" />
+        <div
+          id="login-right"
+          style={{
+            display: "block",
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginTop: "16px",
+            width: "40%",
+            float: "right",
+            fontFamily: "Nunito",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h4" style={{ padding: "20px" }}>
+            <div className="wrapper" style={{cursor: "pointer"}}  onClick={() => history.push("/")}></div>
+          </Typography>
+          <div >
+            Artive is <br/>
+            <span> a judgement-free,{" "}</span><br/>
+            <span style={{ color: "#FBC02D", fontWeight: "500" }}>
+              anonymous{" "}
+            </span><br/>
+            photography sharing platform<br/>
+            <span>that gives you a{" "}</span>
+            <span style={{ color: "#FBC02D", fontWeight: "500" }}>
+              no-bullshit{" "}
+            </span><br/>
+            <span>creative space</span><br/>
+            <span>to become a <span style={{ color: "#FBC02D", fontWeight: "500" }}>better artist</span>.</span>
+          </div>
+          {!verifyCodeFlag ? 
+          <TextField
+            InputProps={{ classes, disableUnderline: true }}
             style={{
-              backgroundColor: "lightgray",
-              width: "40%",
-              margin: "auto",
-              marginTop: "auto",
-              textAlign: "center",
-              maxWidth: "580px",
+              margin: "5px",
+              width: "50%",
+              marginBottom: "10px",
+              marginTop: "21px",
             }}
+            id="phone"
+            placeholder={"Mobile Phone"}
+            onChange={(e) => validatePhone(e.target.value)}
+            error={error || apiError !== null}
+            helperText={
+              error
+                ? "Invalid phone number. Must begin with + and country code"
+                : apiError
+                ? apiError
+                : null
+            }
+            type="tel"
+            disabled={verifyCodeFlag}
+            variant="outlined"
+          /> :
+          <TextField
+            InputProps={{ classes, disableUnderline: true }}
+            style={{
+              margin: "5px",
+              width: "50%",
+              marginBottom: "10px",
+              marginTop: "21px",
+              backgroundColor: !verifyCodeFlag ? "lightgray" : undefined,
+            }}
+            id="code"
+            onChange={(e) => validateCode(e.target.value)}
+            placeholder={"Verification Code"}
+            variant="outlined"
+            type="number"
+            maxLength="6"
+            disabled={!verifyCodeFlag}
+          />}
+          <CardActions
+            className="loginButtonContainer"
+            style={{ backgroundColor: "white" }}
           >
-            <CardContent
-              className="loginWindow"
-              style={{ backgroundColor: "white" }}
-            >
-              <Typography variant="h4" style={{ padding: "20px" }}>
-                <div className="wrapper"></div>
-              </Typography>
-              <TextField
-                style={{ margin: "5px", width: "80%", marginBottom: "10px" }}
-                id="phone"
-                onChange={(e) => validatePhone(e.target.value)}
-                label={
-                  <span>
-                    <img
-                      alt="phone"
-                      src={phoneLogo}
-                      width="18px"
-                      style={{ verticalAlign: "middle", marginRight: "5px" }}
-                    />
-                    <span style={{ verticalAlign: "middle" }}>Phone</span>
-                  </span>
-                }
-                error={error || apiError !== null}
-                helperText={
-                  error
-                    ? "Invalid phone number. Must begin with + and country code"
-                    : apiError
-                    ? apiError
-                    : null
-                }
-                type="tel"
-                disabled={verifyCodeFlag}
-                variant="outlined"
-              />
-              <TextField
-                style={{
-                  margin: "5px",
-                  marginBottom: "20px",
-                  width: "80%",
-                  backgroundColor: !verifyCodeFlag ? "lightgray" : undefined,
-                }}
-                id="code"
-                onChange={(e) => validateCode(e.target.value)}
-                label={
-                  <span>
-                    <img
-                      alt="security"
-                      src={securityLogo}
-                      width="18px"
-                      style={{ verticalAlign: "middle", marginRight: "5px" }}
-                    />
-                    <span style={{ verticalAlign: "middle" }}>
-                      Verification Code
-                    </span>
-                  </span>
-                }
-                variant="outlined"
-                type="number"
-                maxLength="6"
-                disabled={!verifyCodeFlag}
-              />
-              <CardActions
-                className="loginButtonContainer"
-                style={{ backgroundColor: "white" }}
-              >
-                <FlatButton
-                  className={
-                    !error && phone !== null
-                      ? "gagunkbtn-submit"
-                      : "gagunkbtn-submit-disabled"
-                  }
-                  id="submit-account"
-                  disabled={error || phone == null || loading}
-                  label={
-                    loading ? (
-                      <img
-                        width="35px"
-                        style={{
-                          verticalAlign: "middle",
-                          paddingBottom: "2px",
-                        }}
-                        src={loadingSpinner}
-                        alt="loading"
-                      />
-                    ) : (
-                      "Login"
-                    )
-                  }
-                  onClick={() => handleSubmit()}
-                />
-              </CardActions>
-            </CardContent>
-          </Card>
-        </Backdrop>
+            <FlatButton
+              className={
+                !error && phone !== null
+                  ? "gagunkbtn-submit"
+                  : "gagunkbtn-submit-disabled"
+              }
+              id="submit-account"
+              disabled={error || phone == null || loading}
+              label={
+                loading ? (
+                  <span style={{color: "black"}}>...</span>
+                ) : (
+                  <img src={arrow} fill={"grey"} height={20} alt="arrow" />
+                )
+              }
+              onClick={() => handleSubmit()}
+            />
+          </CardActions>
+        </div>
       </div>
     );
   }
