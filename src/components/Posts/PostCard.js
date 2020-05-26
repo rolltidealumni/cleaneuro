@@ -212,7 +212,7 @@ const PostCard = (post) => {
           }}
           gutterBottom
         >
-          {Moment(new Date(post.post.submitted)).format("MMMM D")}
+          {/* {Moment(new Date(post.post.submitted)).format("MMMM D")} */}
         </Typography>
       </div>
     </Card>

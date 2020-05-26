@@ -7,6 +7,7 @@ import admin from "../static/admin";
 import Nav from "./Nav";
 import Admin from "./Admin";
 import Form from "./Form";
+import Slide from '@material-ui/core/Slide';
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import Dialog from "@material-ui/core/Dialog";
@@ -14,6 +15,10 @@ import camera from "../static/camera.svg";
 import Posts from "./Posts/Posts";
 import realTime from "../firebase/firebase";
 import { logoutUser } from "../actions";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function Home(props) {
   const [openDialog, setOpenDialog] = useState(false);
@@ -137,6 +142,8 @@ function Home(props) {
       </Snackbar>
       <Dialog
         maxWidth="lg"
+        keepMounted
+        TransitionComponent={Transition}
         onBackdropClick={() => setShowZoomModal(false)}
         open={showZoomModal}
         id="zoomModal"
