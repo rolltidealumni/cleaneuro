@@ -586,13 +586,18 @@ h3 {
     color: white !important;
 }
 
+.submitBtn > div > span {
+  font-weight: bold !important;
+}
+
 .submitBtn {
     width: 50%;
     height: 55px !important;
     border-radius: 0px !important;
     background-color: #FBC02D !important;
     z-index: 12408;
-    color: white !important;
+    font-weight: bold !important;
+    color: rgb(30,30,30) !important;
 }
 
 .resetBtn {
