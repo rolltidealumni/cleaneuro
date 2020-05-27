@@ -189,6 +189,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import lens from "../static/lens.svg";
+import exit from "../static/close.svg";
 import cameraLogo from "../static/camera-two.svg";
 import aperture from "../static/aperture.svg";
 import category from "../static/label.svg";
@@ -224,7 +225,7 @@ const Admin = (props) => {
   const handleSubmit = (e) => {
     setLoading(true);
     realTime.ref("posts/" + props.post.key).update({
-      editorspick: editorspick,
+      editorspick: editorspick || false,
       caption: caption,
       aperture: apertureInput,
       lens: lensInput,
@@ -242,14 +243,15 @@ const Admin = (props) => {
   return (
     <Dialog open={props.openDialog}>
       <DialogTitle id="form-dialog-title">
-        Edit Post{" "}
+        <span style={{ position: 'relative', left: '-136px', fontWeight: "bold" }}>Edit{" "}</span>
         <span
           style={{
-            float: "right",
-            margin: "0px",
-            fontSize: "14px",
-            position: "relative",
-            bottom: "8px",
+            float: 'left',
+            margin: '0px',
+            fontSize: '14px',
+            marginBottom: '0px',
+            position: 'static',
+            marginTop: '30px'
           }}
         >
           Editor's Pick
@@ -260,6 +262,19 @@ const Admin = (props) => {
             inputProps={{ "aria-label": "secondary checkbox" }}
           />
         </span>
+        <img
+          alt="close"
+          src={exit}
+          onClick={() => props.handleClose()}
+          width="18px"
+          style={{ 
+            cursor: 'pointer',
+            verticalAlign: 'middle',
+            marginRight: '5px',
+            position: 'absolute',
+            right: '15px',
+            top: '19px' }}
+        />
       </DialogTitle>
       <DialogContent>
         <div
@@ -268,7 +283,7 @@ const Admin = (props) => {
             backgroundSize: "cover",
             backgroundPosition: "center",
             marginBottom: "20px",
-            marginTop: "20px",
+            marginTop: "0px",
             height: "180px",
           }}
         ></div>
@@ -293,6 +308,11 @@ const Admin = (props) => {
           onBlur={(e) => setCaption(e.target.value)}
           onChange={(e) => setCaption(e.target.value)}
         />
+        <span style={{
+          fontSize: '11px',
+          position: 'absolute',
+          right: '25px',
+         bottom: '235px'}}>{caption.length}/15</span>
         <FormControl variant="outlined" className="half-inputs">
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
@@ -471,21 +491,13 @@ const Admin = (props) => {
                   alt="loading"
                 />
               ) : (
-                "Submit"
-              )
+                  "SAVE"
+                )
             }
             primary={true}
             className="submitBtn"
             onClick={(e) => handleSubmit(e)}
-            style={{ marginBottom: "10px", width: "100%", marginTop: "20px" }}
-          />
-          <br />
-          <FlatButton
-            label="Cancel"
-            primary={true}
-            className="cancelBtn"
-            onClick={() => props.handleClose()}
-            style={{ marginBottom: "10px", width: "100%" }}
+            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
           />
         </center>
       </DialogContent>
@@ -2116,14 +2128,12 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import camera from "../static/camera.svg";
 import homeLogo from "../static/home.svg";
-import trophy from "../static/trophy.svg";
 import info from "../static/info.svg";
 import help from "../static/help.svg";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
 import loginIcon from "../static/account.svg";
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 function Nav(props) {
   let history = useHistory();

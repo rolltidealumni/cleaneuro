@@ -89,6 +89,14 @@ h3 {
     color: #212121 !important;
 }
 
+#char-count {
+  font-size: 11px;
+  position: relative;
+  left: 356px;
+  font-family: Roboto !important;
+  bottom: 9px;
+}
+
 .half-inputs {
     width: 48.5%;
     margin-top: 20px !important;
@@ -363,6 +371,16 @@ h3 {
         margin-left: initial !important;
         margin-bottom: 100px !important;
     }
+
+    #admin-modal .MuiDialog-paper {
+      margin: 0px !important;
+      max-width: none !important
+    }
+
+    .submitBtn {
+      margin-bottom: 30px !important;
+    }
+
     #login-cover-image {
         display: none !important;
     }
@@ -587,6 +605,10 @@ h3 {
 }
 
 .submitBtn > div > span {
+  font-weight: bold !important;
+}
+
+.submitBtn > span {
   font-weight: bold !important;
 }
 

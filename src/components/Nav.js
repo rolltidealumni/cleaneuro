@@ -3,14 +3,15 @@ import $ from "jquery";
 import AppBar from "material-ui/AppBar";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
-import camera from "../static/camera.svg";
+import cameraWhite from "../static/camera-white.svg";
 import homeLogo from "../static/home.svg";
 import info from "../static/info.svg";
 import help from "../static/help.svg";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
-import loginIcon from "../static/account.svg";
+import loginIconBlack from "../static/account.svg";
+import loginIcon from "../static/account-white.svg";
 
 function Nav(props) {
   let history = useHistory();
@@ -75,7 +76,7 @@ function Nav(props) {
                   <img
                     alt="logo"
                     className="iconNav"
-                    src={loginIcon}
+                    src={loginIconBlack}
                     onClick={() => props.logout()}
                   />
                 </Tooltip>
@@ -85,7 +86,7 @@ function Nav(props) {
                 <img
                   alt="logo"
                   className="iconNav"
-                  src={loginIcon}
+                  src={loginIconBlack}
                   style={{ width: "20px" }}
                   onClick={() => props.login()}
                 />
@@ -143,7 +144,7 @@ function Nav(props) {
             label={"•"}
             value={2}
             id="cameraBottom"
-            icon={<img alt="icon2" src={camera} style={{ width: "20px" }} />}
+            icon={<img alt="icon2" src={cameraWhite} style={{ width: "20px" }} />}
           />
         ) : null}
         <BottomNavigationAction
