@@ -58,7 +58,7 @@
     "start": "react-scripts start",
     "build": "gulp && react-scripts build && mv build/index.html build/200.html",
     "build-deploy": "gulp && react-scripts build && mv build/index.html build/200.html && npm run-script deploy",
-    "deploy": "surge build/ www.artive.co",
+    "deploy": "surge build/ https://www.artive.co",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

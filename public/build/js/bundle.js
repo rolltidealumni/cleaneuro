@@ -1381,7 +1381,9 @@ const Form = (props) => {
         aperture: apertureInput,
         lens: lensInput,
         camera: cameraInput,
+        author: props.user,
         category: categoryInput,
+        editorspick: false,
         oneStar: 0,
         twoStars: 0,
         threeStars: 0,
@@ -1758,7 +1760,6 @@ function Home(props) {
   };
 
   const openZoomModal = (image) => {
-    console.log(props.user);
     setZoomImage(image);
     setShowZoomModal(true);
   };
@@ -1848,6 +1849,7 @@ function Home(props) {
         setOpenDialog={(value) => setOpenDialog(value)}
         setSnackOpen={(value) => setSnackOpen(value)}
         handleClose={() => handleClose()}
+        user={userID}
         isVerifying={props.isVerifying}
       />
       <Posts
