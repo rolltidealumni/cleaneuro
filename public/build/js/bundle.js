@@ -2177,15 +2177,6 @@ function Nav(props) {
             className="desktop-nav-icons"
             style={{ padding: "20px !important", verticalAlign: "middle" }}
           >
-            <Tooltip title="Info">
-              <img
-                alt="logo"
-                className="iconNav"
-                src={info}
-                style={{ width: "20px" }}
-                onClick={() => props.navigate()}
-              />
-            </Tooltip>
             <Tooltip title="Help">
               <img
                 alt="help"
@@ -2195,7 +2186,6 @@ function Nav(props) {
                 onClick={() => goToHelp()}
               />
             </Tooltip>
-
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <Tooltip title="Logout">
