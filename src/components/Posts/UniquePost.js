@@ -6,6 +6,7 @@ import cameraLogo from "../../static/camera-two.svg";
 import realTime from "../../firebase/firebase";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
+import loyalty from "../../static/loyalty.svg";
 import Link from "@material-ui/core/Link";
 import { useHistory, useParams } from "react-router-dom";
 import Nav from "../Nav";
@@ -164,9 +165,10 @@ const UniquePost = (post) => {
       </Breadcrumbs>
       <Card className={"MuiProjectCard--01"} id="unique-card"
         style={{
-          height: height ? undefined : '493px',
+          height: height ? undefined : '417px',
           paddingBottom: '19px',
-          width: height === '300px' ? '90%' : '50%'
+          width: height === '300px' ? '90%' : '50%',
+          maxHeight: '790px'
         }}
       >
         <ImageLoader src={postResponse.imageLink} onLoad={(t) => isPortrait(t, postResponse)}>
@@ -174,7 +176,7 @@ const UniquePost = (post) => {
             className={"MuiCardMedia-root"}
             style={{
               height: height ? height : '350px',
-              backgroundPosition: height !== null && height === '300px' ? 'bottom center' : 'center center',
+              backgroundPosition: height !== null && height !== '300px' ? 'bottom center' : 'center center',
             }}
             image={postResponse.imageLink}
             id="cardImage-unique"
@@ -201,32 +203,33 @@ const UniquePost = (post) => {
                 style={{ fontSize: "20px", fontWeight: "400", marginBottom: "2px" }}
               >
                 {postResponse.caption}
-              </span>
-              <span
-                style={{
-                  backgroundColor: "#EEEEEE",
-                  padding: "10px",
-                  borderRadius: "4px",
-                  width: "100px",
-                  overflow: "scroll",
-                  float: "right",
-                  zIndex: "1",
-                  fontSize: "10px",
-                  fontStyle: "italic",
-                  marginRight: "20px",
-                  marginTop: "6px",
-                }}
-              >
                 <div
                   id="editor-pick"
                   style={{
                     display: "block",
-                    color: !postResponse.editorspick ? 'white' : 'black',
-                    backgroundColor: !postResponse.editorspick ? 'rgb(28, 28, 28)' : '#fbc02d'
+                    float: 'right',
+                    color: 'black',
+                    backgroundColor: '#fbc02d'
                   }}
-                >
-
-                  {!postResponse.editorspick ? "Metadata" : "Editor's Pick!"}</div>
+                >Editor's Pick</div>
+              </span>
+              <span
+                style={{
+                  paddingLeft: '40px',
+                  borderRadius: '4px',
+                  marginBottom: '20px',
+                  paddingTop: '3px !important',
+                  paddingBottom: '5px',
+                  width: '100%',
+                  overflow: 'hidden',
+                  float: 'right',
+                  zIndex: '1',
+                  fontSize: '10px',
+                  fontStyle: 'italic',
+                  marginLeft: '40px',
+                  marginTop: '6px',
+                }}
+              >
                 <img
                   alt="camera"
                   src={cameraLogo}
@@ -234,28 +237,25 @@ const UniquePost = (post) => {
                   style={{ verticalAlign: "middle", marginRight: "3px" }}
                 />{" "}
                 {postResponse.camera}
-                <br />
                 <img
                   alt="aperture"
                   src={aperture}
                   width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px'  }}
                 />{" "}
                 {postResponse.aperture}
-                <br />
                 <img
                   alt="lens"
                   src={lens}
                   width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px'  }}
                 />{" "}
                 {postResponse.lens}
-                <br />
                 <img
                   alt="category"
                   src={category}
                   width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px'  }}
                 />{" "}
                 {postResponse.category}
               </span>
@@ -268,7 +268,7 @@ const UniquePost = (post) => {
                 gutterBottom
                 style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
               >
-                <StarRatings
+                {/* <StarRatings
                   rating={postResponse.average ? postResponse.average : 0}
                   starRatedColor="#212121"
                   starHoverColor="#212121"
@@ -276,8 +276,8 @@ const UniquePost = (post) => {
                   numberOfStars={5}
                   name="rating"
                   starDimension="15px"
-                />
-                <span style={{ marginLeft: "5px", fontSize: "13px" }}>
+                /> */}
+                {/* <span style={{ marginLeft: "5px", fontSize: "13px" }}>
                   {postResponse.postLoading && postResponse.postLoading.key === postResponse.key ? (
                     <img
                       width="19px"
@@ -286,11 +286,10 @@ const UniquePost = (post) => {
                       alt="loading"
                     />
                   ) : null}
-                </span>
+                </span> */}
               </Typography>
             </Tooltip> : null}
-          <br />
-          {!postLoading ?
+          {/* {!postLoading ?
             <Typography
               className={"MuiTypography--overline"}
               variant={"overline"}
@@ -302,7 +301,7 @@ const UniquePost = (post) => {
               gutterBottom
             >
               {Moment(new Date(postResponse.submitted)).format("MMMM D, YYYY")}
-            </Typography> : null}
+            </Typography> : null} */}
         </div>
       </Card>
     </>
