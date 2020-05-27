@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import category from "../../static/label.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import lens from "../../static/lens.svg";
+import loyalty from "../../static/loyalty.svg";
 import Skeleton from '@material-ui/lab/Skeleton';
 import StarRatings from "react-star-ratings";
 import Typography from "@material-ui/core/Typography";
@@ -48,7 +49,7 @@ const PostCard = (post) => {
 
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
-      style={{ height: getHeight(post.post.imageLink) === '300px' ? '458px' : '886px' }}
+      style={{ height: getHeight(post.post.imageLink) === '300px' ? '392px' : '804px' }}
     >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
         <CardMedia
@@ -103,36 +104,41 @@ const PostCard = (post) => {
             style={{ cursor: 'pointer', fontSize: "20px", fontWeight: "400", marginBottom: "2px" }}
           >
             {post.post.caption}
-          </span>
-          <span
-            style={{
-              backgroundColor: "#EEEEEE",
-              padding: "10px",
-              borderRadius: "4px",
-              width: "100px",
-              overflow: "hidden",
-              float: "right",
-              zIndex: "1",
-              fontSize: "10px",
-              fontStyle: "italic",
-              marginRight: "20px",
-              marginTop: "6px",
-            }}
-          >
             <div
               id="editor-pick"
-              style={{ display: "block", 
+              style={{
+                display: post.post.editorspick ? "block": "none",
+                float: 'right',
                 color: !post.post.editorspick ? 'white' : 'black',
-                backgroundColor: !post.post.editorspick ? 'rgb(28, 28, 28)' : '#fbc02d' }}
+                backgroundColor: !post.post.editorspick ? 'rgb(28, 28, 28)' : '#fbc02d'
+              }}
             >
-              {/* <img
+              <img
                 alt="loyalty"
                 src={loyalty}
                 width="18px"
                 style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
-              />{" "} */}
-        {!post.post.editorspick ? "Metadata" : "Editor's Pick!"}
-      </div>
+              />{" "}
+              Editor's Pick
+            </div>
+          </span>
+          <span
+            style={{
+              paddingLeft: '40px',
+              borderRadius: '4px',
+              marginBottom: '20px',
+              paddingTop: getHeight(post.post.imageLink) === '300px' ? 'initial' : '0px !important',
+              paddingBottom: '5px',
+              width: '100%',
+              overflow: 'hidden',
+              float: 'right',
+              zIndex: '1',
+              fontSize: '10px',
+              fontStyle: 'italic',
+              marginLeft: '40px',
+              marginTop: '6px',
+            }}
+          >
             <img
               alt="camera"
               src={cameraLogo}
@@ -140,28 +146,25 @@ const PostCard = (post) => {
               style={{ verticalAlign: "middle", marginRight: "3px" }}
             />{" "}
             {post.post.camera}
-            <br />
             <img
               alt="aperture"
               src={aperture}
               width="18px"
-              style={{ verticalAlign: "middle", marginRight: "3px" }}
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
             />{" "}
             {post.post.aperture}
-            <br />
             <img
               alt="lens"
               src={lens}
               width="18px"
-              style={{ verticalAlign: "middle", marginRight: "3px" }}
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
             />{" "}
             {post.post.lens}
-            <br />
             <img
               alt="category"
               src={category}
               width="18px"
-              style={{ verticalAlign: "middle", marginRight: "3px" }}
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
             />{" "}
             {post.post.category}
           </span>
@@ -173,7 +176,7 @@ const PostCard = (post) => {
             gutterBottom
             style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
           >
-            <StarRatings
+            {/* <StarRatings
               rating={post.post.average ? post.post.average : 0}
               starRatedColor="#212121"
               starHoverColor="#212121"
@@ -181,7 +184,7 @@ const PostCard = (post) => {
               numberOfStars={5}
               name="rating"
               starDimension="15px"
-            />
+            /> */}
             <span style={{ marginLeft: "5px", fontSize: "13px" }}>
               {post.postLoading && post.postLoading.key === post.post.key ? (
                 <img

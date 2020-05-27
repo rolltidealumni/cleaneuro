@@ -62,7 +62,7 @@ const UniquePost = (post) => {
     [post, getPost, params.id]);
 
   const route = () => {
-    history.push("/");
+    history.goBack();
   };
 
   const login = () => {

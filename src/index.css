@@ -747,16 +747,16 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 }
 
 #editor-pick {
-    display: block;
-    width: 168px;
-    position: relative;
-    float: left;
-    /* border-radius: 8px; */
-    font-size: 13px;
-    padding: 5px;
-    padding-left: 10px;
-    top: -10px;
-    left: -10px;
+  display: block;
+  width: 108px;
+  position: relative;
+  float: left;
+  border-radius: 8px;
+  font-size: 13px;
+  padding: 5px;
+  padding-left: 10px;
+  top: -3px;
+  right: 15px;
 }
 
 .wrapper {

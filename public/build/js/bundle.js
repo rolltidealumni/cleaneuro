@@ -241,7 +241,7 @@ const Admin = (props) => {
   };
 
   return (
-    <Dialog open={props.openDialog}>
+    <Dialog open={props.openDialog} id="admin-modal">
       <DialogTitle id="form-dialog-title">
         <span style={{ position: 'relative', left: '-136px', fontWeight: "bold" }}>Edit{" "}</span>
         <span
@@ -308,11 +308,7 @@ const Admin = (props) => {
           onBlur={(e) => setCaption(e.target.value)}
           onChange={(e) => setCaption(e.target.value)}
         />
-        <span style={{
-          fontSize: '11px',
-          position: 'absolute',
-          right: '25px',
-         bottom: '235px'}}>{caption.length}/15</span>
+        {/* <span id="char-count">{caption.length}/15</span> */}
         <FormControl variant="outlined" className="half-inputs">
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
@@ -1313,6 +1309,7 @@ import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
 import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
+import exit from "../static/close.svg";
 import DialogContent from "@material-ui/core/DialogContent";
 import InputLabel from "@material-ui/core/InputLabel";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -1405,8 +1402,22 @@ const Form = (props) => {
   };
 
   return (
-    <Dialog open={props.openDialog}>
-      <DialogTitle id="form-dialog-title">Post a Photo!</DialogTitle>
+    <Dialog open={props.openDialog} id="admin-modal">
+      <DialogTitle id="form-dialog-title">Post{" "}
+        <img
+            alt="close"
+            src={exit}
+            onClick={() => props.handleClose()}
+            width="18px"
+            style={{ 
+              cursor: 'pointer',
+              verticalAlign: 'middle',
+              marginRight: '5px',
+              position: 'absolute',
+              right: '15px',
+              top: '19px' }}
+          />
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
           <span
@@ -1653,15 +1664,7 @@ const Form = (props) => {
             className="submitBtn"
             disabled={!image || caption === ""}
             onClick={(e) => handleSubmit(e)}
-            style={{ marginBottom: "10px", width: "100%", marginTop: "20px" }}
-          />
-          <br />
-          <FlatButton
-            label="Cancel"
-            primary={true}
-            className="cancelBtn"
-            onClick={() => props.handleClose()}
-            style={{ marginBottom: "10px", width: "100%" }}
+            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
           />
         </center>
       </DialogContent>
@@ -2126,14 +2129,15 @@ import $ from "jquery";
 import AppBar from "material-ui/AppBar";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
-import camera from "../static/camera.svg";
+import cameraWhite from "../static/camera-white.svg";
 import homeLogo from "../static/home.svg";
 import info from "../static/info.svg";
 import help from "../static/help.svg";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
-import loginIcon from "../static/account.svg";
+import loginIconBlack from "../static/account.svg";
+import loginIcon from "../static/account-white.svg";
 
 function Nav(props) {
   let history = useHistory();
@@ -2198,7 +2202,7 @@ function Nav(props) {
                   <img
                     alt="logo"
                     className="iconNav"
-                    src={loginIcon}
+                    src={loginIconBlack}
                     onClick={() => props.logout()}
                   />
                 </Tooltip>
@@ -2208,7 +2212,7 @@ function Nav(props) {
                 <img
                   alt="logo"
                   className="iconNav"
-                  src={loginIcon}
+                  src={loginIconBlack}
                   style={{ width: "20px" }}
                   onClick={() => props.login()}
                 />
@@ -2266,7 +2270,7 @@ function Nav(props) {
             label={"•"}
             value={2}
             id="cameraBottom"
-            icon={<img alt="icon2" src={camera} style={{ width: "20px" }} />}
+            icon={<img alt="icon2" src={cameraWhite} style={{ width: "20px" }} />}
           />
         ) : null}
         <BottomNavigationAction
