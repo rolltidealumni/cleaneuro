@@ -16,6 +16,14 @@ body {
     box-shadow: none !important;
 }
 
+#mobile-filter-icon {
+  display: none !important;
+}
+
+#web-filter-row {
+  display: block !important;
+}
+
 #filterRow {
   height: 40px;
   left: 40px;
@@ -362,6 +370,14 @@ h3 {
 @media only screen and (max-width: 1000px) {
   .cardContainer {width: 100% !important;}
   #post-card {width: 100% !important;}
+
+  #mobile-filter-icon {
+    display: block !important;
+  }
+
+  #web-filter-row {
+    display: none !important;
+  }
 }
 
 @media only screen and (max-width: 632px) {

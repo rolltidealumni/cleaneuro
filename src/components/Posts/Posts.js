@@ -11,13 +11,17 @@ import {
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Tooltip from "@material-ui/core/Tooltip";
+import Popover from "@material-ui/core/Popover";
 import FlatButton from "material-ui/FlatButton";
 import InputLabel from "@material-ui/core/InputLabel";
 import Box from "@material-ui/core/Box";
 import cameraLogo from "../../static/camera-two.svg";
+import filter from "../../static/filter.svg";
 import lens from "../../static/lens.svg";
 import aperture from "../../static/aperture.svg";
 import category from "../../static/label.svg";
+import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import {
   FormControl
 } from "@material-ui/core";
@@ -223,8 +227,282 @@ const Posts = (props) => {
   return (
     <div>
       <div id="sort-pagination" >
+          <PopupState variant="popover" popupId="mobile-filter-icon">
+            {(popupState) => (
+              <div id="mobile-filter-icon">
+                <Tooltip title="Filter">
+                  <img
+                    id="filterIcon"
+                    src={filter}
+                    alt="filter"
+                    {...bindTrigger(popupState)}
+                    style={{ float: "right" }}
+                  />
+                </Tooltip>
+                <Popover
+                  // marginThreshold={86}
+                  {...bindPopover(popupState)}
+                  // anchorPosition={{ top: 10, left: 20 }}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                >
+                  <Box p={2}>
+                    <FormControl
+                      variant="outlined"
+                      style={{
+                        width: "200px",
+                        marginTop: "20px",
+                      }}
+                    >
+                      <InputLabel id="demo-simple-select-helper-label">
+                        <img
+                          alt="camera"
+                          src={cameraLogo}
+                          width="18px"
+                          style={{ verticalAlign: "middle", marginRight: "5px" }}
+                        />{" "}
+                        <span>Camera</span>
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        onChange={(e) => {
+                          setCameraValue(e.target.value);
+                          updateFilter(e.target.value, "camera");
+                        }}
+                        value={cameraValue}
+                        label={
+                          <span>
+                            <img
+                              alt="camera"
+                              src={cameraLogo}
+                              width="18px"
+                              style={{
+                                verticalAlign: "middle",
+                                marginRight: "5px",
+                              }}
+                            />
+                            <span style={{ verticalAlign: "middle" }}>
+                              Camera
+                          </span>
+                          </span>
+                        }
+                      >
+                        <MenuItem value=""> </MenuItem>
+                        {cameraList.map((camera, i) => {
+                          return (
+                            <MenuItem key={i} value={camera}>
+                              {camera}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    <br />
+                    <FormControl
+                      variant="outlined"
+                      style={{
+                        width: "200px",
+                        marginTop: "20px",
+                      }}
+                    >
+                      <InputLabel id="demo-simple-select-outlined-label">
+                        <span>
+                          <img
+                            alt="lens"
+                            src={lens}
+                            width="18px"
+                            style={{
+                              verticalAlign: "middle",
+                              marginRight: "5px",
+                            }}
+                          />
+                          <span style={{ verticalAlign: "middle" }}>Lens</span>
+                        </span>
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        onChange={(e) => {
+                          setLensValue(e.target.value);
+                          updateFilter(e.target.value, "lens");
+                        }}
+                        value={lensValue}
+                        label={
+                          <span>
+                            <img
+                              alt="lens"
+                              src={lens}
+                              width="18px"
+                              style={{
+                                verticalAlign: "middle",
+                                marginRight: "5px",
+                              }}
+                            />
+                            <span style={{ verticalAlign: "middle" }}>Lens</span>
+                          </span>
+                        }
+                      >
+                        <MenuItem value=""> </MenuItem>
+                        {lensList.map((lens, i) => {
+                          return (
+                            <MenuItem key={i} value={lens}>
+                              {lens}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    <br />
+                    <FormControl
+                      variant="outlined"
+                      style={{
+                        width: "200px",
+                        marginTop: "20px",
+                      }}
+                    >
+                      <InputLabel id="demo-simple-select-outlined-label">
+                        <span>
+                          <img
+                            alt="aperture"
+                            src={aperture}
+                            width="18px"
+                            style={{
+                              verticalAlign: "middle",
+                              marginRight: "5px",
+                            }}
+                          />
+                          <span style={{ verticalAlign: "middle" }}>
+                            Aperture
+                        </span>
+                        </span>
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        onChange={(e) => {
+                          setApertureValue(e.target.value);
+                          updateFilter(e.target.value, "aperture");
+                        }}
+                        value={apertureValue}
+                        label={
+                          <span>
+                            <img
+                              alt="category"
+                              src={aperture}
+                              width="18px"
+                              style={{
+                                verticalAlign: "middle",
+                                marginRight: "5px",
+                              }}
+                            />
+                            <span style={{ verticalAlign: "middle" }}>
+                              Aperture
+                          </span>
+                          </span>
+                        }
+                      >
+                        <MenuItem value=""> </MenuItem>
+                        {apertureList.map((aperture, i) => {
+                          return (
+                            <MenuItem key={i} value={aperture}>
+                              {aperture}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    <br />
+                    <FormControl
+                      variant="outlined"
+                      style={{
+                        width: "200px",
+                        marginTop: "20px",
+                      }}
+                    >
+                      <InputLabel id="demo-simple-select-outlined-label">
+                        <span>
+                          <img
+                            alt="lens"
+                            src={category}
+                            width="18px"
+                            style={{
+                              verticalAlign: "middle",
+                              marginRight: "5px",
+                            }}
+                          />
+                          <span style={{ verticalAlign: "middle" }}>
+                            Category
+                        </span>
+                        </span>
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        onChange={(e) => {
+                          setCategoryValue(e.target.value);
+                          updateFilter(e.target.value, "category");
+                        }}
+                        value={categoryValue}
+                        label={
+                          <span>
+                            <img
+                              alt="lens"
+                              src={category}
+                              width="18px"
+                              style={{
+                                verticalAlign: "middle",
+                                marginRight: "5px",
+                              }}
+                            />
+                            <span style={{ verticalAlign: "middle" }}>
+                              Category
+                          </span>
+                          </span>
+                        }
+                      >
+                        <MenuItem value="">
+                          <em>none</em>
+                        </MenuItem>
+                        <MenuItem value={"automotive"}>automotive</MenuItem>
+                        <MenuItem value={"black & white"}>black & white</MenuItem>
+                        <MenuItem value={"cityscape"}>cityscape</MenuItem>
+                        <MenuItem value={"film"}>film</MenuItem>
+                        <MenuItem value={"landscape"}>landscape</MenuItem>
+                        <MenuItem value={"nature"}>nature</MenuItem>
+                        <MenuItem value={"portrait"}>portrait</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <center>
+                      <br />
+                      <FlatButton
+                        label="RESET"
+                        primary={true}
+                        className="cancelBtn"
+                        onClick={() => {
+                          setApertureValue("");
+                          setLensValue("");
+                          setCameraValue("");
+                          setCategoryValue("");
+                          setFilterValue({ key: "", value: "" });
+                        }}
+                        style={{ marginBottom: "10px", width: "100%" }}
+                      />
+                    </center>
+                  </Box>
+                </Popover>
+              </div>
+            )}
+          </PopupState>
+
         <div>
-          <Card style={{ backgroundColor: 'transparent' }} >
+          <Card style={{ backgroundColor: 'transparent' }} id="web-filter-row">
             <Box id="filterRow" p={2}>
               <FormControl
                 variant="outlined"
@@ -237,7 +515,7 @@ const Posts = (props) => {
                   <img alt="camera"
                     src={cameraLogo}
                     width="18px"
-                    style={{verticalAlign: "middle", marginRight: "5px"}}
+                    style={{ verticalAlign: "middle", marginRight: "5px" }}
                   /><span>Camera</span>
                 </InputLabel>
                 <Select labelId="demo-simple-select-outlined-label"
@@ -455,10 +733,10 @@ const Posts = (props) => {
                           }
                         }
                       /> <span style={
-                          {
-                            verticalAlign: "middle"
-                          }
-                        } > Category </span> </span>}>
+                        {
+                          verticalAlign: "middle"
+                        }
+                      } > Category </span> </span>}>
                   <MenuItem value="" ><em> none </em></MenuItem>
                   <MenuItem value={"automotive"} > automotive </MenuItem> <MenuItem value={"black & white"} > black & white </MenuItem>
                   <MenuItem value={"cityscape"} > cityscape </MenuItem> <MenuItem value={"film"} > film </MenuItem> <MenuItem value={"landscape"} > landscape </MenuItem> <MenuItem value={"nature"} > nature </MenuItem>
