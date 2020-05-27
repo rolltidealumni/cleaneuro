@@ -347,6 +347,7 @@ h3 {
 .cards {
     align-items: center;
     min-width: 545px;
+    max-width: 900px;
     display: flow-root;
     margin-bottom: 100px !important;
     width: 70%;
