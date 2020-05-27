@@ -69,7 +69,7 @@ const UniquePost = (post) => {
   const login = () => {
     history.push("/login");
   };
-  
+
   // eslint-disable-next-line 
   const getPost = async (mounted, postKey) => {
     setPostLoading(true);
@@ -211,7 +211,13 @@ const UniquePost = (post) => {
                     color: 'black',
                     backgroundColor: '#fbc02d'
                   }}
-                >Editor's Pick</div>
+                >
+                  <img
+                    alt="loyalty"
+                    src={loyalty}
+                    width="18px"
+                    style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
+                  />{" "}Editor's Pick</div>
               </span>
               <span
                 style={{
@@ -241,21 +247,21 @@ const UniquePost = (post) => {
                   alt="aperture"
                   src={aperture}
                   width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px'  }}
+                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
                 />{" "}
                 {postResponse.aperture}
                 <img
                   alt="lens"
                   src={lens}
                   width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px'  }}
+                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
                 />{" "}
                 {postResponse.lens}
                 <img
                   alt="category"
                   src={category}
                   width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px'  }}
+                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
                 />{" "}
                 {postResponse.category}
               </span>
