@@ -4,7 +4,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
 import cameraLogo from "../../static/camera-two.svg";
 import realTime from "../../firebase/firebase";
-import loyalty from "../../static/loyalty.svg";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
 import Link from "@material-ui/core/Link";
@@ -26,11 +25,8 @@ const UniquePost = (post) => {
   let history = useHistory();
   const [portraitPhoto, setPortraitPhoto] = useState([{}]);
   let params = useParams();
-  const [openDialog, setOpenDialog] = useState(false);
   const [height, setHeight] = useState(null);
-  const [showZoom, setShowZoom] = useState(false);
   const [postLoading, setPostLoading] = useState(false);
-  const [showEdit] = useState(false);
   const [postResponse, setPostResponse] = useState({});
 
   const changeRating = (newRating, name) => {
@@ -42,13 +38,7 @@ const UniquePost = (post) => {
   const handleOpen = () => {
     if (!post.isAuthenticated) {
       history.push("/login");
-    } else {
-      setOpenDialog(true);
     }
-  };
-
-  const toggleZoom = (show) => {
-    setShowZoom(show);
   };
 
   const navigate = () => {
@@ -65,10 +55,11 @@ const UniquePost = (post) => {
     () => {
       let mounted = true;
       window.scrollTo(0, 0);
+      // eslint-disable-next-line 
       getPost(mounted, params.id);
       return () => (mounted = false);
-    },
-    [post]);
+    }, // eslint-disable-next-line 
+    [post, getPost, params.id]);
 
   const route = () => {
     history.push("/");
@@ -77,7 +68,8 @@ const UniquePost = (post) => {
   const login = () => {
     history.push("/login");
   };
-
+  
+  // eslint-disable-next-line 
   const getPost = async (mounted, postKey) => {
     setPostLoading(true);
     await realTime
@@ -187,18 +179,6 @@ const UniquePost = (post) => {
             image={postResponse.imageLink}
             id="cardImage-unique"
           >
-            {showZoom && !postResponse.adminFlag ? (
-              <Tooltip title="Zoom">
-                <div className="zoomBtn"></div>
-              </Tooltip>
-            ) : showEdit ? (
-              <Tooltip title="Edit">
-                <div className="editBtn"></div>
-              </Tooltip>
-            ) : null}
-            {postResponse.adminFlag ? (
-              <div id="edit-mobile-only" className="editBtn"></div>
-            ) : null}
           </CardMedia>
           <div>There was an error loading this image</div>
           <Skeleton animation="wave" variant="rect" height={300} />

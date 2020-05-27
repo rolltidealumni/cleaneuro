@@ -8,24 +8,16 @@ import Card from "@material-ui/core/Card";
 import {
   connect
 } from "react-redux";
-import Loader from "react-loader-spinner";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import FlatButton from "material-ui/FlatButton";
 import InputLabel from "@material-ui/core/InputLabel";
-import Tooltip from "@material-ui/core/Tooltip";
 import Box from "@material-ui/core/Box";
-import Popover from "@material-ui/core/Popover";
 import cameraLogo from "../../static/camera-two.svg";
 import lens from "../../static/lens.svg";
 import aperture from "../../static/aperture.svg";
 import category from "../../static/label.svg";
-import filter from "../../static/filter.svg";
-import PopupState, {
-  bindTrigger,
-  bindPopover
-} from "material-ui-popup-state";
 import {
   FormControl
 } from "@material-ui/core";

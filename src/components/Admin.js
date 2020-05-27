@@ -133,6 +133,11 @@ const Admin = (props) => {
           onBlur={(e) => setCaption(e.target.value)}
           onChange={(e) => setCaption(e.target.value)}
         />
+        <span style={{
+          fontSize: '11px',
+          position: 'absolute',
+          right: '25px',
+         bottom: '235px'}}>{caption.length}/15</span>
         <FormControl variant="outlined" className="half-inputs">
           <InputLabel id="demo-simple-select-outlined-label">
             <span>

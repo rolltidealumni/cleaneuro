@@ -3,7 +3,6 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
 import cameraLogo from "../../static/camera-two.svg";
-import loyalty from "../../static/loyalty.svg";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
 import ImageLoader from "react-load-image";
@@ -18,8 +17,6 @@ import Typography from "@material-ui/core/Typography";
 const PostCard = (post) => {
   let history = useHistory();
   Moment.locale("en");
-  const [showZoom, setShowZoom] = useState(false);
-  const [showEdit] = useState(false);
   const [portraitPhoto, setPortraitPhoto] = useState([{}]);
 
   const changeRating = (newRating, name) => {
@@ -42,10 +39,6 @@ const PostCard = (post) => {
       portraitPhoto.push(obj);
       setPortraitPhoto(portraitPhoto)
     };
-  };
-
-  const toggleZoom = (show) => {
-    setShowZoom(show);
   };
 
   const getHeight = (val) => {

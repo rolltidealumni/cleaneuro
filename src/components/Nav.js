@@ -5,14 +5,12 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import camera from "../static/camera.svg";
 import homeLogo from "../static/home.svg";
-import trophy from "../static/trophy.svg";
 import info from "../static/info.svg";
 import help from "../static/help.svg";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
 import loginIcon from "../static/account.svg";
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 function Nav(props) {
   let history = useHistory();
