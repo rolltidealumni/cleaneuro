@@ -1811,7 +1811,7 @@ function Home(props) {
   return (
     <div style={{ marginTop: "16px", color: "#212121" }}>
       {!props.loginFlag ? (
-        <Tooltip title="Post a Photo">
+        <Tooltip title="Post">
           <div onClick={() => handleOpen()} id="cameraBtn">
             <img
               alt="logo"
@@ -2165,7 +2165,7 @@ import $ from "jquery";
 import AppBar from "material-ui/AppBar";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
-import cameraWhite from "../static/camera-white.svg";
+import cameraWhite from "../static/camera.svg";
 import homeLogo from "../static/home.svg";
 import info from "../static/info.svg";
 import help from "../static/help.svg";
@@ -2213,6 +2213,16 @@ function Nav(props) {
             className="desktop-nav-icons"
             style={{ padding: "20px !important", verticalAlign: "middle" }}
           >
+            <span id="nav-post">
+              <Tooltip title="Post" >
+                <img
+                  alt="camera"
+                  className="iconNav"
+                  src={cameraWhite}
+                  onClick={() => props.handleOpen()}
+                />
+              </Tooltip>
+            </span>
             <Tooltip title="Help">
               <img
                 alt="help"
@@ -2224,14 +2234,16 @@ function Nav(props) {
             </Tooltip>
             {props.isAuthenticated ? (
               !props.loginFlag ? (
-                <Tooltip title="Logout">
-                  <img
-                    alt="logo"
-                    className="iconNav"
-                    src={loginIconBlack}
-                    onClick={() => props.logout()}
-                  />
-                </Tooltip>
+                <>
+                  <Tooltip title="Logout">
+                    <img
+                      alt="logo"
+                      className="iconNav"
+                      src={loginIconBlack}
+                      onClick={() => props.logout()}
+                    />
+                  </Tooltip>
+                </>
               ) : null
             ) : !props.loginFlag ? (
               <Tooltip title="Login">

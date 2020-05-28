@@ -17,6 +17,10 @@ body {
     margin-bottom: 200px !important;
 }
 
+#nav-post {
+  display: none !important;
+}
+
 .MuiPaper-elevation1 {
     box-shadow: none !important;
 }
@@ -394,6 +398,8 @@ h3 {
         margin-bottom: 100px !important;
     }
 
+
+
     #snack {
       display: none !important;
     }
@@ -520,6 +526,10 @@ h3 {
     .MuiProjectCard--01 {
         width: 100% !important;
     }
+
+  #nav-post {
+    display: inline-block !important;
+  }
     #unique-card {
         width: 90% !important;
     }

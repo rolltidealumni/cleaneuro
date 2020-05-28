@@ -101,7 +101,7 @@ function Home(props) {
   return (
     <div style={{ marginTop: "16px", color: "#212121" }}>
       {!props.loginFlag ? (
-        <Tooltip title="Post a Photo">
+        <Tooltip title="Post">
           <div onClick={() => handleOpen()} id="cameraBtn">
             <img
               alt="logo"
