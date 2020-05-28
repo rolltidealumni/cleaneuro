@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
+import twitter from "../../static/twitter.svg";
+import facebook from "../../static/facebook.svg";
 import cameraLogo from "../../static/camera-two.svg";
 import realTime from "../../firebase/firebase";
 import loading from "../../static/loading.gif";
@@ -310,6 +312,42 @@ const UniquePost = (post) => {
             </Typography> : null} */}
         </div>
       </Card>
+      {!postLoading ? (<div id="footerArea" >
+        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <a href="https://blog.ratemyshot.co/contact" target="_blank" rel="noopener noreferrer" > Help </a>{" "} /
+                          {" "} <a href="https://blog.ratemyshot.co/privacy"
+            target="_blank"
+            rel="noopener noreferrer" >
+            Privacy Policy </a> / <a alt="twitter"
+            href="https://twitter.com/artiveco"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img alt="twitter" src={
+              twitter
+            }           
+            width="10px"
+            style={
+              {
+                cursor: 'pointer',
+                verticalAlign: "middle",
+                marginLeft: "0px",
+              }
+            }
+          /></a><a alt="twitter"
+          href="https://facebook.com/artive.co"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><img alt="facebook" src={
+            facebook
+          }           
+          width="10px"
+          style={
+            {
+              cursor: 'pointer',
+              verticalAlign: "middle",
+              marginLeft: "3px",
+            }
+          }
+        /></a></span ></div>) : null}
     </>
   );
 };

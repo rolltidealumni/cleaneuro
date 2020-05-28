@@ -2248,64 +2248,6 @@ function Nav(props) {
         }
         iconStyleLeft={{ display: "none" }}
       />
-      {/* <BottomNavigation
-        value={value}
-        className="bottom-nav"
-        onChange={(event, newValue) => {
-          setValue(newValue);
-          switch (newValue) {
-            case 0:
-              history.push("/");
-              break;
-            case 1:
-              props.navigate();
-              break;
-            case 2:
-              props.handleOpen();
-              break;
-            case 3:
-              if (!props.loginFlag && props.isAuthenticated) {
-                props.logout();
-                history.push("/");
-                break;
-              } else if (!props.loginFlag) {
-                props.login();
-                break;
-              }
-              break;
-            case 4:
-              goToHelp();
-              break;
-            case 5:
-              history.push("/contests");
-              break;
-            default: 
-            break;
-          }
-        }}
-        showLabels={false}
-      >
-        <BottomNavigationAction
-          label={"•"}
-          id="homeBottom"
-          value={0}
-          icon={<img alt="icon0" src={homeLogo} style={{ width: "20px" }} />}
-        />
-        {props.isAuthenticated ? (
-          <BottomNavigationAction
-            label={"•"}
-            value={2}
-            id="cameraBottom"
-            icon={<img alt="icon2" src={cameraWhite} style={{ width: "20px" }} />}
-          />
-        ) : null}
-        <BottomNavigationAction
-          label={"•"}
-          value={3}
-          id="loginBottom"
-          icon={<img alt="icon3" src={loginIcon} style={{ width: "20px" }} />}
-        />
-      </BottomNavigation> */}
     </span>
   );
 }
