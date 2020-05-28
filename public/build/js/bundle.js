@@ -240,6 +240,17 @@ const Admin = (props) => {
     setCategoryInput("");
   };
 
+  const handleDelete = (e) => {
+    setLoading(true);
+    realTime.ref("posts/" + props.post.key).remove();
+    props.setOpenDialog(false);
+    setCameraInput("");
+    setLensInput("");
+    setApertureInput("");
+    setCategoryInput("");
+  };
+
+
   return (
     <Dialog open={props.openDialog} id="admin-modal">
       <DialogTitle id="form-dialog-title">
@@ -493,6 +504,27 @@ const Admin = (props) => {
             primary={true}
             className="submitBtn"
             onClick={(e) => handleSubmit(e)}
+            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+          />
+          <FlatButton
+            label={
+              loading ? (
+                <img
+                  width="35px"
+                  style={{
+                    verticalAlign: "middle",
+                    paddingBottom: "2px",
+                  }}
+                  src={loadingSpinner}
+                  alt="loading"
+                />
+              ) : (
+                  "DELETE"
+                )
+            }
+            primary={true}
+            className="deleteBtn"
+            onClick={(e) => handleDelete(e)}
             style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
           />
         </center>

@@ -168,14 +168,14 @@ const UniquePost = (post) => {
           height: height ? undefined : '417px',
           paddingBottom: '19px',
           width: height === '300px' ? '90%' : '50%',
-          maxHeight: '790px'
+          maxHeight: '1064px'
         }}
       >
         <ImageLoader src={postResponse.imageLink} onLoad={(t) => isPortrait(t, postResponse)}>
           <CardMedia
             className={"MuiCardMedia-root"}
             style={{
-              height: height ? height : '350px',
+              height: height ? '1000px' : '350px',
               backgroundPosition: height !== null && height !== '300px' ? 'bottom center' : 'center center',
             }}
             image={postResponse.imageLink}

@@ -9,6 +9,8 @@ body {
     font-family: 'Nunito' !important;
 }
 
+.grecaptcha-badge { opacity:0;}
+
 #unique-card {
     margin-top: 150px !important;
     margin: auto;
