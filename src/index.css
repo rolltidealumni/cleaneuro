@@ -643,6 +643,26 @@ h3 {
     color: rgb(30,30,30) !important;
 }
 
+.deleteBtn {
+  width: 50%;
+  margin: 0px !important;
+  height: 55px !important;
+  border-radius: 0px !important;
+  background-color: transparent !important;
+  z-index: 12408;
+  font-weight: bold !important;
+  color: rgb(30,30,30) !important;
+}
+
+
+.deleteBtn > div > span {
+  font-weight: bold !important;
+}
+
+.deleteBtn > span {
+  font-weight: bold !important;
+}
+
 .resetBtn {
   vertical-align: bottom !important;
   height: 55px !important;
