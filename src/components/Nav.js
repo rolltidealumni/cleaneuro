@@ -86,7 +86,7 @@ function Nav(props) {
         }
         iconStyleLeft={{ display: "none" }}
       />
-      <BottomNavigation
+      {/* <BottomNavigation
         value={value}
         className="bottom-nav"
         onChange={(event, newValue) => {
@@ -143,7 +143,7 @@ function Nav(props) {
           id="loginBottom"
           icon={<img alt="icon3" src={loginIcon} style={{ width: "20px" }} />}
         />
-      </BottomNavigation>
+      </BottomNavigation> */}
     </span>
   );
 }

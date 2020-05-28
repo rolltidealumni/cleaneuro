@@ -83,7 +83,7 @@ body {
     overflow: hidden !important;
 }
 
-.bottom-nav {
+/* .bottom-nav {
     display: none !important;
     position: fixed !important;
     bottom: 0px !important;
@@ -91,7 +91,7 @@ body {
     background-color: #212121 !important;
     z-index: 10000000023094;
     color: white !important;
-}
+} */
 
 .mc-layout__bannerContent {
     display: none;
@@ -418,21 +418,19 @@ h3 {
     #unique-card {
         width: 90% !important;
     }
-    .bottom-nav {
-        display: flex !important;
+    /* .bottom-nav {
+        display: none !important;
         position: fixed !important;
         bottom: 0px !important;
         width: 100%;
         background-color: #212121 !important;
         z-index: 10000000023094;
         color: white !important;
-    }
+    } */
     .MuiDialog-paper {
         margin-top: 0px !important;
     }
-    .desktop-nav-icons {
-        display: none !important;
-    }
+
     #edit-mobile-only {
         display: inline-flex;
         position: relative;
@@ -546,24 +544,21 @@ h3 {
         width: 100%;
         position: absolute;
     }
-    .desktop-nav-icons {
-        display: none !important;
-    }
     .loginWindow {
         height: 100%;
     }
     .gagunkbtn-submit {
         height: 80px !important;
     }
-    .bottom-nav {
-        display: flex !important;
+    /* .bottom-nav {
+        display: none !important;
         position: fixed !important;
         bottom: 0px !important;
         width: 100%;
         background-color: #212121 !important;
         z-index: 10000000023094;
         color: white !important;
-    }
+    } */
     #cameraBtn {
         display: none !important;
         padding: 10px;
