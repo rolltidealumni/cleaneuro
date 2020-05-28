@@ -136,7 +136,7 @@ h3 {
     width: 30px !important;
 }
 
-#cardImage:hover {
+.cardImage:hover {
     cursor: pointer !important;
 }
 
@@ -392,6 +392,10 @@ h3 {
         margin-top: 175px;
         margin-left: initial !important;
         margin-bottom: 100px !important;
+    }
+
+    #snack {
+      display: none !important;
     }
 
     #admin-modal .MuiDialog-paper {

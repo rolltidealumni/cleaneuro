@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
+import jquery from 'jquery';
 import cameraLogo from "../../static/camera-two.svg";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
@@ -40,30 +41,39 @@ const PostCard = (post) => {
       portraitPhoto.push(obj);
       setPortraitPhoto(portraitPhoto)
     };
+
+    if (thisPost) {
+      jquery('#'+thisPost.key).css('height', img.naturalHeight);
+    }
   };
 
   const getHeight = (val) => {
-    var obj = portraitPhoto.find(({ imageLink }) => imageLink === val);
+    var obj = portraitPhoto.find(({ imageLink }) => imageLink === val.imageLink);
+    let height = obj ? '724px' : '300px';
+    if (val) {
+      jquery('#'+val.key).css('height', height);
+    }
+
+    if (height === '300px')  jquery('#'+val.key).css('background-position', 'center');
     return obj ? '724px' : '300px';
   }
 
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
       style={{ 
-        height: getHeight(post.post.imageLink) === '300px' ? '392px' : '804px',
-        float: getHeight(post.post.imageLink) !== '300px' ? 'right' : undefined 
+        height: getHeight(post.post) === '300px' ? '392px' : '804px',
+        float: getHeight(post.post) !== '300px' ? 'right' : undefined 
       }}
     >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
         <CardMedia
-          className={"MuiCardMedia-root"}
+          id={post.post.key}
+          className={"MuiCardMedia-root cardImage"}
           style={{
-            height: getHeight(post.post.imageLink),
             backgroundPosition: 'bottom center',
             cursor: 'pointer'
           }}
           image={post.post.imageLink}
-          id="cardImage"
           onClick={
             !post.adminFlag
               ? () => openUniquePost(post.post)
@@ -76,19 +86,6 @@ const PostCard = (post) => {
         <div>There was an error loading this image</div>
         <Skeleton animation="wave" variant="rect" height={300} />
       </ImageLoader>
-      {/* <div
-        id="editor-pick"
-        style={{ display: post.post.editorspick ? "block" : "none", color: 'black' }}
-      >
-        {" "}
-        <img
-          alt="loyalty"
-          src={loyalty}
-          width="18px"
-          style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
-        />{" "}
-        Editor's Pick
-      </div> */}
       <div
         className={"MuiCard__head"}
         style={{
@@ -130,7 +127,7 @@ const PostCard = (post) => {
               paddingLeft: '40px',
               borderRadius: '4px',
               marginBottom: '20px',
-              paddingTop: getHeight(post.post.imageLink) === '300px' ? 'initial' : '0px !important',
+              paddingTop: getHeight(post.post) === '300px' ? 'initial' : '0px !important',
               paddingBottom: '5px',
               width: '100%',
               overflow: 'hidden',

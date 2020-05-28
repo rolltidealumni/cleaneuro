@@ -122,6 +122,7 @@ function Home(props) {
         isAuthenticated={props.isAuthenticated}
       />
       <Snackbar
+        id="snack"
         open={snackOpen}
         autoHideDuration={6000}
         onClose={() => handleClose()}
@@ -131,6 +132,7 @@ function Home(props) {
         </Alert>
       </Snackbar>
       <Snackbar
+        id="snack"
         open={updateOpen}
         autoHideDuration={6000}
         onClose={() => handleClose()}
