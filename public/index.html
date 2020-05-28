@@ -9,9 +9,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,600&display=swap" rel="stylesheet">
     <title>artive</title>
-    <!-- <script type="text/javascript" src="//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">window.dojoRequire(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us18.list-manage.com","uuid":"c61144ecc2d68517a99c310af","lid":"0a1a4f39b1","uniqueMethods":true}) })</script> -->
   </head>
   <body>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-analytics.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAmVWAPTXaccP_j52dVJwzEyjHO-XTUoxI",
+        authDomain: "gagunk-app.firebaseapp.com",
+        databaseURL: "https://gagunk-app.firebaseio.com",
+        projectId: "gagunk-app",
+        storageBucket: "gagunk-app.appspot.com",
+        messagingSenderId: "214279252823",
+        appId: "1:214279252823:web:d97b07d9c4d3684878ec12",
+        measurementId: "G-D56H64SVLV"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>

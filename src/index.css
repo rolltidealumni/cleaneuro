@@ -1,4 +1,7 @@
 /* yellow: #FBC02D*/
+html, body {
+  height:100%;
+} 
 
 body {
     margin: 0;
@@ -494,6 +497,7 @@ h3 {
     background-image: url('./static/login.jpg');
     width: 60%;
     min-height: 1000px;
+    margin-bottom: -9px !important;
     height: 100%;
     max-height: 1800px;
     background-size: cover;
