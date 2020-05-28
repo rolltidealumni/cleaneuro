@@ -17,6 +17,8 @@ import FlatButton from "material-ui/FlatButton";
 import InputLabel from "@material-ui/core/InputLabel";
 import Box from "@material-ui/core/Box";
 import cameraLogo from "../../static/camera-two.svg";
+import twitter from "../../static/twitter.svg";
+import facebook from "../../static/facebook.svg";
 import filter from "../../static/filter.svg";
 import lens from "../../static/lens.svg";
 import aperture from "../../static/aperture.svg";
@@ -812,7 +814,37 @@ const Posts = (props) => {
                           {" "} <a href="https://blog.ratemyshot.co/privacy"
             target="_blank"
             rel="noopener noreferrer" >
-            Privacy Policy </a> </span > </div>) : null} </div>);
+            Privacy Policy </a> / <a alt="twitter"
+            href="https://twitter.com/artiveco"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img alt="twitter" src={
+              twitter
+            }           
+            width="10px"
+            style={
+              {
+                cursor: 'pointer',
+                verticalAlign: "middle",
+                marginLeft: "0px",
+              }
+            }
+          /></a><a alt="twitter"
+          href="https://facebook.com/artive.co"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><img alt="facebook" src={
+            facebook
+          }           
+          width="10px"
+          style={
+            {
+              cursor: 'pointer',
+              verticalAlign: "middle",
+              marginLeft: "3px",
+            }
+          }
+        /></a></span ></div>) : null} </div>);
 };
 
 function mapStateToProps(state) {
