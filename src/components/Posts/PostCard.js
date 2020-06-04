@@ -111,7 +111,7 @@ const PostCard = (post) => {
               width="18px"
               style={{ verticalAlign: "middle", marginRight: "5px", marginBottom: '4px' }}
             />
-            {post.post.location.length > 20 ? (post.post.location.substring(0, 20 - 3) + "...") : post.post.location}
+            {post.post.location && post.post.location.length > 20 ? (post.post.location.substring(0, 20 - 3) + "...") : post.post.location}
             <div
               id="editor-pick"
               style={{
