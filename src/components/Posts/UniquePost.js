@@ -202,9 +202,7 @@ const UniquePost = (post) => {
               style={{ marginLeft: "15px", marginTop: postResponse.editorspick ? "45px" : "10px", marginBottom: "0px" }}
               gutterBottom
             >
-              <span
-                style={{ fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}
-              >
+              <span style={{ fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}>
                 <img
                   alt="location"
                   src={locationLogo}
@@ -212,21 +210,22 @@ const UniquePost = (post) => {
                   style={{ verticalAlign: "middle", marginRight: "5px", marginBottom: '4px' }}
                 />
                 {postResponse.location}
-                <div
-                  id="editor-pick"
-                  style={{
-                    display: "block",
-                    float: 'right',
-                    color: 'black',
-                    backgroundColor: '#fbc02d'
-                  }}
-                >
-                  <img
-                    alt="loyalty"
-                    src={loyalty}
-                    width="18px"
-                    style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
-                  />{" "}Editor's Pick</div>
+                {postResponse.editorspick ? ( 
+                  <div
+                    id="editor-pick"
+                    style={{
+                      display: "block",
+                      float: 'right',
+                      color: 'black',
+                      backgroundColor: '#fbc02d'
+                    }}
+                  >
+                    <img
+                      alt="loyalty"
+                      src={loyalty}
+                      width="18px"
+                      style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
+                    />{" "}Editor's Pick</div>) : null}
               </span>
               <span
                 style={{
