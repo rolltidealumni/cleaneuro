@@ -199,7 +199,7 @@ const UniquePost = (post) => {
           {!postLoading ?
             <Typography
               className={"MuiTypography--heading"}
-              style={{ marginLeft: "15px", marginTop: postResponse.editorspick ? "45px" : "15px", marginBottom: "0px" }}
+              style={{ marginLeft: "15px", marginTop: postResponse.editorspick ? "45px" : "10px", marginBottom: "0px" }}
               gutterBottom
             >
               <span

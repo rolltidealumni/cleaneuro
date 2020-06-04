@@ -98,7 +98,7 @@ const PostCard = (post) => {
       >
         <Typography
           className={"MuiTypography--heading"}
-          style={{ marginLeft: "15px", marginTop: post.post.editorspick ? "45px" : "15px", marginBottom: "0px" }}
+          style={{ marginLeft: "15px", marginTop: post.post.editorspick ? "45px" : "10px", marginBottom: "0px" }}
           gutterBottom
         >
           <span
