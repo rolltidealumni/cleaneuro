@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "firebase/storage";
 import pencilLogo from "../static/pencil.svg";
+import jquery from 'jquery';
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
@@ -68,7 +69,7 @@ const Admin = (props) => {
     setLoading(true);
     realTime.ref("posts/" + props.post.key).update({
       editorspick: editorspick || false,
-      location: location,
+      location: jquery('#combo-box-demo').val() === "" ? props.post.location : jquery('#combo-box-demo').val(),
       aperture: apertureInput,
       lens: lensInput,
       camera: cameraInput,
@@ -163,7 +164,7 @@ const Admin = (props) => {
                         width="18px"
                         style={{ verticalAlign: "middle", marginRight: "5px" }}
                       />
-                      <span style={{ verticalAlign: "middle" }}>Location</span>
+                      <span style={{ verticalAlign: "middle" }}>{location}</span>
                     </span>
                   }
                     {...params} variant="outlined" {...getInputProps({

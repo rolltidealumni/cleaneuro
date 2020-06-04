@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
+import jquery from 'jquery';
 import pencilLogo from "../static/pencil.svg";
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
@@ -92,7 +93,7 @@ const Form = (props) => {
     if (image) {
       postsRef.push({
         imageLink: image,
-        location: location,
+        location: jquery('#combo-box-demo').val(),
         submitted: new Date().toString(),
         aperture: apertureInput,
         lens: lensInput,
