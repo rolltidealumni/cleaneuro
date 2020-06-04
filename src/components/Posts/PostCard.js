@@ -52,17 +52,18 @@ const PostCard = (post) => {
     var obj = portraitPhoto.find(({ imageLink }) => imageLink === val.imageLink);
     let height = obj ? '724px' : '300px';
     if (val) {
-      jquery('#' + val.key).css('height', height);
+      jquery('#' + val.key).css('height', '300px');
     }
 
     if (height === '300px') jquery('#' + val.key).css('background-position', 'center');
+    if (height !== '300px') jquery('#' + val.key).css('background-position', 'top center');
     return obj ? '724px' : '300px';
   }
 
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
       style={{
-        height: getHeight(post.post) === '300px' ? '392px' : '804px',
+        height: '381px',
         float: getHeight(post.post) !== '300px' ? 'right' : undefined
       }}
     >
@@ -110,7 +111,7 @@ const PostCard = (post) => {
               width="18px"
               style={{ verticalAlign: "middle", marginRight: "5px", marginBottom: '4px' }}
             />
-            {post.post.location.length > 16 ? (post.post.location.substring(0, 16 - 3) + "...") : post.post.location}
+            {post.post.location.length > 20 ? (post.post.location.substring(0, 20 - 3) + "...") : post.post.location}
             <div
               id="editor-pick"
               style={{
