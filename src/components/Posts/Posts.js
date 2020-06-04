@@ -124,6 +124,7 @@ const Posts = (props) => {
                 imageLink: child[1].imageLink,
                 aperture: child[1].aperture,
                 lens: child[1].lens,
+                location: child[1].location,
                 camera: child[1].camera,
                 category: child[1].category,
                 location: child[1].location,
