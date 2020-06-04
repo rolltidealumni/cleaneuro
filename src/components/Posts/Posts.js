@@ -3,6 +3,7 @@ import React, {
   useEffect
 } from "react";
 import realTime from "../../firebase/firebase";
+import jquery from 'jquery';
 import Post from "./Post";
 import Card from "@material-ui/core/Card";
 import {
@@ -40,6 +41,7 @@ const Posts = (props) => {
   const [apertureValue, setApertureValue] = useState("");
   const [cameraValue, setCameraValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
+  const [userIP, setUserIP] = useState("");
   const [filterValue, setFilterValue] = useState({
     value: "",
     key: ""
@@ -124,7 +126,7 @@ const Posts = (props) => {
                 lens: child[1].lens,
                 camera: child[1].camera,
                 category: child[1].category,
-                caption: child[1].caption,
+                location: child[1].location,
                 oneStar: child[1].oneStar,
                 twoStars: child[1].twoStars,
                 threeStars: child[1].threeStars,

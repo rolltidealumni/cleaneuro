@@ -9,6 +9,15 @@ body {
     font-family: 'Nunito' !important;
 }
 
+.MuiDialog-paper {
+  width: 50% !important;
+  max-width: none !important;
+}
+
+.MuiDialog-paperWidthSm {
+  max-width: none !important;
+}
+
 .grecaptcha-badge { opacity:0;}
 
 #unique-card {
@@ -374,6 +383,12 @@ h3 {
 
 @media only screen and (max-width: 1286px) {
   .cards {width: 90% !important;}
+}
+
+@media only screen and (max-width: 1009px) {
+  .admin-modal {
+    width: 80% !important;
+  }
 }
 
 @media only screen and (max-width: 1000px) {

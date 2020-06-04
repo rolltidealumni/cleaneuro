@@ -7,6 +7,7 @@ import facebook from "../../static/facebook.svg";
 import cameraLogo from "../../static/camera-two.svg";
 import realTime from "../../firebase/firebase";
 import loading from "../../static/loading.gif";
+import locationLogo from "../../static/location.svg";
 import aperture from "../../static/aperture.svg";
 import loyalty from "../../static/loyalty.svg";
 import Link from "@material-ui/core/Link";
@@ -96,8 +97,8 @@ const UniquePost = (post) => {
               aperture: child[1].aperture,
               lens: child[1].lens,
               camera: child[1].camera,
+              location: child[1].location,
               category: child[1].category,
-              caption: child[1].caption,
               oneStar: child[1].oneStar,
               twoStars: child[1].twoStars,
               threeStars: child[1].threeStars,
@@ -163,7 +164,7 @@ const UniquePost = (post) => {
         >
           Home
           </Link>
-        <Typography color="textPrimary">{postResponse.caption}</Typography>
+        <Typography color="textPrimary">{postResponse.location}</Typography>
       </Breadcrumbs>
       <Card className={"MuiProjectCard--01"} id="unique-card"
         style={{
@@ -202,9 +203,15 @@ const UniquePost = (post) => {
               gutterBottom
             >
               <span
-                style={{ fontSize: "20px", fontWeight: "400", marginBottom: "2px" }}
+                style={{ fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}
               >
-                {postResponse.caption}
+                <img
+                  alt="location"
+                  src={locationLogo}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "5px", marginBottom: '4px' }}
+                />
+                {postResponse.location}
                 <div
                   id="editor-pick"
                   style={{
@@ -321,9 +328,9 @@ const UniquePost = (post) => {
             href="https://twitter.com/artiveco"
             target="_blank"
             rel="noopener noreferrer"
-            ><img alt="twitter" src={
-              twitter
-            }           
+          ><img alt="twitter" src={
+            twitter
+          }
             width="10px"
             style={
               {
@@ -332,22 +339,22 @@ const UniquePost = (post) => {
                 marginLeft: "0px",
               }
             }
-          /></a><a alt="twitter"
-          href="https://facebook.com/artive.co"
-          target="_blank"
-          rel="noopener noreferrer"
-          ><img alt="facebook" src={
-            facebook
-          }           
-          width="10px"
-          style={
-            {
-              cursor: 'pointer',
-              verticalAlign: "middle",
-              marginLeft: "3px",
+            /></a><a alt="twitter"
+              href="https://facebook.com/artive.co"
+              target="_blank"
+              rel="noopener noreferrer"
+            ><img alt="facebook" src={
+              facebook
             }
-          }
-        /></a></span ></div>) : null}
+              width="10px"
+              style={
+                {
+                  cursor: 'pointer',
+                  verticalAlign: "middle",
+                  marginLeft: "3px",
+                }
+              }
+            /></a></span ></div>) : null}
     </>
   );
 };

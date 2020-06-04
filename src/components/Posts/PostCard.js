@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
@@ -8,6 +8,7 @@ import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
 import ImageLoader from "react-load-image";
 import { useHistory } from "react-router-dom";
+import locationLogo from "../../static/location.svg";
 import category from "../../static/label.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import lens from "../../static/lens.svg";
@@ -43,7 +44,7 @@ const PostCard = (post) => {
     };
 
     if (thisPost) {
-      jquery('#'+thisPost.key).css('height', img.naturalHeight);
+      jquery('#' + thisPost.key).css('height', img.naturalHeight);
     }
   };
 
@@ -51,18 +52,18 @@ const PostCard = (post) => {
     var obj = portraitPhoto.find(({ imageLink }) => imageLink === val.imageLink);
     let height = obj ? '724px' : '300px';
     if (val) {
-      jquery('#'+val.key).css('height', height);
+      jquery('#' + val.key).css('height', height);
     }
 
-    if (height === '300px')  jquery('#'+val.key).css('background-position', 'center');
+    if (height === '300px') jquery('#' + val.key).css('background-position', 'center');
     return obj ? '724px' : '300px';
   }
 
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
-      style={{ 
+      style={{
         height: getHeight(post.post) === '300px' ? '392px' : '804px',
-        float: getHeight(post.post) !== '300px' ? 'right' : undefined 
+        float: getHeight(post.post) !== '300px' ? 'right' : undefined
       }}
     >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
@@ -101,13 +102,19 @@ const PostCard = (post) => {
         >
           <span
             onClick={() => openUniquePost(post.post)}
-            style={{ cursor: 'pointer', fontSize: "20px", fontWeight: "400", marginBottom: "2px" }}
+            style={{ cursor: 'pointer', fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}
           >
-            {post.post.caption}
+            <img
+              alt="location"
+              src={locationLogo}
+              width="18px"
+              style={{ verticalAlign: "middle", marginRight: "5px", marginBottom: '4px' }}
+            />
+            {post.post.location}
             <div
               id="editor-pick"
               style={{
-                display: post.post.editorspick ? "block": "none",
+                display: post.post.editorspick ? "block" : "none",
                 float: 'right',
                 color: !post.post.editorspick ? 'white' : 'black',
                 backgroundColor: !post.post.editorspick ? 'rgb(28, 28, 28)' : '#fbc02d'
