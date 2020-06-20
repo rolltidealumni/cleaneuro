@@ -779,35 +779,20 @@ const Posts = (props) => {
                 />
                 ) : posts.length > 0 ? (
                   posts.map((post, i) => {
-                    return (<
-                      Post showZoomModal={
-                        (image) => props.showZoomModal(image)
-                      }
-                      isAuthenticated={
-                        props.isAuthenticated
-                      }
-                      showEditModal={
-                        (post) => props.showEditModal(post)
-                      }
-                      postLoading={
-                        postLoading
-                      }
-                      adminFlag={
-                        props.adminFlag
-                      }
-                      key={
-                        i
-                      }
-                      id={
-                        i
-                      }
-                      post={
-                        post
-                      }
-                      updateRating={
-                        (post, i, rating) =>
+                    return (
+                      <Post 
+                        showZoomModal={(image) => props.showZoomModal(image)}
+                        isAuthenticated={props.isAuthenticated}
+                        showEditModal={(post) => props.showEditModal(post)}
+                        postLoading={postLoading}
+                        adminFlag={props.adminFlag}
+                        key={i}
+                        id={i}
+                        openCritique={(post) => props.openCritique(post)}
+                        post={post}
+                        updateRating={(post, i, rating) =>
                           updateRating(post, post.key, rating)
-                      }
+                        }
                     />
                     );
                   })

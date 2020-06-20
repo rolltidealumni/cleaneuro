@@ -483,6 +483,7 @@ h3 {
     #filterIcon {
         margin-right: 35px;
     }
+   
     .gagunkLogin {
         width: 100% !important;
         max-width: none !important;
@@ -850,4 +851,19 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
         top: 68px;
         transform: translateX(-50%);
     }
+}
+
+#critiqueBtn {
+  width: 93% !important;
+  height: 37px !important;
+  border-radius: 4px !important;
+  background-color: white !important;
+  margin: 0px !important;
+  font-weight: 700 !important;
+  color: rgb(30,30,30) !important;
+  top: -16px;
+}
+
+#critiqueBtn span {
+  font-weight: bold !important;
 }
