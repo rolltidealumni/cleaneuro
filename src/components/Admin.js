@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "firebase/storage";
-import pencilLogo from "../static/pencil.svg";
 import jquery from 'jquery';
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";

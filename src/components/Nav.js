@@ -4,14 +4,11 @@ import AppBar from "material-ui/AppBar";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import cameraWhite from "../static/camera.svg";
-import homeLogo from "../static/home.svg";
-import info from "../static/info.svg";
 import help from "../static/help.svg";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+// import BottomNavigation from "@material-ui/core/BottomNavigation";
+// import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
 import loginIconBlack from "../static/account.svg";
-import loginIcon from "../static/account-white.svg";
 
 function Nav(props) {
   let history = useHistory();

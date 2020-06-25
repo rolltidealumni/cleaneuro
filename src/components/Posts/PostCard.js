@@ -1,33 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
 import jquery from 'jquery';
-import FlatButton from "material-ui/FlatButton";
+// import FlatButton from "material-ui/FlatButton";
 import cameraLogo from "../../static/camera-two.svg";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
 import ImageLoader from "react-load-image";
 import { useHistory } from "react-router-dom";
-import locationLogo from "../../static/location.svg";
 import category from "../../static/label.svg";
-import Tooltip from "@material-ui/core/Tooltip";
 import lens from "../../static/lens.svg";
-import loyalty from "../../static/loyalty.svg";
 import Skeleton from '@material-ui/lab/Skeleton';
-import StarRatings from "react-star-ratings";
 import Typography from "@material-ui/core/Typography";
 
 const PostCard = (post) => {
   let history = useHistory();
   Moment.locale("en");
   const [portraitPhoto, setPortraitPhoto] = useState([{}]);
-
-  const changeRating = (newRating, name) => {
-    if (post.isAuthenticated) {
-      post.updateRating(post.post, post.post.key, newRating);
-    }
-  };
 
   const openUniquePost = (post) => {
     history.push('post/' + post.key);
@@ -64,7 +54,8 @@ const PostCard = (post) => {
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
       style={{
-        height: '421px',
+        // height: '421px',
+        height: '379px',
         float: getHeight(post.post) !== '300px' ? 'right' : undefined
       }}
     >
@@ -106,7 +97,7 @@ const PostCard = (post) => {
             style={{ cursor: 'pointer', fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}
           >
            {post.post.location && post.post.location.length > 20 ? (post.post.location.substring(0, 20 - 3) + "...") : post.post.location}
-            <div
+            {/* <span
               id="editor-pick"
               style={{
                 display: post.post.editorspick ? "block" : "none",
@@ -122,7 +113,7 @@ const PostCard = (post) => {
                 style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
               />{" "}
               Editor's Pick
-            </div>
+            </span> */}
           </span>
           <span
             style={{
@@ -195,13 +186,13 @@ const PostCard = (post) => {
                 alt="loading"
               />
             ) : null}
-            <FlatButton
+            {/* <FlatButton
               label={"CRITIQUE"}
               primary={true}
               id="critiqueBtn"
               onClick={() => post.openCritique(post.post)}
               style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-            />
+            /> */}
           </span>
         </Typography>
         <br />

@@ -6,10 +6,7 @@ import twitter from "../../static/twitter.svg";
 import facebook from "../../static/facebook.svg";
 import cameraLogo from "../../static/camera-two.svg";
 import realTime from "../../firebase/firebase";
-import loading from "../../static/loading.gif";
-import locationLogo from "../../static/location.svg";
 import aperture from "../../static/aperture.svg";
-import loyalty from "../../static/loyalty.svg";
 import Link from "@material-ui/core/Link";
 import { useHistory, useParams } from "react-router-dom";
 import Nav from "../Nav";
@@ -19,7 +16,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import lens from "../../static/lens.svg";
 import Skeleton from '@material-ui/lab/Skeleton';
 import { logoutUser } from "../../actions";
-import StarRatings from "react-star-ratings";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Typography from "@material-ui/core/Typography";
 
@@ -32,12 +28,6 @@ const UniquePost = (post) => {
   const [height, setHeight] = useState(null);
   const [postLoading, setPostLoading] = useState(false);
   const [postResponse, setPostResponse] = useState({});
-
-  const changeRating = (newRating, name) => {
-    if (post.isAuthenticated) {
-      post.updateRating(post.post, post.key, newRating);
-    }
-  };
 
   const handleOpen = () => {
     if (!post.isAuthenticated) {
@@ -203,29 +193,7 @@ const UniquePost = (post) => {
               gutterBottom
             >
               <span style={{ fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}>
-                <img
-                  alt="location"
-                  src={locationLogo}
-                  width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "5px", marginBottom: '4px' }}
-                />
                 {postResponse.location}
-                {postResponse.editorspick ? ( 
-                  <div
-                    id="editor-pick"
-                    style={{
-                      display: "block",
-                      float: 'right',
-                      color: 'black',
-                      backgroundColor: '#fbc02d'
-                    }}
-                  >
-                    <img
-                      alt="loyalty"
-                      src={loyalty}
-                      width="18px"
-                      style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
-                    />{" "}Editor's Pick</div>) : null}
               </span>
               <span
                 style={{

@@ -175,7 +175,6 @@ export const verifyAuth = () => dispatch => {
 export * from "./auth";
 import React, { useState } from "react";
 import "firebase/storage";
-import pencilLogo from "../static/pencil.svg";
 import jquery from 'jquery';
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
@@ -1365,13 +1364,271 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(Contests);
 
 import React, { useState } from "react";
+import "firebase/storage";
+import jquery from 'jquery';
+import FlatButton from "material-ui/FlatButton";
+import loadingSpinner from "../static/loading.gif";
+import Dialog from "@material-ui/core/Dialog";
+import StarRatings from "react-star-ratings";
+import cameraLogo from "../static/camera-two.svg";
+import heartEmpty from "../static/heart-empty.svg";
+import heartFill from "../static/heart-fill.svg";
+import aperture from "../static/aperture.svg";
+import Chip from '@material-ui/core/Chip';
+import category from "../static/label.svg";
+import lens from "../static/lens.svg";
+import exit from "../static/close.svg";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import realTime from "../firebase/firebase";
+
+const Critique = (props) => {
+  const [loading, setLoading] = useState(false);
+  let chips = [
+    "Lighting",
+    "Color",
+    "Composition",
+    "Emotion",
+    "Focus",
+    "Concept",
+    "Crop",
+    "Perspective"];
+  const [chipsTouched, setChipsTouched] = useState([]);
+
+  const selectChip = (chip) => {
+    console.log(chip);
+    chipsTouched.push(chip);
+    console.log(chipsTouched);
+    setChipsTouched(chipsTouched);
+    console.log(chipsTouched.filter(c => c === chip).length > 0)
+  }
+
+  const deSelectChip = (chip) => {
+    setChipsTouched(chipsTouched.filter(e => e !== chip));
+  }
+
+  const handleSubmit = (e) => {
+    let postsRef = realTime.ref("posts");
+    setLoading(true);
+    postsRef.push({
+      location: jquery('#combo-box-demo').val(),
+      submitted: new Date().toString(),
+      oneStar: 0,
+      twoStars: 0,
+      threeStars: 0,
+      fourStars: 0,
+      fiveStars: 0,
+      total: 0,
+    });
+  };
+
+  const changeRating = (newRating, name) => {
+    if (props.isAuthenticated) {
+      updateRating(props.post, props.post.key, newRating);
+    }
+  };
+
+  const updateRating = (post, key, rating) => {
+    setLoading(true);
+    if (rating === 1) {
+      props.firebase.ref("posts/" + key).update({
+        oneStar: post.oneStar + 1,
+        total: post.total + 1,
+      });
+    } else if (rating === 2) {
+      props.firebase.ref("posts/" + key).update({
+        twoStars: post.twoStars + 1,
+        total: post.total + 1,
+      });
+    } else if (rating === 3) {
+      props.firebase.ref("posts/" + key).update({
+        threeStars: post.threeStars + 1,
+        total: post.total + 1,
+      });
+    } else if (rating === 4) {
+      props.firebase.ref("posts/" + key).update({
+        fourStars: post.fourStars + 1,
+        total: post.total + 1,
+      });
+    } else if (rating === 5) {
+      props.firebase.ref("posts/" + key).update({
+        fiveStars: post.fiveStars + 1,
+        total: post.total + 1,
+      });
+    }
+    setLoading(false);
+  };
+
+  return (
+    <Dialog open={props.openDialog} id="admin-modal" style={{ width: '100%' }}>
+      <DialogTitle id="form-dialog-title">Critique{" "}
+        <img
+          alt="close"
+          src={exit}
+          onClick={() => props.handleClose()}
+          width="18px"
+          style={{
+            cursor: 'pointer',
+            verticalAlign: 'middle',
+            marginRight: '5px',
+            position: 'absolute',
+            right: '15px',
+            top: '19px'
+          }}
+        />
+      </DialogTitle>
+      <DialogContent>
+        <div
+          style={{
+            backgroundImage: "url('" + props.post.imageLink + "')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            marginBottom: "20px",
+            marginTop: "0px",
+            height: "200px",
+            borderRadius: "4px",
+            width: '100%'
+          }}
+        ></div>
+        <div>
+          <span>{props.post.location}</span>
+          <span
+            style={{
+              paddingLeft: '40px',
+              borderRadius: '4px',
+              marginBottom: '20px',
+              paddingTop: '0px !important',
+              paddingBottom: '5px',
+              width: '100%',
+              overflow: 'hidden',
+              float: 'right',
+              zIndex: '1',
+              fontSize: '10px',
+              fontStyle: 'italic',
+              marginLeft: '40px',
+              marginTop: '6px',
+            }}
+          >
+            <img
+              alt="camera"
+              src={cameraLogo}
+              width="18px"
+              style={{ verticalAlign: "middle", marginRight: "3px" }}
+            />{" "}
+            {props.post.camera}
+            <img
+              alt="aperture"
+              src={aperture}
+              width="18px"
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
+            />{" "}
+            {props.post.aperture}
+            <img
+              alt="lens"
+              src={lens}
+              width="18px"
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
+            />{" "}
+            {props.post.lens}
+            <img
+              alt="category"
+              src={category}
+              width="18px"
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
+            />{" "}
+            {props.post.category}
+          </span>
+        </div>
+        <center>
+          <StarRatings
+            rating={props.post.average ? props.post.average : 0}
+            starRatedColor="#212121"
+            starDimension="25px"
+            starHoverColor="#212121"
+            changeRating={(rating) => changeRating(rating)}
+            numberOfStars={5}
+            name="rating"
+          />
+          <div style={{marginTop: '20px'}}>
+            {chips.map(chipy => {
+              return (
+                <Chip
+                  mode="outlined"
+                  key={chipy}
+                  label={
+                    chipsTouched.filter(c => c === chipy).length === 0 ?
+                      <span
+                        style={{
+                          color: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'black',
+                          fontWeight: chipsTouched.filter(c => c === chipy).length > 0 ? '500' : 'normal',
+                         
+                        }}>
+                        {chipy}
+                        <img
+                          alt="heart"
+                          src={heartEmpty}
+                          width="18px"
+                          style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '18px', width: '15px' }}
+                        /></span> :
+                      <span>
+                        {chipy}
+                        <img
+                          alt="heart"
+                          src={heartFill}
+                          width="18px"
+                          style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '18px', width: '15px' }}
+                        /></span>
+                  }
+                  style={{
+                    margin: "5px",
+                    height: "35px",
+                    backgroundColor: 'white',
+                    borderColor: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'rgb(186, 186, 186)', 
+                    borderWidth: "1px",
+                    borderStyle: "solid"
+                  }}
+                  onClick={() => {
+                    chipsTouched.filter(c => c === chipy).length > 0 ? deSelectChip(chipy) : selectChip(chipy)
+                  }}
+                />
+              )
+            })}
+          </div>
+        </center>
+        <center>
+          <FlatButton
+            label={
+              loading ? (
+                <img
+                  width="35px"
+                  style={{
+                    verticalAlign: "middle",
+                    paddingBottom: "2px",
+                  }}
+                  src={loadingSpinner}
+                  alt="loading"
+                />
+              ) : (
+                  "Submit"
+                )
+            }
+            primary={true}
+            className="submitBtn"
+            onClick={(e) => handleSubmit(e)}
+            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+          />
+        </center>
+      </DialogContent>
+    </Dialog >
+  );
+};
+
+export default Critique;
+
+import React, { useState } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
 import jquery from 'jquery';
-import pencilLogo from "../static/pencil.svg";
-import { makeStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
 import loadingSpinner from "../static/loading.gif";
@@ -1782,6 +2039,7 @@ import admin from "../static/admin";
 import Nav from "./Nav";
 import Admin from "./Admin";
 import Form from "./Form";
+import Critique from "./Critique";
 import Slide from '@material-ui/core/Slide';
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -1797,11 +2055,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function Home(props) {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openCritique, setOpenCritique] = useState(false);
   const [zoomImage, setZoomImage] = useState("");
   const [showZoomModal, setShowZoomModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editPost, setEditPost] = useState(null);
   const [updateOpen, setUpdateOpen] = useState(false);
+  const [critiquePost, setCritiquePost] = useState(null);
   const [adminFlag, setAdminFlag] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
   const [userID, setUserID] = useState(false);
@@ -1830,6 +2090,13 @@ function Home(props) {
       setOpenDialog(true);
     }
   };
+
+  const handleOpenCritique = (post) => {
+    console.log(post);
+    !openCritique && setCritiquePost(post);
+    openCritique && setCritiquePost(null);
+    setOpenCritique(!openCritique);
+  }
 
   const navigate = () => {
     var win = window.open("http://blog.ratemyshot.co/", "_blank");
@@ -1943,6 +2210,14 @@ function Home(props) {
           isVerifying={props.isVerifying}
         />
       ) : null}
+      {openCritique ? (
+        <Critique
+          openDialog={openCritique}
+          post={critiquePost}
+          setOpenDialog={() => setOpenCritique()}
+          handleClose={() => setOpenCritique()}
+        />
+      ) : null}
       <Form
         openDialog={openDialog}
         setOpenDialog={(value) => setOpenDialog(value)}
@@ -1953,6 +2228,7 @@ function Home(props) {
       />
       <Posts
         firebase={realTime}
+        openCritique={(post) => handleOpenCritique(post)}
         showZoomModal={(image) => openZoomModal(image)}
         showEditModal={(post) => openEditModal(post)}
         adminFlag={adminFlag}
@@ -2231,14 +2507,11 @@ import AppBar from "material-ui/AppBar";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import cameraWhite from "../static/camera.svg";
-import homeLogo from "../static/home.svg";
-import info from "../static/info.svg";
 import help from "../static/help.svg";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+// import BottomNavigation from "@material-ui/core/BottomNavigation";
+// import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
 import loginIconBlack from "../static/account.svg";
-import loginIcon from "../static/account-white.svg";
 
 function Nav(props) {
   let history = useHistory();
