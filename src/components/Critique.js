@@ -19,6 +19,7 @@ import realTime from "../firebase/firebase";
 
 const Critique = (props) => {
   const [loading, setLoading] = useState(false);
+  const [rating, setRating] = useState(0);
   let chips = [
     "Lighting",
     "Color",
@@ -31,11 +32,8 @@ const Critique = (props) => {
   const [chipsTouched, setChipsTouched] = useState([]);
 
   const selectChip = (chip) => {
-    console.log(chip);
     chipsTouched.push(chip);
-    console.log(chipsTouched);
     setChipsTouched(chipsTouched);
-    console.log(chipsTouched.filter(c => c === chip).length > 0)
   }
 
   const deSelectChip = (chip) => {
@@ -58,12 +56,10 @@ const Critique = (props) => {
   };
 
   const changeRating = (newRating, name) => {
-    if (props.isAuthenticated) {
-      updateRating(props.post, props.post.key, newRating);
-    }
+      setRating(newRating);
   };
 
-  const updateRating = (post, key, rating) => {
+  const updateRating = (post, key) => {
     setLoading(true);
     if (rating === 1) {
       props.firebase.ref("posts/" + key).update({
@@ -176,7 +172,7 @@ const Critique = (props) => {
         </div>
         <center>
           <StarRatings
-            rating={props.post.average ? props.post.average : 0}
+            rating={rating}
             starRatedColor="#212121"
             starDimension="25px"
             starHoverColor="#212121"

@@ -3,7 +3,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
 import jquery from 'jquery';
-// import FlatButton from "material-ui/FlatButton";
+import FlatButton from "material-ui/FlatButton";
 import cameraLogo from "../../static/camera-two.svg";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
@@ -54,8 +54,8 @@ const PostCard = (post) => {
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
       style={{
-        // height: '421px',
-        height: '379px',
+        height: '421px',
+        // height: '379px',
         float: getHeight(post.post) !== '300px' ? 'right' : undefined
       }}
     >
@@ -186,13 +186,14 @@ const PostCard = (post) => {
                 alt="loading"
               />
             ) : null}
-            {/* <FlatButton
-              label={"CRITIQUE"}
-              primary={true}
-              id="critiqueBtn"
-              onClick={() => post.openCritique(post.post)}
-              style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-            /> */}
+            {post.isAuthenticated ?
+              <FlatButton
+                label={"CRITIQUE"}
+                primary={true}
+                id="critiqueBtn"
+                onClick={() => post.openCritique(post.post)}
+                style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+              /> : null}
           </span>
         </Typography>
         <br />

@@ -766,8 +766,7 @@ const Posts = (props) => {
                   }
                 }
               /> </Box> </Card > </div> </div> <div className="cards" > {
-                postLoading ? (<
-                  LinearProgress id="line-progress"
+                postLoading ? (<LinearProgress id="line-progress"
                   style={
                     {
                       display: 'absolute',

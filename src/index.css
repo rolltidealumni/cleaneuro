@@ -40,6 +40,10 @@ body {
 
 #web-filter-row {
   display: block !important;
+  width: 90% !important;
+  padding-left: 0px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 #filterRow {
@@ -48,6 +52,7 @@ body {
   margin-top: 30px;
   width: 700px;
   padding-top: 0px;
+  padding-left: 0px !important;
   position: static;
 }
 
@@ -373,16 +378,20 @@ h3 {
 .cards {
     align-items: center;
     min-width: 545px;
-    max-width: 900px;
     display: flow-root;
     margin-bottom: 100px !important;
-    width: 70%;
-    margin-left: 20px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 175px !important;
 }
 
 @media only screen and (max-width: 1286px) {
   .cards {width: 90% !important;}
+  #web-filter-row {
+    width: 90% !important;
+    padding-left: 0px !important;
+  }
 }
 
 @media only screen and (max-width: 1009px) {
@@ -401,6 +410,7 @@ h3 {
 
   #web-filter-row {
     display: none !important;
+    padding-left: 0px !important;
   }
 }
 
@@ -705,9 +715,9 @@ h3 {
     color: black !important;
 }
 
-.MuiProjectCard--01 {
-    width: 400px;
-}
+ .MuiProjectCard--01 {
+    width: 560px;
+} 
 
 body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
     padding-bottom: 0px !important;
