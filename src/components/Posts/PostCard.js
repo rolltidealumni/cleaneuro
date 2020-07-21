@@ -7,9 +7,10 @@ import FlatButton from "material-ui/FlatButton";
 import cameraLogo from "../../static/camera-two.svg";
 import loading from "../../static/loading.gif";
 import aperture from "../../static/aperture.svg";
+// import review from "../../static/star-fill.svg";
 import ImageLoader from "react-load-image";
 import { useHistory } from "react-router-dom";
-import category from "../../static/label.svg";
+// import category from "../../static/label.svg";
 import lens from "../../static/lens.svg";
 import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from "@material-ui/core/Typography";
@@ -54,8 +55,7 @@ const PostCard = (post) => {
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
       style={{
-        height: '421px',
-        // height: '379px',
+        height: '375px',
         float: getHeight(post.post) !== '300px' ? 'right' : undefined
       }}
     >
@@ -96,7 +96,7 @@ const PostCard = (post) => {
             onClick={() => openUniquePost(post.post)}
             style={{ cursor: 'pointer', fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}
           >
-           {post.post.location && post.post.location.length > 20 ? (post.post.location.substring(0, 20 - 3) + "...") : post.post.location}
+            {post.post.location && post.post.location.length > 20 ? (post.post.location.substring(0, 20 - 3) + "...") : post.post.location}
             {/* <span
               id="editor-pick"
               style={{
@@ -123,7 +123,6 @@ const PostCard = (post) => {
               paddingTop: getHeight(post.post) === '300px' ? 'initial' : '0px !important',
               paddingBottom: '5px',
               width: '100%',
-              overflow: 'hidden',
               float: 'right',
               zIndex: '1',
               fontSize: '10px',
@@ -153,13 +152,30 @@ const PostCard = (post) => {
               style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
             />{" "}
             {post.post.lens}
-            <img
+            {/* <img
               alt="category"
               src={category}
               width="18px"
               style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
             />{" "}
-            {post.post.category}
+            {post.post.category} */}
+            <span>
+              {post.isAuthenticated ?
+                <FlatButton
+                  label={"Critique"}
+                  primary={true}
+                  id="critiqueBtn"
+                  onClick={() => post.openCritique(post.post)}
+                  style={{ textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                /> :
+                <FlatButton
+                  label={"Critique"}
+                  primary={true}
+                  id="critiqueBtn"
+                  onClick={() => history.push("/login")}
+                  style={{  textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                />}
+            </span>
           </span>
         </Typography>
         <Typography
@@ -186,14 +202,6 @@ const PostCard = (post) => {
                 alt="loading"
               />
             ) : null}
-            {post.isAuthenticated ?
-              <FlatButton
-                label={"CRITIQUE"}
-                primary={true}
-                id="critiqueBtn"
-                onClick={() => post.openCritique(post.post)}
-                style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-              /> : null}
           </span>
         </Typography>
         <br />

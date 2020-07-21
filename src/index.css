@@ -475,7 +475,7 @@ h3 {
         background-color: rgba(33, 33, 33, 0.8);
     }
     .MuiProjectCard--01 {
-        width: 335px !important;
+        width: 375px !important;
     }
     .half-inputs {
         width: 100% !important;
@@ -716,7 +716,7 @@ h3 {
 }
 
  .MuiProjectCard--01 {
-    width: 560px;
+    width: 375px;
 } 
 
 body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
@@ -864,16 +864,20 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 }
 
 #critiqueBtn {
-  width: 93% !important;
-  height: 37px !important;
+  width: 90px !important;
+  min-width: unset !important;
+  height: 45px !important;
   border-radius: 4px !important;
   background-color: white !important;
   margin: 0px !important;
   font-weight: 700 !important;
   color: rgb(30,30,30) !important;
-  top: -16px;
+  float: right;
+  top: -18px;
+  left: 8px;
 }
 
 #critiqueBtn span {
+  text-transform: capitalize !important;
   font-weight: bold !important;
 }

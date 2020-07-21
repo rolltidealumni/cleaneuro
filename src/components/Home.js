@@ -184,6 +184,7 @@ function Home(props) {
           post={critiquePost}
           setOpenDialog={() => setOpenCritique()}
           handleClose={() => setOpenCritique()}
+          {...props}
         />
       ) : null}
       <Form
