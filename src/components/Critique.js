@@ -73,7 +73,6 @@ const Critique = (props) => {
   // }
 
   const updateRating = () => {
-    console.log(props.post);
     let postRef = realTime.ref("posts/" + props.post.key);
     setLoading(true);
     if (rating === 1) {

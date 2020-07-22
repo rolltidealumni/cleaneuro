@@ -215,14 +215,13 @@ const Admin = (props) => {
   const [editorspick, setEditorsPick] = useState(props.post.editorspick);
 
   const selectLocation = (address, placeId) => {
-    console.log('hey');
-    geocodeByAddress(address)
-      .then(results => {
-        getLatLng(results[0])
-        setLocation(results[0].formatted_address);
-      })
-      .then(results => {console.log(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);})
-      .catch(error => {});
+    // geocodeByAddress(address)
+    //   .then(results => {
+    //     getLatLng(results[0])
+    //     setLocation(results[0].formatted_address);
+    //   })
+    //   .then(results => {console.log(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);})
+    //   .catch(error => {});
   }
 
   const RedSwitch = withStyles({
@@ -1370,6 +1369,7 @@ import "firebase/storage";
 import FlatButton from "material-ui/FlatButton";
 import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
+import review from "../static/star-fill.svg";
 import StarRatings from "react-star-ratings";
 import cameraLogo from "../static/camera-two.svg";
 // import heartEmpty from "../static/heart-empty.svg";
@@ -1397,7 +1397,7 @@ const Critique = (props) => {
   //   {key: 6, label:"Crop"},
   //   {key: 7, label:"Perspective"}
   // ];
-  
+
   // const selectChip = (chip) => {
   //   chipsTouched.push({key: chip.key, label: chip.label});
   //   setChipsTouched(chipsTouched);
@@ -1438,7 +1438,7 @@ const Critique = (props) => {
 
   const updateRating = () => {
     console.log(props.post);
-    let postRef = realTime.ref("posts/"+ props.post.key);
+    let postRef = realTime.ref("posts/" + props.post.key);
     setLoading(true);
     if (rating === 1) {
       postRef.update({
@@ -1472,7 +1472,7 @@ const Critique = (props) => {
 
   return (
     <Dialog open={props.openDialog} id="admin-modal" style={{ width: '100%' }}>
-      <DialogTitle id="form-dialog-title">Critique{" "}
+      <DialogTitle id="form-dialog-title">{props.user.uid !== props.post.author ? "Critique" : "Analytics"}
         <img
           alt="close"
           src={exit}
@@ -1550,8 +1550,8 @@ const Critique = (props) => {
             {props.post.category}
           </span>
         </div>
-        <center>
-          <StarRatings
+        {props.user.uid !== props.post.author ?
+          <center><StarRatings
             rating={rating}
             starRatedColor="#212121"
             starDimension="25px"
@@ -1560,7 +1560,102 @@ const Critique = (props) => {
             numberOfStars={5}
             name="rating"
           />
-          {/* <div style={{marginTop: '20px'}}>
+          </center> :
+          <span>
+            <ul className="stats">
+              <li>
+                <img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}{props.post.oneStar}
+              </li>
+              <li>
+                <img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}{props.post.twoStars}
+              </li>
+              <li>
+                <img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}{props.post.threeStars}
+              </li>
+              <li>
+                <img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}{props.post.fourStars}
+              </li>
+              <li>
+                <img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}<img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{props.post.fiveStars}
+              </li>
+            </ul>
+          </span>}
+        {/* <div style={{marginTop: '20px'}}>
             {chips.map(chipy => {
               return (
                 <Chip
@@ -1606,30 +1701,30 @@ const Critique = (props) => {
               )
             })}
           </div> */}
-        </center>
-        <center>
-          <FlatButton
-            label={
-              loading ? (
-                <img
-                  width="35px"
-                  style={{
-                    verticalAlign: "middle",
-                    paddingBottom: "2px",
-                  }}
-                  src={loadingSpinner}
-                  alt="loading"
-                />
-              ) : (
-                  "Submit"
-                )
-            }
-            primary={true}
-            className="submitBtn"
-            onClick={() => updateRating()}
-            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-          />
-        </center>
+        {props.user.uid !== props.post.author ?
+          <center>
+            <FlatButton
+              label={
+                loading ? (
+                  <img
+                    width="35px"
+                    style={{
+                      verticalAlign: "middle",
+                      paddingBottom: "2px",
+                    }}
+                    src={loadingSpinner}
+                    alt="loading"
+                  />
+                ) : (
+                    "Submit"
+                  )
+              }
+              primary={true}
+              className="submitBtn"
+              onClick={() => updateRating()}
+              style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+            />
+          </center> : null}
       </DialogContent>
     </Dialog >
   );
@@ -2088,10 +2183,12 @@ function Home(props) {
     props.user.phoneNumber !== undefined
   ) {
     setUserID(props.user.uid);
+    console.log(props.user.uid);
     setAdminFlag(true);
   }
 
   if (!isAdmin && !userID) {
+    console.log(props.user.uid);
     setUserID(props.user.uid);
   }
 
@@ -2104,7 +2201,6 @@ function Home(props) {
   };
 
   const handleOpenCritique = (post) => {
-    console.log(post);
     !openCritique && setCritiquePost(post);
     openCritique && setCritiquePost(null);
     setOpenCritique(!openCritique);
