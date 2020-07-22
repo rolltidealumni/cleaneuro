@@ -19,7 +19,6 @@ const PostCard = (post) => {
   let history = useHistory();
   Moment.locale("en");
   const [portraitPhoto, setPortraitPhoto] = useState([{}]);
-
   const openUniquePost = (post) => {
     history.push('post/' + post.key);
   }
@@ -152,14 +151,14 @@ const PostCard = (post) => {
           <span>
             {post.isAuthenticated ?
               <FlatButton
-                label={"Critique"}
+                label={post.user.uid === post.post.author ? "Analytics" : "Critique"}
                 primary={true}
                 id="critiqueBtn"
                 onClick={() => post.openCritique(post.post)}
                 style={{ textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
               /> :
               <FlatButton
-                label={"Critique"}
+                label={"Login"}
                 primary={true}
                 id="critiqueBtn"
                 onClick={() => history.push("/login")}

@@ -84,6 +84,7 @@ const Posts = (props) => {
                 aperture: child[1].aperture,
                 lens: child[1].lens,
                 camera: child[1].camera,
+                author: child[1].author,
                 category: child[1].category,
                 caption: child[1].caption,
                 oneStar: child[1].oneStar,
@@ -134,6 +135,7 @@ const Posts = (props) => {
                 lens: child[1].lens,
                 camera: child[1].camera,
                 category: child[1].category,
+                author: child[1].author,
                 location: child[1].location,
                 oneStar: child[1].oneStar,
                 twoStars: child[1].twoStars,
@@ -799,6 +801,7 @@ const Posts = (props) => {
                         updateRating={(post, i, rating) =>
                           updateRating(post, post.key, rating)
                         }
+                        {...props}
                     />
                     );
                   })

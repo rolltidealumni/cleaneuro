@@ -27,7 +27,7 @@ export async function getLocation(lat, long) {
       let km = getDistanceFromLatLonInKm(lat, long, r2.lat, r2.lon);
       return Math.ceil(km / 1.609);
   } catch(e) {
-      console.log(e);
+      // console.log(e);
       throw e;
   }
 }

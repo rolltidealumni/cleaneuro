@@ -44,10 +44,12 @@ function Home(props) {
     props.user.phoneNumber !== undefined
   ) {
     setUserID(props.user.uid);
+    console.log(props.user.uid);
     setAdminFlag(true);
   }
 
   if (!isAdmin && !userID) {
+    console.log(props.user.uid);
     setUserID(props.user.uid);
   }
 
@@ -60,7 +62,6 @@ function Home(props) {
   };
 
   const handleOpenCritique = (post) => {
-    console.log(post);
     !openCritique && setCritiquePost(post);
     openCritique && setCritiquePost(null);
     setOpenCritique(!openCritique);

@@ -879,3 +879,7 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
   font-weight: bold !important;
   padding-left: 0px !important;
 }
+ .stats {
+    list-style-type: none; 
+    padding-left: 0px !important;
+ }
