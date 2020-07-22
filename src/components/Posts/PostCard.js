@@ -10,7 +10,7 @@ import aperture from "../../static/aperture.svg";
 // import review from "../../static/star-fill.svg";
 import ImageLoader from "react-load-image";
 import { useHistory } from "react-router-dom";
-// import category from "../../static/label.svg";
+import category from "../../static/label.svg";
 import lens from "../../static/lens.svg";
 import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from "@material-ui/core/Typography";
@@ -55,8 +55,7 @@ const PostCard = (post) => {
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
       style={{
-        height: '375px',
-        float: getHeight(post.post) !== '300px' ? 'right' : undefined
+        height: '425px'
       }}
     >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
@@ -97,23 +96,6 @@ const PostCard = (post) => {
             style={{ cursor: 'pointer', fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}
           >
             {post.post.location && post.post.location.length > 20 ? (post.post.location.substring(0, 20 - 3) + "...") : post.post.location}
-            {/* <span
-              id="editor-pick"
-              style={{
-                display: post.post.editorspick ? "block" : "none",
-                float: 'right',
-                color: !post.post.editorspick ? 'white' : 'black',
-                backgroundColor: !post.post.editorspick ? 'rgb(28, 28, 28)' : '#fbc02d'
-              }}
-            >
-              <img
-                alt="loyalty"
-                src={loyalty}
-                width="18px"
-                style={{ verticalAlign: "middle", marginRight: "3px", color: 'black' }}
-              />{" "}
-              Editor's Pick
-            </span> */}
           </span>
           <span
             style={{
@@ -152,30 +134,13 @@ const PostCard = (post) => {
               style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
             />{" "}
             {post.post.lens}
-            {/* <img
+            <img
               alt="category"
               src={category}
               width="18px"
               style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
             />{" "}
-            {post.post.category} */}
-            <span>
-              {post.isAuthenticated ?
-                <FlatButton
-                  label={"Critique"}
-                  primary={true}
-                  id="critiqueBtn"
-                  onClick={() => post.openCritique(post.post)}
-                  style={{ textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-                /> :
-                <FlatButton
-                  label={"Critique"}
-                  primary={true}
-                  id="critiqueBtn"
-                  onClick={() => history.push("/login")}
-                  style={{  textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-                />}
-            </span>
+            {post.post.category}
           </span>
         </Typography>
         <Typography
@@ -184,15 +149,23 @@ const PostCard = (post) => {
           gutterBottom
           style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
         >
-          {/* <StarRatings
-              rating={post.post.average ? post.post.average : 0}
-              starRatedColor="#212121"
-              starHoverColor="#212121"
-              changeRating={(rating) => changeRating(rating)}
-              numberOfStars={5}
-              name="rating"
-              starDimension="15px"
-            /> */}
+          <span>
+            {post.isAuthenticated ?
+              <FlatButton
+                label={"Critique"}
+                primary={true}
+                id="critiqueBtn"
+                onClick={() => post.openCritique(post.post)}
+                style={{ textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+              /> :
+              <FlatButton
+                label={"Critique"}
+                primary={true}
+                id="critiqueBtn"
+                onClick={() => history.push("/login")}
+                style={{ textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+              />}
+          </span>
           <span style={{ fontSize: "13px" }}>
             {post.postLoading && post.postLoading.key === post.post.key ? (
               <img

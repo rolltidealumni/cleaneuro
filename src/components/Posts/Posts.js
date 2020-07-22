@@ -50,6 +50,14 @@ const Posts = (props) => {
     order: "asc"
   });
 
+  const goToHelp = () => {
+    var win = window.open(
+      "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
+      "_blank"
+    );
+    if (win) win.focus();
+  };
+
   const getPosts = async (mounted) => {
     setPostLoading(true);
     let postCameras = [];
@@ -796,14 +804,11 @@ const Posts = (props) => {
                   })
                 ) : (<span className="no-results" > There are no posts to display </span>)}
       </div> {!postLoading ? (<div id="footerArea" >
-        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <a href="https://blog.ratemyshot.co/contact" target="_blank" rel="noopener noreferrer" > Help </a>{" "} /
-                          {" "} <a href="https://blog.ratemyshot.co/privacy"
-            target="_blank"
-            rel="noopener noreferrer" >
-            Privacy Policy </a> / <a alt="twitter"
-            href="https://twitter.com/artiveco"
-            target="_blank"
-            rel="noopener noreferrer"
+        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <a href="#" onClick={() => goToHelp()}> Help </a>{" "} / {" "}
+            <a alt="twitter"
+              href="https://twitter.com/artiveco"
+              target="_blank"
+              rel="noopener noreferrer"
             ><img alt="twitter" src={
               twitter
             }           

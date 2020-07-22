@@ -1364,17 +1364,18 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(Contests);
 
 import React, { useState } from "react";
+// import firebase from "firebase/app";
 import "firebase/storage";
-import jquery from 'jquery';
+// import jquery from 'jquery';
 import FlatButton from "material-ui/FlatButton";
 import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
 import StarRatings from "react-star-ratings";
 import cameraLogo from "../static/camera-two.svg";
-import heartEmpty from "../static/heart-empty.svg";
-import heartFill from "../static/heart-fill.svg";
+// import heartEmpty from "../static/heart-empty.svg";
+// import heartFill from "../static/heart-fill.svg";
 import aperture from "../static/aperture.svg";
-import Chip from '@material-ui/core/Chip';
+// import Chip from '@material-ui/core/Chip';
 import category from "../static/label.svg";
 import lens from "../static/lens.svg";
 import exit from "../static/close.svg";
@@ -1384,79 +1385,89 @@ import realTime from "../firebase/firebase";
 
 const Critique = (props) => {
   const [loading, setLoading] = useState(false);
-  let chips = [
-    "Lighting",
-    "Color",
-    "Composition",
-    "Emotion",
-    "Focus",
-    "Concept",
-    "Crop",
-    "Perspective"];
-  const [chipsTouched, setChipsTouched] = useState([]);
+  const [rating, setRating] = useState(0);
+  // const [chipsTouched, setChipsTouched] = useState([]);
+  // let chips = [
+  //   {key: 0, label: "Lighting"},
+  //   {key: 1, label:"Color"},
+  //   {key: 2, label:"Composition"},
+  //   {key: 3, label:"Emotion"},
+  //   {key: 4, label:"Focus"},
+  //   {key: 5, label:"Concept"},
+  //   {key: 6, label:"Crop"},
+  //   {key: 7, label:"Perspective"}
+  // ];
+  
+  // const selectChip = (chip) => {
+  //   chipsTouched.push({key: chip.key, label: chip.label});
+  //   setChipsTouched(chipsTouched);
+  // }
 
-  const selectChip = (chip) => {
-    console.log(chip);
-    chipsTouched.push(chip);
-    console.log(chipsTouched);
-    setChipsTouched(chipsTouched);
-    console.log(chipsTouched.filter(c => c === chip).length > 0)
-  }
+  // const deSelectChip = (chip) => {
+  //   setChipsTouched((chipsTouched) => chipsTouched.filter((x) => x.key !== chip.key));
+  // }
 
-  const deSelectChip = (chip) => {
-    setChipsTouched(chipsTouched.filter(e => e !== chip));
-  }
-
-  const handleSubmit = (e) => {
-    let postsRef = realTime.ref("posts");
-    setLoading(true);
-    postsRef.push({
-      location: jquery('#combo-box-demo').val(),
-      submitted: new Date().toString(),
-      oneStar: 0,
-      twoStars: 0,
-      threeStars: 0,
-      fourStars: 0,
-      fiveStars: 0,
-      total: 0,
-    });
-  };
+  // const handleSubmit = (e) => {
+  //   let postsRef = realTime.ref("posts");
+  //   setLoading(true);
+  //   postsRef.push({
+  //     location: jquery('#combo-box-demo').val(),
+  //     submitted: new Date().toString(),
+  //     oneStar: 0,
+  //     twoStars: 0,
+  //     threeStars: 0,
+  //     fourStars: 0,
+  //     fiveStars: 0,
+  //     total: 0,
+  //   });
+  // };
 
   const changeRating = (newRating, name) => {
-    if (props.isAuthenticated) {
-      updateRating(props.post, props.post.key, newRating);
-    }
+    setRating(newRating);
   };
 
-  const updateRating = (post, key, rating) => {
+  // const isSelected = (chip) => {
+  //   const selected = chipsTouched.filter((x) => x.key === chip.key).length > 0; 
+  //   if (selected) deSelectChip(chip);
+  //   else selectChip(chip);
+  // };
+
+  // const chipFocus = (chip) => {
+  //    return chipsTouched.filter((x) => x.key === chip.key).length > 0; 
+  // }
+
+  const updateRating = () => {
+    console.log(props.post);
+    let postRef = realTime.ref("posts/"+ props.post.key);
     setLoading(true);
     if (rating === 1) {
-      props.firebase.ref("posts/" + key).update({
-        oneStar: post.oneStar + 1,
-        total: post.total + 1,
+      postRef.update({
+        oneStar: props.post.oneStar + 1,
+        total: props.post.total + 1,
       });
     } else if (rating === 2) {
-      props.firebase.ref("posts/" + key).update({
-        twoStars: post.twoStars + 1,
-        total: post.total + 1,
+      postRef.update({
+        twoStars: props.post.twoStars + 1,
+        total: props.post.total + 1,
       });
     } else if (rating === 3) {
-      props.firebase.ref("posts/" + key).update({
-        threeStars: post.threeStars + 1,
-        total: post.total + 1,
+      postRef.update({
+        threeStars: props.post.threeStars + 1,
+        total: props.post.total + 1,
       });
     } else if (rating === 4) {
-      props.firebase.ref("posts/" + key).update({
-        fourStars: post.fourStars + 1,
-        total: post.total + 1,
+      postRef.update({
+        fourStars: props.post.fourStars + 1,
+        total: props.post.total + 1,
       });
     } else if (rating === 5) {
-      props.firebase.ref("posts/" + key).update({
-        fiveStars: post.fiveStars + 1,
-        total: post.total + 1,
+      postRef.update({
+        fiveStars: props.post.fiveStars + 1,
+        total: props.post.total + 1,
       });
     }
     setLoading(false);
+    props.handleClose();
   };
 
   return (
@@ -1541,7 +1552,7 @@ const Critique = (props) => {
         </div>
         <center>
           <StarRatings
-            rating={props.post.average ? props.post.average : 0}
+            rating={rating}
             starRatedColor="#212121"
             starDimension="25px"
             starHoverColor="#212121"
@@ -1549,51 +1560,52 @@ const Critique = (props) => {
             numberOfStars={5}
             name="rating"
           />
-          <div style={{marginTop: '20px'}}>
+          {/* <div style={{marginTop: '20px'}}>
             {chips.map(chipy => {
               return (
                 <Chip
+                  onClick={() => isSelected(chipy)}
                   mode="outlined"
-                  key={chipy}
+                  key={chipy.key}
                   label={
-                    chipsTouched.filter(c => c === chipy).length === 0 ?
-                      <span
-                        style={{
-                          color: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'black',
-                          fontWeight: chipsTouched.filter(c => c === chipy).length > 0 ? '500' : 'normal',
-                         
-                        }}>
-                        {chipy}
+                    !chipFocus(chipy) ?
+                      <span style={{
+                        color: chipFocus(chipy) ? '#FBC02D !important' : 'black !important',
+                        fontWeight: chipFocus(chipy) ? '500 !important' : 'normal !important'
+                      }}>
+                        {chipy.label}
                         <img
                           alt="heart"
                           src={heartEmpty}
                           width="18px"
                           style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '18px', width: '15px' }}
-                        /></span> :
-                      <span>
-                        {chipy}
+                        />
+                      </span> :
+                      <span style={{
+                        color: chipFocus(chipy) > 0 ? '#FBC02D !important' : 'black !important',
+                        fontWeight: chipFocus(chipy) > 0 ? '500 !important' : 'normal !important'
+                      }}>
+                        {chipy.label}
                         <img
                           alt="heart"
                           src={heartFill}
                           width="18px"
                           style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '18px', width: '15px' }}
-                        /></span>
+                        />
+                      </span>
                   }
                   style={{
                     margin: "5px",
                     height: "35px",
                     backgroundColor: 'white',
-                    borderColor: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'rgb(186, 186, 186)', 
+                    borderColor: chipFocus(chipy) ? '#FBC02D' : 'rgb(186, 186, 186)', 
                     borderWidth: "1px",
                     borderStyle: "solid"
-                  }}
-                  onClick={() => {
-                    chipsTouched.filter(c => c === chipy).length > 0 ? deSelectChip(chipy) : selectChip(chipy)
                   }}
                 />
               )
             })}
-          </div>
+          </div> */}
         </center>
         <center>
           <FlatButton
@@ -1614,7 +1626,7 @@ const Critique = (props) => {
             }
             primary={true}
             className="submitBtn"
-            onClick={(e) => handleSubmit(e)}
+            onClick={() => updateRating()}
             style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
           />
         </center>
@@ -2216,6 +2228,7 @@ function Home(props) {
           post={critiquePost}
           setOpenDialog={() => setOpenCritique()}
           handleClose={() => setOpenCritique()}
+          {...props}
         />
       ) : null}
       <Form
