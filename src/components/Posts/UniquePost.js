@@ -136,6 +136,14 @@ const UniquePost = (post) => {
     };
   };
 
+  const goToHelp = () => {
+    var win = window.open(
+      "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
+      "_blank"
+    );
+    if (win) win.focus();
+  };
+
   const getHeight = (val) => {
     var obj = portraitPhoto.find(({ imageLink }) => imageLink === val);
     setHeight(obj ? '724px' : '466px');
@@ -278,11 +286,8 @@ const UniquePost = (post) => {
         </div>
       </Card>
       {!postLoading ? (<div id="footerArea" >
-        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <a href="https://blog.ratemyshot.co/contact" target="_blank" rel="noopener noreferrer" > Help </a>{" "} /
-                          {" "} <a href="https://blog.ratemyshot.co/privacy"
-            target="_blank"
-            rel="noopener noreferrer" >
-            Privacy Policy </a> / <a alt="twitter"
+        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <a href="#" onClick={() => goToHelp()}> Help </a>{" "} /
+            {" "} <a alt="twitter"
             href="https://twitter.com/artiveco"
             target="_blank"
             rel="noopener noreferrer"
