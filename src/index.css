@@ -23,6 +23,7 @@ body {
 #unique-card {
     margin-top: 150px !important;
     margin: auto;
+    max-height: 1406px;
     margin-bottom: 200px !important;
 }
 

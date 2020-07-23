@@ -3,9 +3,11 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
 import twitter from "../../static/twitter.svg";
+import FlatButton from "material-ui/FlatButton";
 import facebook from "../../static/facebook.svg";
 import cameraLogo from "../../static/camera-two.svg";
 import realTime from "../../firebase/firebase";
+import Critique from "../Critique";
 import aperture from "../../static/aperture.svg";
 import Link from "@material-ui/core/Link";
 import { useHistory, useParams } from "react-router-dom";
@@ -23,17 +25,22 @@ const UniquePost = (post) => {
   Moment.locale("en");
   let ordered = [];
   let history = useHistory();
+  const [openCritique, setOpenCritique] = useState(false);
   const [portraitPhoto, setPortraitPhoto] = useState([{}]);
   let params = useParams();
   const [height, setHeight] = useState(null);
   const [postLoading, setPostLoading] = useState(false);
   const [postResponse, setPostResponse] = useState({});
-
+  
   const handleOpen = () => {
     if (!post.isAuthenticated) {
       history.push("/login");
     }
   };
+
+  const handleOpenCritique = (post) => {
+    setOpenCritique(!openCritique);
+  }
 
   const navigate = () => {
     var win = window.open("http://blog.ratemyshot.co/", "_blank");
@@ -88,6 +95,7 @@ const UniquePost = (post) => {
               lens: child[1].lens,
               camera: child[1].camera,
               location: child[1].location,
+              author: child[1].author,
               category: child[1].category,
               oneStar: child[1].oneStar,
               twoStars: child[1].twoStars,
@@ -130,7 +138,7 @@ const UniquePost = (post) => {
 
   const getHeight = (val) => {
     var obj = portraitPhoto.find(({ imageLink }) => imageLink === val);
-    setHeight(obj ? '724px' : '300px');
+    setHeight(obj ? '724px' : '466px');
   };
 
   return (
@@ -144,6 +152,15 @@ const UniquePost = (post) => {
         isVerifying={post.isVerifying}
         isAuthenticated={post.isAuthenticated}
       />
+      {openCritique ? (
+        <Critique
+          openDialog={openCritique}
+          post={postResponse}
+          setOpenDialog={() => setOpenCritique()}
+          handleClose={() => setOpenCritique()}
+          {...post}
+        />
+      ) : null}
       <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
         <Link
           color="inherit"
@@ -158,17 +175,16 @@ const UniquePost = (post) => {
       </Breadcrumbs>
       <Card className={"MuiProjectCard--01"} id="unique-card"
         style={{
-          height: height ? undefined : '417px',
+          height: height ? undefined : '466px',
           paddingBottom: '19px',
           width: height === '300px' ? '90%' : '50%',
-          maxHeight: '1064px'
         }}
       >
         <ImageLoader src={postResponse.imageLink} onLoad={(t) => isPortrait(t, postResponse)}>
           <CardMedia
             className={"MuiCardMedia-root"}
             style={{
-              height: height ? '1000px' : '350px',
+              height: height ? '1294px' : '364px',
               backgroundPosition: height !== null && height !== '300px' ? 'bottom center' : 'center center',
             }}
             image={postResponse.imageLink}
@@ -242,48 +258,23 @@ const UniquePost = (post) => {
                 {postResponse.category}
               </span>
             </Typography> : null}
-          {!postLoading ?
-            <Tooltip title="Rate!" placement="right">
-              <Typography
-                className={"MuiTypography--headLabel"}
-                variant={"overline"}
-                gutterBottom
-                style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
-              >
-                {/* <StarRatings
-                  rating={postResponse.average ? postResponse.average : 0}
-                  starRatedColor="#212121"
-                  starHoverColor="#212121"
-                  changeRating={(rating) => changeRating(rating)}
-                  numberOfStars={5}
-                  name="rating"
-                  starDimension="15px"
-                /> */}
-                {/* <span style={{ marginLeft: "5px", fontSize: "13px" }}>
-                  {postResponse.postLoading && postResponse.postLoading.key === postResponse.key ? (
-                    <img
-                      width="19px"
-                      style={{ verticalAlign: "middle", paddingBottom: "2px" }}
-                      src={loading}
-                      alt="loading"
-                    />
-                  ) : null}
-                </span> */}
-              </Typography>
-            </Tooltip> : null}
-          {/* {!postLoading ?
-            <Typography
-              className={"MuiTypography--overline"}
-              variant={"overline"}
-              style={{
-                marginLeft: "15px",
-                fontSize: "13px",
-                textTransform: "none",
-              }}
-              gutterBottom
-            >
-              {Moment(new Date(postResponse.submitted)).format("MMMM D, YYYY")}
-            </Typography> : null} */}
+            <span>
+            {post.isAuthenticated ?
+              <FlatButton
+                label={post.user.uid === postResponse.author ? "Analytics" : "Critique"}
+                primary={true}
+                id="critiqueBtn"
+                onClick={() => handleOpenCritique(postResponse)}
+                style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+              /> :
+              <FlatButton
+                label={"Login"}
+                primary={true}
+                id="critiqueBtn"
+                onClick={() => history.push("/login")}
+                style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+              />}
+          </span>
         </div>
       </Card>
       {!postLoading ? (<div id="footerArea" >

@@ -1437,7 +1437,6 @@ const Critique = (props) => {
   // }
 
   const updateRating = () => {
-    console.log(props.post);
     let postRef = realTime.ref("posts/" + props.post.key);
     setLoading(true);
     if (rating === 1) {
@@ -2183,12 +2182,10 @@ function Home(props) {
     props.user.phoneNumber !== undefined
   ) {
     setUserID(props.user.uid);
-    console.log(props.user.uid);
     setAdminFlag(true);
   }
 
   if (!isAdmin && !userID) {
-    console.log(props.user.uid);
     setUserID(props.user.uid);
   }
 
