@@ -1439,6 +1439,7 @@ const Critique = (props) => {
 
   const updateRating = () => {
     let postRef = realTime.ref("posts/" + props.post.key);
+    let critiqueRef = realTime.ref("post-critiques");
     setLoading(true);
     if (rating === 1) {
       postRef.update({
@@ -1466,6 +1467,19 @@ const Critique = (props) => {
         total: props.post.total + 1,
       });
     }
+    critiqueRef.push({
+      Composition: 0,
+      Concept: 0,
+      Crop: 0,
+      Emotion: 0,
+      Focus: 0,
+      Lighting: 0,
+      Perspective: 0,
+      Rating: rating,
+      post: props.post.key,
+      uid: props.user.uid,
+      submitted: new Date().toString(),
+    });
     setLoading(false);
     props.handleClose();
   };
