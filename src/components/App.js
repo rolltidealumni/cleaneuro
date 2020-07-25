@@ -8,7 +8,7 @@ import Login from "./Login";
 import UniquePost from "./Posts/UniquePost";
 
 function App(props) {
-  const { isAuthenticated, isVerifying } = props;
+  const { isAuthenticated, isVerifying, user } = props;
 
   return (
     <Switch>
@@ -22,7 +22,7 @@ function App(props) {
       </ProtectedRoute>
       <Route path="/login" render={(props) => <Login {...props} />} />
       <Route path="/activate" render={(props) => <Login {...props} />} />
-      <Route path="/post/:id" render={(props) => <UniquePost {...props} />} />
+      <Route path="/post/:id" render={(props) => <UniquePost isAuthenticated={isAuthenticated} user={user} {...props} />} />
       <Route path="/contests" render={(props) => <Contests {...props} />} />
     </Switch>
   );
@@ -32,6 +32,7 @@ function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     isVerifying: state.auth.isVerifying,
+    user: state.auth.user,
   };
 }
 

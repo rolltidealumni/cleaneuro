@@ -175,7 +175,6 @@ export const verifyAuth = () => dispatch => {
 export * from "./auth";
 import React, { useState } from "react";
 import "firebase/storage";
-import pencilLogo from "../static/pencil.svg";
 import jquery from 'jquery';
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
@@ -216,14 +215,13 @@ const Admin = (props) => {
   const [editorspick, setEditorsPick] = useState(props.post.editorspick);
 
   const selectLocation = (address, placeId) => {
-    console.log('hey');
-    geocodeByAddress(address)
-      .then(results => {
-        getLatLng(results[0])
-        setLocation(results[0].formatted_address);
-      })
-      .then(results => {console.log(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);})
-      .catch(error => {});
+    // geocodeByAddress(address)
+    //   .then(results => {
+    //     getLatLng(results[0])
+    //     setLocation(results[0].formatted_address);
+    //   })
+    //   .then(results => {console.log(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);})
+    //   .catch(error => {});
   }
 
   const RedSwitch = withStyles({
@@ -576,7 +574,7 @@ import Login from "./Login";
 import UniquePost from "./Posts/UniquePost";
 
 function App(props) {
-  const { isAuthenticated, isVerifying } = props;
+  const { isAuthenticated, isVerifying, user } = props;
 
   return (
     <Switch>
@@ -590,7 +588,7 @@ function App(props) {
       </ProtectedRoute>
       <Route path="/login" render={(props) => <Login {...props} />} />
       <Route path="/activate" render={(props) => <Login {...props} />} />
-      <Route path="/post/:id" render={(props) => <UniquePost {...props} />} />
+      <Route path="/post/:id" render={(props) => <UniquePost isAuthenticated={isAuthenticated} user={user} {...props} />} />
       <Route path="/contests" render={(props) => <Contests {...props} />} />
     </Switch>
   );
@@ -600,6 +598,7 @@ function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     isVerifying: state.auth.isVerifying,
+    user: state.auth.user,
   };
 }
 
@@ -1365,13 +1364,392 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(Contests);
 
 import React, { useState } from "react";
+// import firebase from "firebase/app";
+import "firebase/storage";
+// import jquery from 'jquery';
+import FlatButton from "material-ui/FlatButton";
+import loadingSpinner from "../static/loading.gif";
+import Dialog from "@material-ui/core/Dialog";
+import review from "../static/star-fill.svg";
+import StarRatings from "react-star-ratings";
+import cameraLogo from "../static/camera-two.svg";
+// import heartEmpty from "../static/heart-empty.svg";
+// import heartFill from "../static/heart-fill.svg";
+import aperture from "../static/aperture.svg";
+// import Chip from '@material-ui/core/Chip';
+import category from "../static/label.svg";
+import lens from "../static/lens.svg";
+import exit from "../static/close.svg";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import realTime from "../firebase/firebase";
+
+const Critique = (props) => {
+  const [loading, setLoading] = useState(false);
+  const [rating, setRating] = useState(0);
+  // const [chipsTouched, setChipsTouched] = useState([]);
+  // let chips = [
+  //   {key: 0, label: "Lighting"},
+  //   {key: 1, label:"Color"},
+  //   {key: 2, label:"Composition"},
+  //   {key: 3, label:"Emotion"},
+  //   {key: 4, label:"Focus"},
+  //   {key: 5, label:"Concept"},
+  //   {key: 6, label:"Crop"},
+  //   {key: 7, label:"Perspective"}
+  // ];
+
+  // const selectChip = (chip) => {
+  //   chipsTouched.push({key: chip.key, label: chip.label});
+  //   setChipsTouched(chipsTouched);
+  // }
+
+  // const deSelectChip = (chip) => {
+  //   setChipsTouched((chipsTouched) => chipsTouched.filter((x) => x.key !== chip.key));
+  // }
+
+  // const handleSubmit = (e) => {
+  //   let postsRef = realTime.ref("posts");
+  //   setLoading(true);
+  //   postsRef.push({
+  //     location: jquery('#combo-box-demo').val(),
+  //     submitted: new Date().toString(),
+  //     oneStar: 0,
+  //     twoStars: 0,
+  //     threeStars: 0,
+  //     fourStars: 0,
+  //     fiveStars: 0,
+  //     total: 0,
+  //   });
+  // };
+
+  const changeRating = (newRating, name) => {
+    setRating(newRating);
+  };
+
+  // const isSelected = (chip) => {
+  //   const selected = chipsTouched.filter((x) => x.key === chip.key).length > 0; 
+  //   if (selected) deSelectChip(chip);
+  //   else selectChip(chip);
+  // };
+
+  // const chipFocus = (chip) => {
+  //    return chipsTouched.filter((x) => x.key === chip.key).length > 0; 
+  // }
+
+  const updateRating = () => {
+    let postRef = realTime.ref("posts/" + props.post.key);
+    let critiqueRef = realTime.ref("post-critiques");
+    setLoading(true);
+    if (rating === 1) {
+      postRef.update({
+        oneStar: props.post.oneStar + 1,
+        total: props.post.total + 1,
+      });
+    } else if (rating === 2) {
+      postRef.update({
+        twoStars: props.post.twoStars + 1,
+        total: props.post.total + 1,
+      });
+    } else if (rating === 3) {
+      postRef.update({
+        threeStars: props.post.threeStars + 1,
+        total: props.post.total + 1,
+      });
+    } else if (rating === 4) {
+      postRef.update({
+        fourStars: props.post.fourStars + 1,
+        total: props.post.total + 1,
+      });
+    } else if (rating === 5) {
+      postRef.update({
+        fiveStars: props.post.fiveStars + 1,
+        total: props.post.total + 1,
+      });
+    }
+    critiqueRef.push({
+      Composition: 0,
+      Concept: 0,
+      Crop: 0,
+      Emotion: 0,
+      Focus: 0,
+      Lighting: 0,
+      Perspective: 0,
+      Rating: rating,
+      post: props.post.key,
+      uid: props.user.uid,
+      submitted: new Date().toString(),
+    });
+    setLoading(false);
+    props.handleClose();
+  };
+
+  return (
+    <Dialog open={props.openDialog} id="admin-modal" style={{ width: '100%' }}>
+      <DialogTitle id="form-dialog-title">{props.user.uid !== props.post.author ? "Critique" : "Analytics"}
+        <img
+          alt="close"
+          src={exit}
+          onClick={() => props.handleClose()}
+          width="18px"
+          style={{
+            cursor: 'pointer',
+            verticalAlign: 'middle',
+            marginRight: '5px',
+            position: 'absolute',
+            right: '15px',
+            top: '19px'
+          }}
+        />
+      </DialogTitle>
+      <DialogContent>
+        <div
+          style={{
+            backgroundImage: "url('" + props.post.imageLink + "')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            marginBottom: "20px",
+            marginTop: "0px",
+            height: "200px",
+            borderRadius: "4px",
+            width: '100%'
+          }}
+        ></div>
+        <div>
+          <span>{props.post.location}</span>
+          <span
+            style={{
+              paddingLeft: '40px',
+              borderRadius: '4px',
+              marginBottom: '20px',
+              paddingTop: '0px !important',
+              paddingBottom: '5px',
+              width: '100%',
+              overflow: 'hidden',
+              float: 'right',
+              zIndex: '1',
+              fontSize: '10px',
+              fontStyle: 'italic',
+              marginLeft: '40px',
+              marginTop: '6px',
+            }}
+          >
+            <img
+              alt="camera"
+              src={cameraLogo}
+              width="18px"
+              style={{ verticalAlign: "middle", marginRight: "3px" }}
+            />{" "}
+            {props.post.camera}
+            <img
+              alt="aperture"
+              src={aperture}
+              width="18px"
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
+            />{" "}
+            {props.post.aperture}
+            <img
+              alt="lens"
+              src={lens}
+              width="18px"
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
+            />{" "}
+            {props.post.lens}
+            <img
+              alt="category"
+              src={category}
+              width="18px"
+              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
+            />{" "}
+            {props.post.category}
+          </span>
+        </div>
+        {props.user.uid !== props.post.author ?
+          <center><StarRatings
+            rating={rating}
+            starRatedColor="#212121"
+            starDimension="25px"
+            starHoverColor="#212121"
+            changeRating={(rating) => changeRating(rating)}
+            numberOfStars={5}
+            name="rating"
+          />
+          </center> :
+          <span>
+            <ul className="stats">
+              <li>
+                <img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}{props.post.oneStar}
+              </li>
+              <li>
+                <img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}{props.post.twoStars}
+              </li>
+              <li>
+                <img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}{props.post.threeStars}
+              </li>
+              <li>
+                <img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}{props.post.fourStars}
+              </li>
+              <li>
+                <img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                /><img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{" "}<img
+                  alt="star"
+                  src={review}
+                  width="18px"
+                  style={{ verticalAlign: "middle", marginRight: "3px" }}
+                />{props.post.fiveStars}
+              </li>
+            </ul>
+          </span>}
+        {/* <div style={{marginTop: '20px'}}>
+            {chips.map(chipy => {
+              return (
+                <Chip
+                  onClick={() => isSelected(chipy)}
+                  mode="outlined"
+                  key={chipy.key}
+                  label={
+                    !chipFocus(chipy) ?
+                      <span style={{
+                        color: chipFocus(chipy) ? '#FBC02D !important' : 'black !important',
+                        fontWeight: chipFocus(chipy) ? '500 !important' : 'normal !important'
+                      }}>
+                        {chipy.label}
+                        <img
+                          alt="heart"
+                          src={heartEmpty}
+                          width="18px"
+                          style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '18px', width: '15px' }}
+                        />
+                      </span> :
+                      <span style={{
+                        color: chipFocus(chipy) > 0 ? '#FBC02D !important' : 'black !important',
+                        fontWeight: chipFocus(chipy) > 0 ? '500 !important' : 'normal !important'
+                      }}>
+                        {chipy.label}
+                        <img
+                          alt="heart"
+                          src={heartFill}
+                          width="18px"
+                          style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '18px', width: '15px' }}
+                        />
+                      </span>
+                  }
+                  style={{
+                    margin: "5px",
+                    height: "35px",
+                    backgroundColor: 'white',
+                    borderColor: chipFocus(chipy) ? '#FBC02D' : 'rgb(186, 186, 186)', 
+                    borderWidth: "1px",
+                    borderStyle: "solid"
+                  }}
+                />
+              )
+            })}
+          </div> */}
+        {props.user.uid !== props.post.author ?
+          <center>
+            <FlatButton
+              label={
+                loading ? (
+                  <img
+                    width="35px"
+                    style={{
+                      verticalAlign: "middle",
+                      paddingBottom: "2px",
+                    }}
+                    src={loadingSpinner}
+                    alt="loading"
+                  />
+                ) : (
+                    "Submit"
+                  )
+              }
+              primary={true}
+              className="submitBtn"
+              onClick={() => updateRating()}
+              style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+            />
+          </center> : null}
+      </DialogContent>
+    </Dialog >
+  );
+};
+
+export default Critique;
+
+import React, { useState } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
 import jquery from 'jquery';
-import pencilLogo from "../static/pencil.svg";
-import { makeStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
 import loadingSpinner from "../static/loading.gif";
@@ -1782,6 +2160,7 @@ import admin from "../static/admin";
 import Nav from "./Nav";
 import Admin from "./Admin";
 import Form from "./Form";
+import Critique from "./Critique";
 import Slide from '@material-ui/core/Slide';
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -1797,11 +2176,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function Home(props) {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openCritique, setOpenCritique] = useState(false);
   const [zoomImage, setZoomImage] = useState("");
   const [showZoomModal, setShowZoomModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editPost, setEditPost] = useState(null);
   const [updateOpen, setUpdateOpen] = useState(false);
+  const [critiquePost, setCritiquePost] = useState(null);
   const [adminFlag, setAdminFlag] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
   const [userID, setUserID] = useState(false);
@@ -1830,6 +2211,12 @@ function Home(props) {
       setOpenDialog(true);
     }
   };
+
+  const handleOpenCritique = (post) => {
+    !openCritique && setCritiquePost(post);
+    openCritique && setCritiquePost(null);
+    setOpenCritique(!openCritique);
+  }
 
   const navigate = () => {
     var win = window.open("http://blog.ratemyshot.co/", "_blank");
@@ -1943,6 +2330,15 @@ function Home(props) {
           isVerifying={props.isVerifying}
         />
       ) : null}
+      {openCritique ? (
+        <Critique
+          openDialog={openCritique}
+          post={critiquePost}
+          setOpenDialog={() => setOpenCritique()}
+          handleClose={() => setOpenCritique()}
+          {...props}
+        />
+      ) : null}
       <Form
         openDialog={openDialog}
         setOpenDialog={(value) => setOpenDialog(value)}
@@ -1953,6 +2349,7 @@ function Home(props) {
       />
       <Posts
         firebase={realTime}
+        openCritique={(post) => handleOpenCritique(post)}
         showZoomModal={(image) => openZoomModal(image)}
         showEditModal={(post) => openEditModal(post)}
         adminFlag={adminFlag}
@@ -1982,9 +2379,12 @@ import firebase from "firebase/app";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import FlatButton from "material-ui/FlatButton";
+import exit from "../static/close.svg";
 import CardActions from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import ReactCodeInput from 'react-verification-code-input';
+import loadingSpinner from "../static/loading.gif";
 
 const CssTextField = makeStyles((theme) => ({
   root: {
@@ -2099,6 +2499,20 @@ function Login(props) {
     return (
       <div>
         <div id="login-cover-image" />
+        <img
+          alt="close"
+          src={exit}
+          onClick={() => history.push("/")}
+          width="18px"
+          style={{
+            cursor: 'pointer',
+            verticalAlign: 'middle',
+            marginRight: '5px',
+            position: 'absolute',
+            right: '15px',
+            top: '19px'
+          }}
+        />
         <div
           id="login-right"
           style={{
@@ -2113,63 +2527,57 @@ function Login(props) {
           }}
         >
           <Typography variant="h4" style={{ padding: "20px" }}>
-            <div className="wrapper" style={{cursor: "pointer"}}  onClick={() => history.push("/")}></div>
+            <div className="wrapper" style={{ cursor: "pointer" }} onClick={() => history.push("/")}></div>
           </Typography>
-          <div >
-            Artive is <br/>
-            <span> a judgement-free,{" "}</span><br/>
+          <div id="blurb">
+            Artive is <br />
+            <span> a judgement-free,{" "}</span><br />
             <span style={{ color: "#FBC02D", fontWeight: "500" }}>
               anonymous{" "}
-            </span><br/>
-            photography sharing platform<br/>
+            </span><br />
+            photography sharing platform<br />
             <span>that gives you a{" "}</span>
             <span style={{ color: "#FBC02D", fontWeight: "500" }}>
               no-bullshit{" "}
-            </span><br/>
-            <span>creative space</span><br/>
+            </span><br />
+            <span>creative space</span><br />
             <span>to become a <span style={{ color: "#FBC02D", fontWeight: "500" }}>better artist</span>.</span>
           </div>
-          {!verifyCodeFlag ? 
-          <TextField
-            InputProps={{ classes, disableUnderline: true }}
-            style={{
-              margin: "5px",
-              width: "50%",
-              marginBottom: "10px",
-              marginTop: "21px",
-            }}
-            id="phone"
-            placeholder={"Mobile Phone"}
-            onChange={(e) => validatePhone(e.target.value)}
-            error={error || apiError !== null}
-            helperText={
-              error
-                ? "Invalid phone number. Must begin with + and country code"
-                : apiError
-                ? apiError
-                : null
-            }
-            type="tel"
-            disabled={verifyCodeFlag}
-            variant="outlined"
-          /> :
-          <TextField
-            InputProps={{ classes, disableUnderline: true }}
-            style={{
-              margin: "5px",
-              width: "50%",
-              marginBottom: "10px",
-              marginTop: "21px",
-              backgroundColor: !verifyCodeFlag ? "lightgray" : undefined,
-            }}
-            id="code"
-            onChange={(e) => validateCode(e.target.value)}
-            placeholder={"Verification Code"}
-            variant="outlined"
-            type="number"
-            maxLength="6"
-            disabled={!verifyCodeFlag}
-          />}
+          {!verifyCodeFlag ?
+            <TextField
+              InputProps={{ classes, disableUnderline: true }}
+              style={{
+                margin: "5px",
+                width: "50%",
+                marginBottom: "10px",
+                marginTop: "21px",
+              }}
+              id="phone"
+              placeholder={"Mobile Phone"}
+              onChange={(e) => validatePhone(e.target.value)}
+              error={error || apiError !== null}
+              helperText={
+                error
+                  ? "Invalid phone number. Must begin with + and country code"
+                  : apiError
+                    ? apiError
+                    : null
+              }
+              type="tel"
+              disabled={verifyCodeFlag}
+              variant="outlined"
+            /> :
+            <ReactCodeInput
+              style={{
+                margin: "5px",
+                width: "50%",
+                marginBottom: "10px",
+                marginTop: "21px",
+                backgroundColor: !verifyCodeFlag ? "lightgray" : undefined,
+              }}
+              id="code"
+              onComplete={(e) => validateCode(e)}
+            />}
           <CardActions
             className="loginButtonContainer"
             style={{ backgroundColor: "white" }}
@@ -2184,10 +2592,18 @@ function Login(props) {
               disabled={error || phone == null || loading}
               label={
                 loading ? (
-                  <span style={{color: "black"}}>...</span>
+                  <img
+                    width="35px"
+                    style={{
+                      verticalAlign: "middle",
+                      paddingBottom: "4px",
+                    }}
+                    src={loadingSpinner}
+                    alt="loading"
+                  />
                 ) : (
-                  <img src={arrow} fill={"grey"} height={20} alt="arrow" />
-                )
+                    <img src={arrow} fill={"grey"} height={20} alt="arrow" />
+                  )
               }
               onClick={() => handleSubmit()}
             />
@@ -2228,17 +2644,15 @@ export default connect(mapStateToProps)(Logout);
 import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import AppBar from "material-ui/AppBar";
+import FlatButton from "material-ui/FlatButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import cameraWhite from "../static/camera.svg";
-import homeLogo from "../static/home.svg";
-import info from "../static/info.svg";
 import help from "../static/help.svg";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+// import BottomNavigation from "@material-ui/core/BottomNavigation";
+// import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
 import loginIconBlack from "../static/account.svg";
-import loginIcon from "../static/account-white.svg";
 
 function Nav(props) {
   let history = useHistory();
@@ -2300,26 +2714,23 @@ function Nav(props) {
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <>
-                  <Tooltip title="Logout">
-                    <img
-                      alt="logo"
-                      className="iconNav"
-                      src={loginIconBlack}
-                      onClick={() => props.logout()}
-                    />
-                  </Tooltip>
+                  <FlatButton
+                    label={"LOGOUT"}
+                    primary={true}
+                    className="logoutBtn"
+                    onClick={() => props.logout()}
+                    style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                  />
                 </>
               ) : null
             ) : !props.loginFlag ? (
-              <Tooltip title="Login">
-                <img
-                  alt="logo"
-                  className="iconNav"
-                  src={loginIconBlack}
-                  style={{ width: "20px" }}
-                  onClick={() => props.login()}
-                />
-              </Tooltip>
+              <FlatButton
+                    label={"LOGIN"}
+                    primary={true}
+                    className="logoutBtn"
+                    onClick={() => props.login()}
+                    style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                  />
             ) : null}
           </div>
         }

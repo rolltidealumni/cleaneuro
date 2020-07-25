@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import AppBar from "material-ui/AppBar";
+import FlatButton from "material-ui/FlatButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import cameraWhite from "../static/camera.svg";
-import homeLogo from "../static/home.svg";
-import info from "../static/info.svg";
 import help from "../static/help.svg";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+// import BottomNavigation from "@material-ui/core/BottomNavigation";
+// import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
 import loginIconBlack from "../static/account.svg";
-import loginIcon from "../static/account-white.svg";
 
 function Nav(props) {
   let history = useHistory();
@@ -73,26 +71,23 @@ function Nav(props) {
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <>
-                  <Tooltip title="Logout">
-                    <img
-                      alt="logo"
-                      className="iconNav"
-                      src={loginIconBlack}
-                      onClick={() => props.logout()}
-                    />
-                  </Tooltip>
+                  <FlatButton
+                    label={"LOGOUT"}
+                    primary={true}
+                    className="logoutBtn"
+                    onClick={() => props.logout()}
+                    style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                  />
                 </>
               ) : null
             ) : !props.loginFlag ? (
-              <Tooltip title="Login">
-                <img
-                  alt="logo"
-                  className="iconNav"
-                  src={loginIconBlack}
-                  style={{ width: "20px" }}
-                  onClick={() => props.login()}
-                />
-              </Tooltip>
+              <FlatButton
+                    label={"LOGIN"}
+                    primary={true}
+                    className="logoutBtn"
+                    onClick={() => props.login()}
+                    style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                  />
             ) : null}
           </div>
         }

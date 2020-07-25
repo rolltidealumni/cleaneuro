@@ -7,6 +7,7 @@ import admin from "../static/admin";
 import Nav from "./Nav";
 import Admin from "./Admin";
 import Form from "./Form";
+import Critique from "./Critique";
 import Slide from '@material-ui/core/Slide';
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -22,11 +23,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function Home(props) {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openCritique, setOpenCritique] = useState(false);
   const [zoomImage, setZoomImage] = useState("");
   const [showZoomModal, setShowZoomModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editPost, setEditPost] = useState(null);
   const [updateOpen, setUpdateOpen] = useState(false);
+  const [critiquePost, setCritiquePost] = useState(null);
   const [adminFlag, setAdminFlag] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
   const [userID, setUserID] = useState(false);
@@ -55,6 +58,12 @@ function Home(props) {
       setOpenDialog(true);
     }
   };
+
+  const handleOpenCritique = (post) => {
+    !openCritique && setCritiquePost(post);
+    openCritique && setCritiquePost(null);
+    setOpenCritique(!openCritique);
+  }
 
   const navigate = () => {
     var win = window.open("http://blog.ratemyshot.co/", "_blank");
@@ -168,6 +177,15 @@ function Home(props) {
           isVerifying={props.isVerifying}
         />
       ) : null}
+      {openCritique ? (
+        <Critique
+          openDialog={openCritique}
+          post={critiquePost}
+          setOpenDialog={() => setOpenCritique()}
+          handleClose={() => setOpenCritique()}
+          {...props}
+        />
+      ) : null}
       <Form
         openDialog={openDialog}
         setOpenDialog={(value) => setOpenDialog(value)}
@@ -178,6 +196,7 @@ function Home(props) {
       />
       <Posts
         firebase={realTime}
+        openCritique={(post) => handleOpenCritique(post)}
         showZoomModal={(image) => openZoomModal(image)}
         showEditModal={(post) => openEditModal(post)}
         adminFlag={adminFlag}

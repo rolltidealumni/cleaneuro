@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "firebase/storage";
-import pencilLogo from "../static/pencil.svg";
 import jquery from 'jquery';
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
@@ -41,14 +40,13 @@ const Admin = (props) => {
   const [editorspick, setEditorsPick] = useState(props.post.editorspick);
 
   const selectLocation = (address, placeId) => {
-    console.log('hey');
-    geocodeByAddress(address)
-      .then(results => {
-        getLatLng(results[0])
-        setLocation(results[0].formatted_address);
-      })
-      .then(results => {console.log(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);})
-      .catch(error => {});
+    // geocodeByAddress(address)
+    //   .then(results => {
+    //     getLatLng(results[0])
+    //     setLocation(results[0].formatted_address);
+    //   })
+    //   .then(results => {console.log(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);})
+    //   .catch(error => {});
   }
 
   const RedSwitch = withStyles({
