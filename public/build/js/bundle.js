@@ -2365,9 +2365,12 @@ import firebase from "firebase/app";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import FlatButton from "material-ui/FlatButton";
+import exit from "../static/close.svg";
 import CardActions from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import ReactCodeInput from 'react-verification-code-input';
+import loadingSpinner from "../static/loading.gif";
 
 const CssTextField = makeStyles((theme) => ({
   root: {
@@ -2482,6 +2485,20 @@ function Login(props) {
     return (
       <div>
         <div id="login-cover-image" />
+        <img
+          alt="close"
+          src={exit}
+          onClick={() => history.push("/")}
+          width="18px"
+          style={{
+            cursor: 'pointer',
+            verticalAlign: 'middle',
+            marginRight: '5px',
+            position: 'absolute',
+            right: '15px',
+            top: '19px'
+          }}
+        />
         <div
           id="login-right"
           style={{
@@ -2496,63 +2513,57 @@ function Login(props) {
           }}
         >
           <Typography variant="h4" style={{ padding: "20px" }}>
-            <div className="wrapper" style={{cursor: "pointer"}}  onClick={() => history.push("/")}></div>
+            <div className="wrapper" style={{ cursor: "pointer" }} onClick={() => history.push("/")}></div>
           </Typography>
-          <div >
-            Artive is <br/>
-            <span> a judgement-free,{" "}</span><br/>
+          <div id="blurb">
+            Artive is <br />
+            <span> a judgement-free,{" "}</span><br />
             <span style={{ color: "#FBC02D", fontWeight: "500" }}>
               anonymous{" "}
-            </span><br/>
-            photography sharing platform<br/>
+            </span><br />
+            photography sharing platform<br />
             <span>that gives you a{" "}</span>
             <span style={{ color: "#FBC02D", fontWeight: "500" }}>
               no-bullshit{" "}
-            </span><br/>
-            <span>creative space</span><br/>
+            </span><br />
+            <span>creative space</span><br />
             <span>to become a <span style={{ color: "#FBC02D", fontWeight: "500" }}>better artist</span>.</span>
           </div>
-          {!verifyCodeFlag ? 
-          <TextField
-            InputProps={{ classes, disableUnderline: true }}
-            style={{
-              margin: "5px",
-              width: "50%",
-              marginBottom: "10px",
-              marginTop: "21px",
-            }}
-            id="phone"
-            placeholder={"Mobile Phone"}
-            onChange={(e) => validatePhone(e.target.value)}
-            error={error || apiError !== null}
-            helperText={
-              error
-                ? "Invalid phone number. Must begin with + and country code"
-                : apiError
-                ? apiError
-                : null
-            }
-            type="tel"
-            disabled={verifyCodeFlag}
-            variant="outlined"
-          /> :
-          <TextField
-            InputProps={{ classes, disableUnderline: true }}
-            style={{
-              margin: "5px",
-              width: "50%",
-              marginBottom: "10px",
-              marginTop: "21px",
-              backgroundColor: !verifyCodeFlag ? "lightgray" : undefined,
-            }}
-            id="code"
-            onChange={(e) => validateCode(e.target.value)}
-            placeholder={"Verification Code"}
-            variant="outlined"
-            type="number"
-            maxLength="6"
-            disabled={!verifyCodeFlag}
-          />}
+          {!verifyCodeFlag ?
+            <TextField
+              InputProps={{ classes, disableUnderline: true }}
+              style={{
+                margin: "5px",
+                width: "50%",
+                marginBottom: "10px",
+                marginTop: "21px",
+              }}
+              id="phone"
+              placeholder={"Mobile Phone"}
+              onChange={(e) => validatePhone(e.target.value)}
+              error={error || apiError !== null}
+              helperText={
+                error
+                  ? "Invalid phone number. Must begin with + and country code"
+                  : apiError
+                    ? apiError
+                    : null
+              }
+              type="tel"
+              disabled={verifyCodeFlag}
+              variant="outlined"
+            /> :
+            <ReactCodeInput
+              style={{
+                margin: "5px",
+                width: "50%",
+                marginBottom: "10px",
+                marginTop: "21px",
+                backgroundColor: !verifyCodeFlag ? "lightgray" : undefined,
+              }}
+              id="code"
+              onComplete={(e) => validateCode(e)}
+            />}
           <CardActions
             className="loginButtonContainer"
             style={{ backgroundColor: "white" }}
@@ -2567,10 +2578,18 @@ function Login(props) {
               disabled={error || phone == null || loading}
               label={
                 loading ? (
-                  <span style={{color: "black"}}>...</span>
+                  <img
+                    width="35px"
+                    style={{
+                      verticalAlign: "middle",
+                      paddingBottom: "4px",
+                    }}
+                    src={loadingSpinner}
+                    alt="loading"
+                  />
                 ) : (
-                  <img src={arrow} fill={"grey"} height={20} alt="arrow" />
-                )
+                    <img src={arrow} fill={"grey"} height={20} alt="arrow" />
+                  )
               }
               onClick={() => handleSubmit()}
             />
@@ -2611,6 +2630,7 @@ export default connect(mapStateToProps)(Logout);
 import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import AppBar from "material-ui/AppBar";
+import FlatButton from "material-ui/FlatButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import cameraWhite from "../static/camera.svg";
@@ -2680,26 +2700,23 @@ function Nav(props) {
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <>
-                  <Tooltip title="Logout">
-                    <img
-                      alt="logo"
-                      className="iconNav"
-                      src={loginIconBlack}
-                      onClick={() => props.logout()}
-                    />
-                  </Tooltip>
+                  <FlatButton
+                    label={"LOGOUT"}
+                    primary={true}
+                    className="logoutBtn"
+                    onClick={() => props.logout()}
+                    style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                  />
                 </>
               ) : null
             ) : !props.loginFlag ? (
-              <Tooltip title="Login">
-                <img
-                  alt="logo"
-                  className="iconNav"
-                  src={loginIconBlack}
-                  style={{ width: "20px" }}
-                  onClick={() => props.login()}
-                />
-              </Tooltip>
+              <FlatButton
+                    label={"LOGIN"}
+                    primary={true}
+                    className="logoutBtn"
+                    onClick={() => props.login()}
+                    style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                  />
             ) : null}
           </div>
         }
