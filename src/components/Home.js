@@ -123,7 +123,6 @@ function Home(props) {
       ) : null}
       <Nav
         loginFlag={false}
-        navigate={() => navigate()}
         handleOpen={() => handleOpen()}
         logout={() => logout()}
         login={() => login()}

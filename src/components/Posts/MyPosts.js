@@ -6,6 +6,7 @@ import realTime from "../../firebase/firebase";
 import Post from "./Post";
 import Card from "@material-ui/core/Card";
 import Link from "@material-ui/core/Link";
+import Nav from "../Nav";
 import {
   connect
 } from "react-redux";
@@ -14,6 +15,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Tooltip from "@material-ui/core/Tooltip";
 import Popover from "@material-ui/core/Popover";
+import { useHistory } from "react-router-dom";
 import FlatButton from "material-ui/FlatButton";
 import InputLabel from "@material-ui/core/InputLabel";
 import Box from "@material-ui/core/Box";
@@ -26,8 +28,11 @@ import aperture from "../../static/aperture.svg";
 import category from "../../static/label.svg";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import { FormControl } from "@material-ui/core";
+import { logoutUser } from "../../actions";
 
-const Posts = (props) => {
+const MyPosts = (props) => {
+  let history = useHistory();
+  const [openDialog, setOpenDialog] = useState(false);
   const [filterValue, setFilterValue] = useState({ value: "", key: "" });
   const [sort] = useState({ sort: "total", order: "asc" });
   const [ordered, setOrdered] = useState([]);
@@ -55,10 +60,30 @@ const Posts = (props) => {
     if (win) win.focus();
   };
 
+  const handleOpen = () => {
+    if (!props.isAuthenticated) {
+      history.push("/login");
+    } else {
+      setOpenDialog(true);
+    }
+  };
+
   useEffect(() => {
-    getPosts();
-  }, [props.user]
+    if (!props.isAuthenticated) {
+      history.push("/");
+    }
+      getPosts();
+    }, [props.user]
   );
+
+  const logout = () => {
+    const { dispatch } = props;
+    dispatch(logoutUser());
+  };
+
+  const login = () => {
+    history.push("/login");
+  };
 
   const getPosts = () => {
     realTime
@@ -107,22 +132,15 @@ const Posts = (props) => {
             });
           });
         }
-
+        
         if (!filterValue.value) {
           setCameraList([...new Set(postCameras.sort((a, b) => (a > b ? 1 : -1)))]);
           setLensList([...new Set(postLens.sort((a, b) => (a > b ? 1 : -1)))]);
           setApertureList([...new Set(postAperture.sort((a, b) => (a > b ? 1 : -1)))]);
         }
-
-        if (props.isAuthenticated) {
-          setOrdered(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid));
-          setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid));
-          setStrict(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid));
-        } else if (!props.isAuthenticated) {
-          setOrdered(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
-          setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
-          setStrict(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
-        }
+        setOrdered(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author === props.user.uid));
+        setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author === props.user.uid));
+        setStrict(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author === props.user.uid));
       });
   }
 
@@ -174,6 +192,14 @@ const Posts = (props) => {
 
   return (
     <div>
+      <Nav
+        loginFlag={false}
+        handleOpen={() => handleOpen()}
+        logout={() => logout()}
+        login={() => login()}
+        isVerifying={props.isVerifying}
+        isAuthenticated={props.isAuthenticated}
+      />
       <div id="sort-pagination" >
         <PopupState variant="popover" popupId="mobile-filter-icon">
           {(popupState) => (
@@ -785,4 +811,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Posts);
+export default connect(mapStateToProps)(MyPosts);

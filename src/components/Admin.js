@@ -8,10 +8,7 @@ import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+import PlacesAutocomplete from 'react-places-autocomplete';
 import InputLabel from "@material-ui/core/InputLabel";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Switch from "@material-ui/core/Switch";
