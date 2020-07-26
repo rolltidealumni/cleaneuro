@@ -41,12 +41,11 @@ const Posts = (props) => {
   const [strict, setStrict] = useState([]);
   const [cameraValue, setCameraValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
-  let postz = [];
+ 
   let postCameras = [];
   let postLens = [];
   let postAperture = [];
-  let temp = [];
-
+ 
   const goToHelp = () => {
     var win = window.open(
       "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
@@ -56,11 +55,16 @@ const Posts = (props) => {
   };
 
   useEffect(() => {
-    getPosts();
+    let mounted = true;
+    getPosts(mounted);
+    return () => (mounted = false);
   }, [props.user]
   );
 
-  const getPosts = () => {
+  const getPosts = (mounted) => {
+    let temp = [];
+    let postz = [];
+
     realTime
       .ref("posts")
       .orderByChild(sort.sort)
@@ -107,23 +111,35 @@ const Posts = (props) => {
             });
           });
         }
+        if (mounted) {
+          if (!filterValue.value) {
+            setCameraList([...new Set(postCameras.sort((a, b) => (a > b ? 1 : -1)))]);
+            setLensList([...new Set(postLens.sort((a, b) => (a > b ? 1 : -1)))]);
+            setApertureList([...new Set(postAperture.sort((a, b) => (a > b ? 1 : -1)))]);
+          }
 
-        if (!filterValue.value) {
-          setCameraList([...new Set(postCameras.sort((a, b) => (a > b ? 1 : -1)))]);
-          setLensList([...new Set(postLens.sort((a, b) => (a > b ? 1 : -1)))]);
-          setApertureList([...new Set(postAperture.sort((a, b) => (a > b ? 1 : -1)))]);
-        }
-
-        if (props.isAuthenticated) {
-          setOrdered(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid));
-          setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid));
-          setStrict(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid));
-        } else if (!props.isAuthenticated) {
-          setOrdered(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
-          setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
-          setStrict(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
+          if (props.isAuthenticated) {
+            setOrdered(deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid)));
+            setPosts(deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid)));
+            setStrict(deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid)));
+          } else if (!props.isAuthenticated) {
+            setOrdered(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
+            setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
+            setStrict(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
+          }
         }
       });
+  }
+
+  const deDupe = (array) => {
+    return array.reduce((acc, current) => {
+      const x = acc.find(item => item.key === current.key);
+      if (!x) {
+        return acc.concat([current]);
+      } else {
+        return acc;
+      }
+    }, []);
   }
 
   const updateFilter = (value, key) => {

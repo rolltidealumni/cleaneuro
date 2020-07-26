@@ -7,6 +7,8 @@ import Post from "./Post";
 import Card from "@material-ui/core/Card";
 import Link from "@material-ui/core/Link";
 import Nav from "../Nav";
+import Critique from "../Critique";
+import Typography from "@material-ui/core/Typography";
 import {
   connect
 } from "react-redux";
@@ -35,6 +37,8 @@ const MyPosts = (props) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [filterValue, setFilterValue] = useState({ value: "", key: "" });
   const [sort] = useState({ sort: "total", order: "asc" });
+  const [openCritique, setOpenCritique] = useState(false);
+  const [critiquePost, setCritiquePost] = useState(null);
   const [ordered, setOrdered] = useState([]);
   const [posts, setPosts] = useState([]);
   const [postLoading, setPostLoading] = useState(false);
@@ -46,6 +50,7 @@ const MyPosts = (props) => {
   const [strict, setStrict] = useState([]);
   const [cameraValue, setCameraValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
+  const [average, setAverage] = useState([]);
   let postz = [];
   let postCameras = [];
   let postLens = [];
@@ -60,6 +65,12 @@ const MyPosts = (props) => {
     if (win) win.focus();
   };
 
+  const handleOpenCritique = (post) => {
+    !openCritique && setCritiquePost(post);
+    openCritique && setCritiquePost(null);
+    setOpenCritique(!openCritique);
+  }
+
   const handleOpen = () => {
     if (!props.isAuthenticated) {
       history.push("/login");
@@ -72,8 +83,8 @@ const MyPosts = (props) => {
     if (!props.isAuthenticated) {
       history.push("/");
     }
-      getPosts();
-    }, [props.user]
+    getPosts();
+  }, [props.user]
   );
 
   const logout = () => {
@@ -100,6 +111,7 @@ const MyPosts = (props) => {
             postCameras.push(child[1].camera);
             postLens.push(child[1].lens);
             postAperture.push(child[1].aperture);
+            
             temp.push({
               index: i,
               key: keys[i],
@@ -132,7 +144,7 @@ const MyPosts = (props) => {
             });
           });
         }
-        
+
         if (!filterValue.value) {
           setCameraList([...new Set(postCameras.sort((a, b) => (a > b ? 1 : -1)))]);
           setLensList([...new Set(postLens.sort((a, b) => (a > b ? 1 : -1)))]);
@@ -190,6 +202,25 @@ const MyPosts = (props) => {
     setPostLoading(false);
   };
 
+  const getAverage = () => {
+    let sum = 0;
+    let temp = posts.filter(e => e.average > 0);
+    temp.map(p => {
+      sum = sum + p.average;
+    });
+    return ({
+      average: sum / temp.length,
+      total: temp.length
+    });
+  }
+
+  const getMax = () => {
+    let temp = posts.filter(e => e.average > 0);
+    var res = Math.max.apply(Math,temp.map(function(o){return o.average;}))
+    var obj = temp.find(function(o){ return o.average == res; });
+    return obj;
+  }
+
   return (
     <div>
       <Nav
@@ -200,7 +231,52 @@ const MyPosts = (props) => {
         isVerifying={props.isVerifying}
         isAuthenticated={props.isAuthenticated}
       />
-      <div id="sort-pagination" >
+      {openCritique ? (
+        <Critique
+          openDialog={openCritique}
+          post={critiquePost}
+          setOpenDialog={() => setOpenCritique()}
+          handleClose={() => setOpenCritique()}
+          {...props}
+        />
+      ) : null}
+      <Card className={"MuiProjectCard--01"}
+        style={{
+          height: '350px',
+          width: '100%'
+        }}
+      >
+        <div
+          className={"MuiCard__head"}
+          style={{
+            marginTop: "110px",
+            marginLeft: "92px",
+            marginBottom: "20px",
+          }}
+        >
+          <Typography style={{ marginLeft: "15px", marginTop: "45px", marginBottom: "0px" }}>
+            <span style={{ cursor: 'pointer', fontSize: "28px", fontWeight: "600", marginBottom: "2px" }}>
+              Analytics
+            </span>
+            <div style={{marginTop: '20px'}}>
+              Photos submitted: {posts.length}
+            </div>
+            <div style={{marginTop: '5px'}}>
+              Average rating: {getAverage().average.toFixed(2)}
+            </div>
+            <div style={{marginTop: '5px'}}>
+              Photos rated: {getAverage().total}
+            </div>
+            <div style={{marginTop: '5px'}}>Most popular photo:{" "} 
+              {getMax() ? <a className="pop-link" href={"post/"+getMax().key}>{getMax().location}</a> : null}
+            </div>
+            <div style={{marginTop: '5px'}}>Most popular camera:{" "} 
+              {getMax() ? <a className="pop-link" href={"post/"+getMax().key}>{getMax().camera}</a> : null}
+            </div>
+            </Typography>
+          </div>
+      </Card>
+      <div id="sort-pagination-analytics" >
         <PopupState variant="popover" popupId="mobile-filter-icon">
           {(popupState) => (
             <div id="mobile-filter-icon">
@@ -737,7 +813,7 @@ const MyPosts = (props) => {
                     updateFilter("", "");
                   }
                 }
-              /> </Box> </Card > </div> </div> <div className="cards" > {
+              /> </Box> </Card > </div> </div> <div className="cards-analytics" > {
                 postLoading ? (<LinearProgress id="line-progress"
                   style={
                     {
@@ -758,7 +834,7 @@ const MyPosts = (props) => {
                         adminFlag={props.adminFlag}
                         key={i}
                         id={i}
-                        openCritique={(post) => props.openCritique(post)}
+                        openCritique={(post) => handleOpenCritique(post)}
                         post={post}
                         updateRating={(post, i, rating) =>
                           updateRating(post, post.key, rating)

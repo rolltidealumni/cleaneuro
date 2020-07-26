@@ -78,7 +78,7 @@ function Nav(props) {
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <>
-                  <Tooltip title="My Photos">
+                  <Tooltip title="Analytics">
                     <img
                       alt="my photos"
                       className="iconNav"
