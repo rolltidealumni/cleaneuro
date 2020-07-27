@@ -11,6 +11,7 @@ import {
 } from "react-redux";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Moment from "moment";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Tooltip from "@material-ui/core/Tooltip";
 import Popover from "@material-ui/core/Popover";
@@ -60,6 +61,13 @@ const Posts = (props) => {
     return () => (mounted = false);
   }, [props.user]
   );
+
+  const getDays = (submit) => {
+    var submitted = Moment(submit);
+    var today = Moment().startOf('day');
+    
+    return (7 - submitted.diff(today, 'days'))
+  }
 
   const getPosts = (mounted) => {
     let temp = [];
@@ -119,13 +127,29 @@ const Posts = (props) => {
           }
 
           if (props.isAuthenticated) {
-            setOrdered(deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid)));
-            setPosts(deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid)));
-            setStrict(deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author !== props.user.uid)));
+            setOrdered(
+              deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => i.author !== props.user.uid && getDays(i.submitted) < 8))
+            );
+            setPosts(
+              deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => i.author !== props.user.uid && getDays(i.submitted) < 8)));
+            setStrict(
+              deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => i.author !== props.user.uid && getDays(i.submitted) < 8)));
           } else if (!props.isAuthenticated) {
-            setOrdered(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
-            setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
-            setStrict(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
+            setOrdered(
+              temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => getDays(i.submitted) < 8)
+            );
+            setPosts(
+              temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => getDays(i.submitted) < 8)
+            );
+            setStrict(
+              temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => getDays(i.submitted) < 8)  
+            );
           }
         }
       });

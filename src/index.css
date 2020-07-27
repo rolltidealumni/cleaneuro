@@ -944,13 +944,15 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 #critiqueBtn {
   width: 90px !important;
   min-width: unset !important;
-  height: 45px !important;
+  height: 35px !important;
   border-radius: 4px !important;
   background-color: white !important;
   margin: 0px !important;
   font-weight: 700 !important;
   color: rgb(30,30,30) !important;
-  bottom: 13px !important
+  bottom: 13px !important;
+  top: -2px !important;
+  left: -134px;
 }
 
 #critiqueBtn span {

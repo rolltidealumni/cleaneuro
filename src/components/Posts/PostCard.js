@@ -51,6 +51,13 @@ const PostCard = (post) => {
     return obj ? '724px' : '300px';
   }
 
+  const getDays = () => {
+    var submitted = Moment(post.post.submitted);
+    var today = Moment().startOf('day');
+    
+    return (7 - submitted.diff(today, 'days'))
+  }
+
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
       style={{
@@ -148,6 +155,9 @@ const PostCard = (post) => {
           gutterBottom
           style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
         >
+          <span style={{position: "relative", top: "-24px"}}>
+            Expires in {getDays()} days
+          </span>
           <span>
             {post.isAuthenticated ?
               <FlatButton
