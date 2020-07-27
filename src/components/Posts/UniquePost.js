@@ -62,7 +62,7 @@ const UniquePost = (post) => {
     [post, getPost, params.id]);
 
   const route = () => {
-    history.push("/");
+    history.goBack();
   };
 
   const login = () => {
@@ -176,7 +176,7 @@ const UniquePost = (post) => {
           }}
           style={{ cursor: "pointer" }}
         >
-          Home
+          Back
           </Link>
         <Typography color="textPrimary">{postResponse.location}</Typography>
       </Breadcrumbs>
