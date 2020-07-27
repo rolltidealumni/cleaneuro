@@ -949,16 +949,23 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
   background-color: white !important;
   margin: 0px !important;
   font-weight: 700 !important;
+  overflow: visible !important;
   color: rgb(30,30,30) !important;
   bottom: 13px !important;
   top: -2px !important;
-  left: -134px;
+  left: -137px;
+}
+
+.analytics-btn span {
+  padding-left: 0px !important;
+  left: -3px;
 }
 
 #critiqueBtn span {
+  padding-left: 13px !important;
   font-weight: bold !important;
-  padding-left: 0px !important;
 }
+
  .stats {
     list-style-type: none; 
     padding-left: 0px !important;
