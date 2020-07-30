@@ -161,7 +161,7 @@ const PostCard = (post) => {
           <span>
             {post.isAuthenticated ?
               <FlatButton
-                label={post.user.uid === post.post.author ? "Analytics" : "Critique"}
+                label={post.user.uid === post.post.author ? "Stats" : "Critique"}
                 primary={true}
                 id="critiqueBtn"
                 className={post.user.uid === post.post.author ? "analytics-btn" : null}

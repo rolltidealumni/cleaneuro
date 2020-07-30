@@ -78,16 +78,16 @@ function Nav(props) {
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <>
-                  <Tooltip title="Analytics">
+                  <Tooltip title="Stats">
                     <img
                       alt="my photos"
                       className="iconNav"
                       src={analytics}
                       style={{
                         width: "20px",
-                        borderBottom: location.pathname === '/analytics' ? '2px solid white' : 'none'
+                        borderBottom: location.pathname === '/stats' ? '2px solid white' : 'none'
                       }}
-                      onClick={() => history.push('/analytics')}
+                      onClick={() => history.push('/stats')}
                     />
                   </Tooltip>
                   <Tooltip title="Help">

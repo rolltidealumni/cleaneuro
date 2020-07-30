@@ -268,7 +268,7 @@ const UniquePost = (post) => {
             <span>
             {post.isAuthenticated ?
               <FlatButton
-                label={post.user.uid === postResponse.author ? "Analytics" : "Critique"}
+                label={post.user.uid === postResponse.author ? "Stats" : "Critique"}
                 primary={true}
                 id="critiqueBtn"
                 onClick={() => handleOpenCritique(postResponse)}

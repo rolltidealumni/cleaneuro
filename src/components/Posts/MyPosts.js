@@ -257,7 +257,7 @@ const MyPosts = (props) => {
         >
           <Typography style={{ marginLeft: "15px", marginTop: "45px", marginBottom: "0px" }}>
             <span style={{ cursor: 'pointer', fontSize: "28px", fontWeight: "600", marginBottom: "2px" }}>
-              Analytics
+              Stats
             </span>
             <div style={{ marginTop: '20px' }}>
               Photos submitted: {cloneDeep(posts.length)}
@@ -269,10 +269,12 @@ const MyPosts = (props) => {
               Photos rated: {cloneDeep(getAverage().total)}
             </div>
             <div style={{ marginTop: '5px' }}>Most popular photo:{" "}
-              {getMax() ? <a className="pop-link" href={"post/" + cloneDeep(getMax().key)}>{cloneDeep(getMax().location)}</a> : null}
+              {getMax() ? <Link className="pop-link" onClick={() => {
+                history.push('post/' + cloneDeep(getMax().key))}}>{cloneDeep(getMax().location)}</Link> : null}
             </div>
             <div style={{ marginTop: '5px' }}>Most popular camera:{" "}
-              {getMax() ? <a className="pop-link" href={"post/" + cloneDeep(getMax().key)}>{cloneDeep(getMax().camera)}</a> : null}
+              {getMax() ? <Link className="pop-link" onClick={() => {
+                history.push('post/' + cloneDeep(getMax().key))}}>{cloneDeep(getMax().camera)}</Link> : null}
             </div>
           </Typography>
         </div>

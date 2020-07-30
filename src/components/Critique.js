@@ -121,7 +121,7 @@ const Critique = (props) => {
 
   return (
     <Dialog open={props.openDialog} id="admin-modal" style={{ width: '100%' }}>
-      <DialogTitle id="form-dialog-title">{props.user.uid !== props.post.author ? "Critique" : "Analytics"}
+      <DialogTitle id="form-dialog-title">{props.user.uid !== props.post.author ? "Critique" : "Stats"}
         <img
           alt="close"
           src={exit}

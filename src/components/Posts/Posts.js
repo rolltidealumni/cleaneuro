@@ -167,12 +167,22 @@ const Posts = (props) => {
   }
 
   const updateFilter = (value, key) => {
+    let results =[];
+
     if (value !== "") {
-      const results = ordered.filter(item => {
-        return (item[key] === value)
-      });
-      setOrdered(results);
-      setPosts(results)
+      if (ordered.length === 0) {
+        results = strict.filter(item => {
+          return (item[key] === value)
+        });
+        setOrdered(results);
+        setPosts(results)
+      } else {
+        results = ordered.filter(item => {
+          return (item[key] === value)
+        });
+        setOrdered(results);
+        setPosts(results)
+      }
     }
 
     if (value === "") {

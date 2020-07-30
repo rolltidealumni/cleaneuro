@@ -15,6 +15,7 @@ body {
 }
 
 .pop-link {
+  cursor: pointer !important;
   color: black !important;
   font-weight: bold !important;
   text-decoration: none !important;
@@ -139,6 +140,10 @@ body {
     z-index: 10000000023094;
     color: white !important;
 } */
+
+.no-results {
+  margin-left: 32px !important;
+}
 
 .mc-layout__bannerContent {
     display: none;
@@ -847,9 +852,10 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 #footerArea {
     padding: 25px;
     margin-top: 50px !important;
-    height: 20px;
+    height: 10px;
     bottom: 0px;
-    position: static !important;
+    background-color: lightgrey;
+    position: fixed !important;
     left: 0px;
     right: 0px;
     margin-bottom: 0px;
