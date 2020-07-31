@@ -14,6 +14,7 @@ import { useHistory, useParams } from "react-router-dom";
 import Nav from "../Nav";
 import ImageLoader from "react-load-image";
 import category from "../../static/label.svg";
+import { connect } from "react-redux";
 import lens from "../../static/lens.svg";
 import Skeleton from '@material-ui/lab/Skeleton';
 import { logoutUser } from "../../actions";
@@ -21,16 +22,18 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Typography from "@material-ui/core/Typography";
 
 const UniquePost = (post) => {
+  const { dispatch } = post;
   Moment.locale("en");
   let ordered = [];
   let history = useHistory();
   const [openCritique, setOpenCritique] = useState(false);
   const [portraitPhoto, setPortraitPhoto] = useState([{}]);
   let params = useParams();
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [height, setHeight] = useState(null);
   const [postLoading, setPostLoading] = useState(false);
   const [postResponse, setPostResponse] = useState({});
-  
+
   const handleOpen = () => {
     if (!post.isAuthenticated) {
       history.push("/login");
@@ -47,7 +50,7 @@ const UniquePost = (post) => {
   };
 
   const logout = () => {
-    const { dispatch } = post;
+
     dispatch(logoutUser());
   };
 
@@ -122,18 +125,12 @@ const UniquePost = (post) => {
       });
   }
 
-  const isPortrait = ({ target: img }, thisPost) => {
-    let obj = {
-      height: img.naturalHeight,
-      width: img.naturalWidth,
-      imageLink: thisPost.imageLink
-    };
-    if (img.naturalHeight > img.naturalWidth) {
-      portraitPhoto.push(obj);
-      setPortraitPhoto(portraitPhoto);
-      getHeight(thisPost.imageLink);
-    };
-  };
+  const getDays = () => {
+    var submitted = Moment(post.submitted);
+    var today = Moment().startOf('day');
+
+    return (7 - submitted.diff(today, 'days'))
+  }
 
   const goToHelp = () => {
     var win = window.open(
@@ -182,17 +179,17 @@ const UniquePost = (post) => {
       </Breadcrumbs>
       <Card className={"MuiProjectCard--01"} id="unique-card"
         style={{
-          height: height ? undefined : '466px',
+          display: imageLoaded ? 'block' : 'none',
           paddingBottom: '19px',
-          width: height === '300px' ? '90%' : '50%',
+          width: '50%',
         }}
       >
-        <ImageLoader src={postResponse.imageLink} onLoad={(t) => isPortrait(t, postResponse)}>
+        <ImageLoader src={postResponse.imageLink} onLoad={() => setImageLoaded(true)}>
           <CardMedia
             className={"MuiCardMedia-root"}
             style={{
-              height: height ? '1294px' : '364px',
-              backgroundPosition: height !== null && height !== '300px' ? 'bottom center' : 'center center',
+              height: '650px',
+              backgroundPosition: 'bottom center',
             }}
             image={postResponse.imageLink}
             id="cardImage-unique"
@@ -264,20 +261,30 @@ const UniquePost = (post) => {
                 />{" "}
                 {postResponse.category}
               </span>
+              <br/>
+              <Typography
+                className={"MuiTypography--headLabel"}
+                variant={"overline"}
+                gutterBottom
+                style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
+              >
+                <span className="expirelabel-unique">
+                  {getDays() > 7 ? "Expired " : "Expires in "} {getDays() > 7 ? getDays() - 7 : getDays()}  {getDays() > 7 ? getDays() === 8 ? "day ago" : "days ago" : "days"}
+                </span> </Typography>
             </Typography> : null}
-            <span>
+          <span>
             {post.isAuthenticated ?
               <FlatButton
                 label={post.user.uid === postResponse.author ? "Stats" : "Critique"}
                 primary={true}
-                id="critiqueBtn"
+                id="critiqueBtn-unique"
                 onClick={() => handleOpenCritique(postResponse)}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
               /> :
               <FlatButton
                 label={"Login"}
                 primary={true}
-                id="critiqueBtn"
+                id="critiqueBtn-unique"
                 onClick={() => history.push("/login")}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
               />}
@@ -321,4 +328,13 @@ const UniquePost = (post) => {
   );
 };
 
-export default UniquePost;
+
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    isVerifying: state.auth.isVerifying,
+    user: state.auth.user,
+  };
+}
+
+export default connect(mapStateToProps)(UniquePost);

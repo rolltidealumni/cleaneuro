@@ -52,6 +52,7 @@ body {
 .grecaptcha-badge { opacity:0;}
 
 #unique-card {
+    height:760px !important;
     margin-top: 150px !important;
     margin: auto;
     max-height: 1406px;
@@ -346,6 +347,23 @@ h3 {
 
 .MuiCardMedia-root {
   height: 302px !important;
+  background-position: center center !important;
+}
+
+.expirelabel-unique {    
+    position: relative;
+    top: -24px;
+    padding-right: 6px;
+    padding-left: 0px !important;
+    left: -14px
+}
+
+.imageloader-loading  {
+  height: 650px !important;
+} 
+
+#unique-card .MuiCardMedia-root {
+  height: 650px !important;
   background-position: center center !important;
 }
 
@@ -976,12 +994,30 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
   border-radius: 4px !important;
   background-color: white !important;
   margin: 0px !important;
+  margin-right: 10px !important;
   font-weight: 700 !important;
   overflow: visible !important;
   color: rgb(30,30,30) !important;
   bottom: 13px !important;
   top: -2px !important;
-  right: -139px;
+  float: right;
+}
+
+
+#critiqueBtn-unique {
+  width: 90px !important;
+  min-width: unset !important;
+  height: 35px !important;
+  border-radius: 4px !important;
+  background-color: white !important;
+  margin: 0px !important;
+  margin-right: 30px !important;
+  font-weight: 700 !important;
+  overflow: visible !important;
+  color: rgb(30,30,30) !important;
+  bottom: 13px !important;
+  top: -28px !important;
+  float: right;
 }
 
 .analytics-btn span {
@@ -990,6 +1026,11 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 }
 
 #critiqueBtn span {
+  padding-left: 13px !important;
+  font-weight: bold !important;
+}
+
+#critiqueBtn-unique span {
   padding-left: 13px !important;
   font-weight: bold !important;
 }
