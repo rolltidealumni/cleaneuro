@@ -1735,7 +1735,14 @@ const Critique = (props) => {
               primary={true}
               className="submitBtn"
               onClick={() => updateRating()}
-              style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+              disabled={rating === 0}
+              style={{ 
+                marginBottom: "10px", 
+                width: "100%", 
+                marginTop: "20px", 
+                color: 'rgb(30,30,30)',
+                backgroundColor: rating === 0 ? 'lightgray' : '#FBC02D'
+              }}
             />
           </center> : null}
       </DialogContent>
