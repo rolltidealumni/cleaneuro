@@ -65,11 +65,6 @@ function Home(props) {
     setOpenCritique(!openCritique);
   }
 
-  const navigate = () => {
-    var win = window.open("http://blog.ratemyshot.co/", "_blank");
-    win.focus();
-  };
-
   const logout = () => {
     const { dispatch } = props;
     dispatch(logoutUser());

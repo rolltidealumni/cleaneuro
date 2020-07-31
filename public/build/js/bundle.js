@@ -588,7 +588,7 @@ function App(props) {
       <Route path="/activate" render={(props) => <Login {...props} />} />
       <Route path="/post/:id" render={(props) => <UniquePost isAuthenticated={isAuthenticated} user={user} {...props} />} />
       <Route path="/contests" render={(props) => <Contests {...props} />} />
-      <Route path="/analytics" render={(props) => <MyPosts isAuthenticated={isAuthenticated} user={user}{...props} />} />
+      <Route path="/stats" render={(props) => <MyPosts isAuthenticated={isAuthenticated} user={user}{...props} />} />
     </Switch>
   );
 }
@@ -1485,7 +1485,7 @@ const Critique = (props) => {
 
   return (
     <Dialog open={props.openDialog} id="admin-modal" style={{ width: '100%' }}>
-      <DialogTitle id="form-dialog-title">{props.user.uid !== props.post.author ? "Critique" : "Analytics"}
+      <DialogTitle id="form-dialog-title">{props.user.uid !== props.post.author ? "Critique" : "Stats"}
         <img
           alt="close"
           src={exit}
@@ -2719,16 +2719,16 @@ function Nav(props) {
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <>
-                  <Tooltip title="Analytics">
+                  <Tooltip title="Stats">
                     <img
                       alt="my photos"
                       className="iconNav"
                       src={analytics}
                       style={{
                         width: "20px",
-                        borderBottom: location.pathname === '/analytics' ? '2px solid white' : 'none'
+                        borderBottom: location.pathname === '/stats' ? '2px solid white' : 'none'
                       }}
-                      onClick={() => history.push('/analytics')}
+                      onClick={() => history.push('/stats')}
                     />
                   </Tooltip>
                   <Tooltip title="Help">

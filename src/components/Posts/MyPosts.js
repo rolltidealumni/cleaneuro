@@ -9,49 +9,21 @@ import Link from "@material-ui/core/Link";
 import Nav from "../Nav";
 import Critique from "../Critique";
 import Typography from "@material-ui/core/Typography";
-import {
-  connect
-} from "react-redux";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import { connect } from "react-redux";
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Tooltip from "@material-ui/core/Tooltip";
-import Popover from "@material-ui/core/Popover";
 import { useHistory } from "react-router-dom";
-import FlatButton from "material-ui/FlatButton";
-import InputLabel from "@material-ui/core/InputLabel";
-import Box from "@material-ui/core/Box";
-import cameraLogo from "../../static/camera-two.svg";
 import twitter from "../../static/twitter.svg";
 import facebook from "../../static/facebook.svg";
-import filter from "../../static/filter.svg";
-import lens from "../../static/lens.svg";
-import aperture from "../../static/aperture.svg";
-import category from "../../static/label.svg";
-import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
-import { FormControl } from "@material-ui/core";
 import { logoutUser } from "../../actions";
 import cloneDeep from 'lodash/cloneDeep';
 
 const MyPosts = (props) => {
   let history = useHistory();
-  const [openDialog, setOpenDialog] = useState(false);
-  const [filterValue, setFilterValue] = useState({ value: "", key: "" });
   const [sort] = useState({ sort: "total", order: "asc" });
   const [openCritique, setOpenCritique] = useState(false);
   const [critiquePost, setCritiquePost] = useState(null);
-  const [ordered, setOrdered] = useState([]);
   const [posts, setPosts] = useState([]);
   const [postLoading, setPostLoading] = useState(false);
-  const [cameraList, setCameraList] = useState([]);
-  const [lensList, setLensList] = useState([]);
-  const [apertureList, setApertureList] = useState([]);
-  const [lensValue, setLensValue] = useState("");
-  const [apertureValue, setApertureValue] = useState("");
-  const [strict, setStrict] = useState([]);
-  const [cameraValue, setCameraValue] = useState("");
-  const [categoryValue, setCategoryValue] = useState("");
-  const [average, setAverage] = useState([]);
   let postz = [];
   let postCameras = [];
   let postLens = [];
@@ -75,8 +47,6 @@ const MyPosts = (props) => {
   const handleOpen = () => {
     if (!props.isAuthenticated) {
       history.push("/login");
-    } else {
-      setOpenDialog(true);
     }
   };
 
@@ -145,32 +115,9 @@ const MyPosts = (props) => {
             });
           });
         }
-
-        if (!filterValue.value) {
-          setCameraList([...new Set(postCameras.sort((a, b) => (a > b ? 1 : -1)))]);
-          setLensList([...new Set(postLens.sort((a, b) => (a > b ? 1 : -1)))]);
-          setApertureList([...new Set(postAperture.sort((a, b) => (a > b ? 1 : -1)))]);
-        }
-        setOrdered(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author === props.user.uid));
         setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author === props.user.uid));
-        setStrict(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author === props.user.uid));
       });
   }
-
-  const updateFilter = (value, key) => {
-    if (value !== "") {
-      const results = ordered.filter(item => {
-        return (item[key] === value)
-      });
-      setOrdered(results);
-      setPosts(results)
-    }
-
-    if (value === "") {
-      setPosts(strict);
-      setOrdered(strict);
-    }
-  };
 
   const updateRating = (post, key, rating) => {
     setPostLoading(true);
@@ -218,7 +165,7 @@ const MyPosts = (props) => {
   const getMax = () => {
     let temp = posts.filter(e => e.average > 0);
     var res = Math.max.apply(Math, temp.map(function (o) { return o.average; }))
-    var obj = temp.find(function (o) { return o.average == res; });
+    var obj = temp.find(function (o) { return o.average === res; });
     return obj;
   }
 
@@ -251,7 +198,7 @@ const MyPosts = (props) => {
           className={"MuiCard__head"}
           style={{
             marginTop: "110px",
-            marginLeft: "92px",
+            marginLeft: '5%',
             marginBottom: "20px",
           }}
         >

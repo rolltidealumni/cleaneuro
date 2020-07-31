@@ -1,10 +1,12 @@
 /* yellow: #FBC02D*/
 html, body {
   height:100%;
-} 
+  overflow-x: hidden;
+}
 
 body {
     margin: 0;
+    position: relative;
     background-color: #eeee;
     font-family: 'Nunito' !important;
 }
@@ -205,6 +207,10 @@ h3 {
   width: 90%;
   left: 40px;
   top: 355px;
+}
+
+.MuiPaper-elevation16 {
+  width: 200px;
 }
 
 .cards-analytics {
@@ -464,6 +470,13 @@ h3 {
   .admin-modal {
     width: 80% !important;
   }
+
+  #admin-modal .MuiDialog-paper {
+      margin: 0px !important;
+      width: 100% !important;
+      max-width: none !important
+  }
+
 }
 
 @media  (min-width: 633px) and (max-width: 1000px) {
@@ -512,6 +525,16 @@ h3 {
         margin-top: 175px;
         margin-left: initial !important;
         margin-bottom: 100px !important;
+    }
+
+    .cards-analytics {
+        min-width: initial !important;
+
+    }
+    .cards-analytics .cardContainer {
+      margin-bottom: 20px !important;
+      margin-left: 8px !important;
+      margin-right: auto !important; 
     }
     .cardContainer {
       margin-left: 30px;
@@ -638,7 +661,7 @@ h3 {
     }
 
   #nav-post {
-    display: inline-block !important;
+    display: flex !important;
   }
     #unique-card {
         width: 90% !important;
