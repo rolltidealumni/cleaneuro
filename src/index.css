@@ -773,7 +773,6 @@ h3 {
     width: 50%;
     height: 55px !important;
     border-radius: 0px !important;
-    background-color: #FBC02D !important;
     z-index: 12408;
     font-weight: bold !important;
     color: rgb(30,30,30) !important;
@@ -982,7 +981,7 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
   color: rgb(30,30,30) !important;
   bottom: 13px !important;
   top: -2px !important;
-  left: -137px;
+  right: -139px;
 }
 
 .analytics-btn span {
