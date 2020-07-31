@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
-import $ from "jquery";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import jQuery from "jquery";
 import AppBar from "material-ui/AppBar";
-import FlatButton from "material-ui/FlatButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
+import Drawer from '@material-ui/core/Drawer';
 import cameraWhite from "../static/camera.svg";
 import help from "../static/help.svg";
-// import BottomNavigation from "@material-ui/core/BottomNavigation";
-// import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+import menu from "../static/menu.svg";
+import login from "../static/login.svg";
+import home from "../static/home.svg";
+import analytics from "../static/analytics.png"
 import navbar from "../static/logo.svg";
-import loginIconBlack from "../static/account.svg";
 
 function Nav(props) {
   let history = useHistory();
   const [value, setValue] = useState(0);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const goToHelp = () => {
     var win = window.open(
       "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
@@ -24,10 +31,123 @@ function Nav(props) {
 
   useEffect(() => {
     if (history.location.pathname === "/login") {
-      $("#loginBottom").click();
+      jQuery("#loginBottom").click();
       setValue(3);
     }
   }, [value, history.location.pathname]);
+
+  const list = () => (
+    <div
+      role="presentation"
+      onClick={() => setDrawerOpen(!drawerOpen)}
+      onKeyDown={() => setDrawerOpen(!drawerOpen)}
+    >
+      <List>
+        <ListItem button key={'home'} onClick={() => {
+          setDrawerOpen(false);
+          history.push('/');
+        }}
+        >
+          <ListItemIcon>
+            <img
+              alt="home"
+              className="iconNav"
+              src={home}
+              style={{
+                width: "20px"
+              }}
+            />
+          </ListItemIcon>
+          <ListItemText primary={'Home'} />
+        </ListItem>
+        {history.location.pathname === "/" ?
+          <ListItem id="nav-post" button key={'Post'} onClick={() => {
+            setDrawerOpen(false);
+            props.handleOpen();
+          }}
+          >
+            <ListItemIcon>
+              <img
+                alt="camera"
+                style={{
+                  width: "20px"
+                }}
+                className="iconNav"
+                src={cameraWhite}
+              />
+            </ListItemIcon>
+            <ListItemText primary={'Post'} />
+          </ListItem> : null}
+        {props.isAuthenticated ? (
+          !props.loginFlag ? (
+            <>
+              <ListItem button key={'Stats-menu'} onClick={() => {
+                setDrawerOpen(false);
+                history.push('/stats')
+              }}
+              >
+                <ListItemIcon>
+                  <img
+                    alt="stats-menu"
+                    style={{
+                      width: "20px"
+                    }}
+                    className="iconNav"
+                    src={analytics}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={'Stats'} />
+              </ListItem>
+              <ListItem button key={'Stats-2'} onClick={() => {
+                setDrawerOpen(false);
+                goToHelp();
+              }}
+              >
+                <ListItemIcon>
+                  <img
+                    alt="help"
+                    className="iconNav"
+                    src={help}
+                    style={{ width: "20px" }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={'Help'} />
+              </ListItem>
+              <ListItem button key={'Stats'} onClick={() => {
+                setDrawerOpen(false);
+                props.logout()
+              }}
+              >
+                <ListItemIcon>
+                  <img
+                    alt="login"
+                    className="iconNav"
+                    src={login}
+                    style={{ width: "20px" }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={'Logout'} />
+              </ListItem>
+            </>
+          ) : null) : !props.loginFlag ? (
+            <ListItem button key={'Stats'} onClick={() => {
+              setDrawerOpen(false);
+              props.login()
+            }}
+            >
+              <ListItemIcon>
+                <img
+                  alt="login"
+                  className="iconNav"
+                  src={login}
+                  style={{ width: "20px" }}
+                />
+              </ListItemIcon>
+              <ListItemText primary={'Login'} />
+            </ListItem>) : null}
+      </List>
+    </div>
+  );
 
   return (
     <span>
@@ -44,56 +164,33 @@ function Nav(props) {
             style={{ width: "80px", marginTop: "18px", cursor: "pointer" }}
           />
         }
-        iconElementRight={
-          <div
-            className="desktop-nav-icons"
-            style={{ padding: "20px !important", verticalAlign: "middle" }}
-          >
-            <span id="nav-post">
-              <Tooltip title="Post" >
-                <img
-                  alt="camera"
-                  className="iconNav"
-                  src={cameraWhite}
-                  onClick={() => props.handleOpen()}
-                />
-              </Tooltip>
-            </span>
-            <Tooltip title="Help">
+        iconElementRight={<div
+          className="desktop-nav-icons"
+          style={{ padding: "20px !important", verticalAlign: "middle" }}
+        >
+          <span id="menu">
+            <Tooltip title="Menu" >
               <img
-                alt="help"
+                alt="menu"
                 className="iconNav"
-                src={help}
-                style={{ width: "20px" }}
-                onClick={() => goToHelp()}
+                src={menu}
+                onClick={() => setDrawerOpen(true)}
               />
             </Tooltip>
-            {props.isAuthenticated ? (
-              !props.loginFlag ? (
-                <>
-                  <FlatButton
-                    label={"LOGOUT"}
-                    primary={true}
-                    className="logoutBtn"
-                    onClick={() => props.logout()}
-                    style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-                  />
-                </>
-              ) : null
-            ) : !props.loginFlag ? (
-              <FlatButton
-                    label={"LOGIN"}
-                    primary={true}
-                    className="logoutBtn"
-                    onClick={() => props.login()}
-                    style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-                  />
-            ) : null}
-          </div>
-        }
+          </span>
+        </div>}
         iconStyleLeft={{ display: "none" }}
       />
-    </span>
+      <Drawer
+        onBackdropClick={() => setDrawerOpen(false)}
+        anchor={'right'}
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        style={{ width: '200px' }}
+      >
+        {list()}
+      </Drawer>
+    </span >
   );
 }
 

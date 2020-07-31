@@ -14,7 +14,6 @@ import { useHistory, useParams } from "react-router-dom";
 import Nav from "../Nav";
 import ImageLoader from "react-load-image";
 import category from "../../static/label.svg";
-import Tooltip from "@material-ui/core/Tooltip";
 import lens from "../../static/lens.svg";
 import Skeleton from '@material-ui/lab/Skeleton';
 import { logoutUser } from "../../actions";
@@ -63,7 +62,7 @@ const UniquePost = (post) => {
     [post, getPost, params.id]);
 
   const route = () => {
-    history.push("/");
+    history.goBack();
   };
 
   const login = () => {
@@ -177,7 +176,7 @@ const UniquePost = (post) => {
           }}
           style={{ cursor: "pointer" }}
         >
-          Home
+          Back
           </Link>
         <Typography color="textPrimary">{postResponse.location}</Typography>
       </Breadcrumbs>
@@ -269,7 +268,7 @@ const UniquePost = (post) => {
             <span>
             {post.isAuthenticated ?
               <FlatButton
-                label={post.user.uid === postResponse.author ? "Analytics" : "Critique"}
+                label={post.user.uid === postResponse.author ? "Stats" : "Critique"}
                 primary={true}
                 id="critiqueBtn"
                 onClick={() => handleOpenCritique(postResponse)}
@@ -286,7 +285,7 @@ const UniquePost = (post) => {
         </div>
       </Card>
       {!postLoading ? (<div id="footerArea" >
-        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <a href="#" onClick={() => goToHelp()}> Help </a>{" "} /
+        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <Link style={{ cursor: "pointer" }} onClick={() => goToHelp()} >Help</Link>{" "} /
             {" "} <a alt="twitter"
             href="https://twitter.com/artiveco"
             target="_blank"

@@ -51,6 +51,13 @@ const PostCard = (post) => {
     return obj ? '724px' : '300px';
   }
 
+  const getDays = () => {
+    var submitted = Moment(post.post.submitted);
+    var today = Moment().startOf('day');
+    
+    return (7 - submitted.diff(today, 'days'))
+  }
+
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
       style={{
@@ -148,14 +155,24 @@ const PostCard = (post) => {
           gutterBottom
           style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
         >
+          <span style={{position: "relative", top: "-24px", paddingRight: getDays() === 8 ? "15px" : getDays() - 7 < 10 ? "6px" : undefined}}>
+          {getDays() > 7 ? "Expired " : "Expires in "} {getDays() > 7 ? getDays() - 7 : getDays()}  {getDays() > 7 ? getDays() === 8 ? "day ago" : "days ago" : "days"}
+          </span>
           <span>
             {post.isAuthenticated ?
               <FlatButton
-                label={post.user.uid === post.post.author ? "Analytics" : "Critique"}
+                label={post.user.uid === post.post.author ? "Stats" : "Critique"}
                 primary={true}
                 id="critiqueBtn"
+                className={post.user.uid === post.post.author ? "analytics-btn" : null}
                 onClick={() => post.openCritique(post.post)}
-                style={{ textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                style={{ 
+                  textTransform: 'capitalize !important', 
+                  marginBottom: "10px", 
+                  width: "100%", 
+                  marginTop: "20px", 
+                  color: 'rgb(30,30,30)' 
+                }}
               /> :
               <FlatButton
                 label={"Login"}

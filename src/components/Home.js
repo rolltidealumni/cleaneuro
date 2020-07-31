@@ -65,11 +65,6 @@ function Home(props) {
     setOpenCritique(!openCritique);
   }
 
-  const navigate = () => {
-    var win = window.open("http://blog.ratemyshot.co/", "_blank");
-    win.focus();
-  };
-
   const logout = () => {
     const { dispatch } = props;
     dispatch(logoutUser());
@@ -123,7 +118,6 @@ function Home(props) {
       ) : null}
       <Nav
         loginFlag={false}
-        navigate={() => navigate()}
         handleOpen={() => handleOpen()}
         logout={() => logout()}
         login={() => login()}

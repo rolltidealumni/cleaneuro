@@ -5,11 +5,13 @@ import React, {
 import realTime from "../../firebase/firebase";
 import Post from "./Post";
 import Card from "@material-ui/core/Card";
+import Link from "@material-ui/core/Link";
 import {
   connect
 } from "react-redux";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Moment from "moment";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Tooltip from "@material-ui/core/Tooltip";
 import Popover from "@material-ui/core/Popover";
@@ -24,15 +26,11 @@ import lens from "../../static/lens.svg";
 import aperture from "../../static/aperture.svg";
 import category from "../../static/label.svg";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
-import {
-  FormControl
-} from "@material-ui/core";
-import { CommunicationForum } from "material-ui/svg-icons";
-import { isArray } from "jquery";
+import { FormControl } from "@material-ui/core";
 
 const Posts = (props) => {
-  let postz = [];
-
+  const [filterValue, setFilterValue] = useState({ value: "", key: "" });
+  const [sort] = useState({ sort: "total", order: "asc" });
   const [ordered, setOrdered] = useState([]);
   const [posts, setPosts] = useState([]);
   const [postLoading, setPostLoading] = useState(false);
@@ -44,16 +42,11 @@ const Posts = (props) => {
   const [strict, setStrict] = useState([]);
   const [cameraValue, setCameraValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
-  const [conditions, setConditions] = useState([() => { }]);
-  const [filterValue, setFilterValue] = useState({
-    value: "",
-    key: ""
-  });
-  const [sort] = useState({
-    sort: "total",
-    order: "asc"
-  });
-
+ 
+  let postCameras = [];
+  let postLens = [];
+  let postAperture = [];
+ 
   const goToHelp = () => {
     var win = window.open(
       "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
@@ -62,14 +55,25 @@ const Posts = (props) => {
     if (win) win.focus();
   };
 
-  const getPosts = async (mounted) => {
-    setPostLoading(true);
-    let postCameras = [];
-    let postLens = [];
-    let postAperture = [];
-    let temp = [];
+  useEffect(() => {
+    let mounted = true;
+    getPosts(mounted);
+    return () => (mounted = false);
+  }, [props.user]
+  );
 
-    await realTime
+  const getDays = (submit) => {
+    var submitted = Moment(submit);
+    var today = Moment().startOf('day');
+    
+    return (7 - submitted.diff(today, 'days'))
+  }
+
+  const getPosts = (mounted) => {
+    let temp = [];
+    let postz = [];
+
+    realTime
       .ref("posts")
       .orderByChild(sort.sort)
       .on("value", (snapshot) => {
@@ -114,46 +118,78 @@ const Posts = (props) => {
                   child[1].oneStar),
             });
           });
-          setPostLoading(false);
+        }
+        if (mounted) {
+          if (!filterValue.value) {
+            setCameraList([...new Set(postCameras.sort((a, b) => (a > b ? 1 : -1)))]);
+            setLensList([...new Set(postLens.sort((a, b) => (a > b ? 1 : -1)))]);
+            setApertureList([...new Set(postAperture.sort((a, b) => (a > b ? 1 : -1)))]);
+          }
+
+          if (props.isAuthenticated) {
+            setOrdered(
+              deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => i.author !== props.user.uid && getDays(i.submitted) < 8))
+            );
+            setPosts(
+              deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => i.author !== props.user.uid && getDays(i.submitted) < 8)));
+            setStrict(
+              deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => i.author !== props.user.uid && getDays(i.submitted) < 8)));
+          } else if (!props.isAuthenticated) {
+            setOrdered(
+              temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => getDays(i.submitted) < 8)
+            );
+            setPosts(
+              temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => getDays(i.submitted) < 8)
+            );
+            setStrict(
+              temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => getDays(i.submitted) < 8)  
+            );
+          }
         }
       });
+  }
 
-    if (mounted) {
-      if (!filterValue.value) {
-        setConditions(conditions.splice(0, 1));
-        setCameraList([...new Set(postCameras)]);
-        setLensList([...new Set(postLens)]);
-        setApertureList([...new Set(postAperture)]);
+  const deDupe = (array) => {
+    return array.reduce((acc, current) => {
+      const x = acc.find(item => item.key === current.key);
+      if (!x) {
+        return acc.concat([current]);
+      } else {
+        return acc;
       }
-      setOrdered(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
-      setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
-      setStrict(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)));
-    }
-    return ordered;
-  };
+    }, []);
+  }
 
   const updateFilter = (value, key) => {
+    let results =[];
+
     if (value !== "") {
-      const results = ordered.filter(item => {
-        return (item[key] == value)
-      });
-      setOrdered(results);
-      setPosts(results)
+      if (ordered.length === 0) {
+        results = strict.filter(item => {
+          return (item[key] === value)
+        });
+        setOrdered(results);
+        setPosts(results)
+      } else {
+        results = ordered.filter(item => {
+          return (item[key] === value)
+        });
+        setOrdered(results);
+        setPosts(results)
+      }
     }
 
-    if (value == "") {
+    if (value === "") {
       setPosts(strict);
       setOrdered(strict);
     }
   };
-
-  useEffect(
-    () => {
-      let mounted = true;
-      getPosts(mounted);
-      return () => (mounted = false);
-    }, [postLoading]
-  );
 
   const updateRating = (post, key, rating) => {
     setPostLoading(true);
@@ -757,7 +793,7 @@ const Posts = (props) => {
                   })
                 ) : (<span className="no-results" > There are no posts to display </span>)}
       </div> {!postLoading ? (<div id="footerArea" >
-        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <a href="#" onClick={() => goToHelp()}> Help </a>{" "} / {" "}
+        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <Link style={{ cursor: "pointer" }} onClick={() => goToHelp()} >Help</Link>{" "} / {" "}
           <a alt="twitter"
             href="https://twitter.com/artiveco"
             target="_blank"

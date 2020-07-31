@@ -1,10 +1,12 @@
 /* yellow: #FBC02D*/
 html, body {
   height:100%;
-} 
+  overflow-x: hidden;
+}
 
 body {
     margin: 0;
+    position: relative;
     background-color: #eeee;
     font-family: 'Nunito' !important;
 }
@@ -12,6 +14,13 @@ body {
 .styles_react-code-input__CRulA input {
   height: 40px !important;
   width: 40px !important;
+}
+
+.pop-link {
+  cursor: pointer !important;
+  color: black !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
 }
 
 .styles_react-code-input-container__tpiKG {
@@ -134,6 +143,10 @@ body {
     color: white !important;
 } */
 
+.no-results {
+  margin-left: 32px !important;
+}
+
 .mc-layout__bannerContent {
     display: none;
 }
@@ -187,6 +200,28 @@ h3 {
     width: 90%;
     left: 40px;
     top: 75px;
+}
+
+#sort-pagination-analytics {
+  position: absolute;
+  width: 90%;
+  left: 40px;
+  top: 355px;
+}
+
+.MuiPaper-elevation16 {
+  width: 200px;
+}
+
+.cards-analytics {
+  align-items: center;
+  min-width: 545px;
+  display: flow-root;
+  margin-bottom: 100px !important;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px !important;
 }
 
 .fileContainer {
@@ -435,6 +470,13 @@ h3 {
   .admin-modal {
     width: 80% !important;
   }
+
+  #admin-modal .MuiDialog-paper {
+      margin: 0px !important;
+      width: 100% !important;
+      max-width: none !important
+  }
+
 }
 
 @media  (min-width: 633px) and (max-width: 1000px) {
@@ -483,6 +525,16 @@ h3 {
         margin-top: 175px;
         margin-left: initial !important;
         margin-bottom: 100px !important;
+    }
+
+    .cards-analytics {
+        min-width: initial !important;
+
+    }
+    .cards-analytics .cardContainer {
+      margin-bottom: 20px !important;
+      margin-left: 8px !important;
+      margin-right: auto !important; 
     }
     .cardContainer {
       margin-left: 30px;
@@ -609,7 +661,7 @@ h3 {
     }
 
   #nav-post {
-    display: inline-block !important;
+    display: flex !important;
   }
     #unique-card {
         width: 90% !important;
@@ -823,9 +875,10 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 #footerArea {
     padding: 25px;
     margin-top: 50px !important;
-    height: 20px;
+    height: 10px;
     bottom: 0px;
-    position: static !important;
+    background-color: lightgrey;
+    position: fixed !important;
     left: 0px;
     right: 0px;
     margin-bottom: 0px;
@@ -920,19 +973,28 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 #critiqueBtn {
   width: 90px !important;
   min-width: unset !important;
-  height: 45px !important;
+  height: 35px !important;
   border-radius: 4px !important;
   background-color: white !important;
   margin: 0px !important;
   font-weight: 700 !important;
+  overflow: visible !important;
   color: rgb(30,30,30) !important;
-  bottom: 13px !important
+  bottom: 13px !important;
+  top: -2px !important;
+  left: -137px;
+}
+
+.analytics-btn span {
+  padding-left: 0px !important;
+  left: -3px;
 }
 
 #critiqueBtn span {
+  padding-left: 13px !important;
   font-weight: bold !important;
-  padding-left: 0px !important;
 }
+
  .stats {
     list-style-type: none; 
     padding-left: 0px !important;

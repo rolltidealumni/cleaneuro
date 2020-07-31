@@ -183,10 +183,7 @@ import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+import PlacesAutocomplete from 'react-places-autocomplete';
 import InputLabel from "@material-ui/core/InputLabel";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Switch from "@material-ui/core/Switch";
@@ -571,6 +568,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Home from "./Home";
 import Contests from "./Contests";
 import Login from "./Login";
+import MyPosts from "./Posts/MyPosts";
 import UniquePost from "./Posts/UniquePost";
 
 function App(props) {
@@ -590,6 +588,7 @@ function App(props) {
       <Route path="/activate" render={(props) => <Login {...props} />} />
       <Route path="/post/:id" render={(props) => <UniquePost isAuthenticated={isAuthenticated} user={user} {...props} />} />
       <Route path="/contests" render={(props) => <Contests {...props} />} />
+      <Route path="/stats" render={(props) => <MyPosts isAuthenticated={isAuthenticated} user={user}{...props} />} />
     </Switch>
   );
 }
@@ -1486,7 +1485,7 @@ const Critique = (props) => {
 
   return (
     <Dialog open={props.openDialog} id="admin-modal" style={{ width: '100%' }}>
-      <DialogTitle id="form-dialog-title">{props.user.uid !== props.post.author ? "Critique" : "Analytics"}
+      <DialogTitle id="form-dialog-title">{props.user.uid !== props.post.author ? "Critique" : "Stats"}
         <img
           alt="close"
           src={exit}
@@ -2276,7 +2275,6 @@ function Home(props) {
       ) : null}
       <Nav
         loginFlag={false}
-        navigate={() => navigate()}
         handleOpen={() => handleOpen()}
         logout={() => logout()}
         login={() => login()}
@@ -2648,14 +2646,18 @@ import FlatButton from "material-ui/FlatButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import cameraWhite from "../static/camera.svg";
-import help from "../static/help.svg";
+import help from "../static/help.svg"
+import home from "../static/home.svg";
+import analytics from "../static/analytics.png";
+import { useLocation } from 'react-router-dom'
+
 // import BottomNavigation from "@material-ui/core/BottomNavigation";
 // import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import navbar from "../static/logo.svg";
-import loginIconBlack from "../static/account.svg";
 
 function Nav(props) {
   let history = useHistory();
+  let location = useLocation();
   const [value, setValue] = useState(0);
   const goToHelp = () => {
     var win = window.open(
@@ -2692,6 +2694,18 @@ function Nav(props) {
             className="desktop-nav-icons"
             style={{ padding: "20px !important", verticalAlign: "middle" }}
           >
+            <Tooltip title="Home" >
+              <img
+                alt="home"
+                className="iconNav"
+                src={home}
+                style={{
+                  width: "20px",
+                  borderBottom: location.pathname === '/' ? '2px solid white' : 'none'
+                }}
+                onClick={() => history.push('/')}
+              />
+            </Tooltip>
             <span id="nav-post">
               <Tooltip title="Post" >
                 <img
@@ -2702,18 +2716,30 @@ function Nav(props) {
                 />
               </Tooltip>
             </span>
-            <Tooltip title="Help">
-              <img
-                alt="help"
-                className="iconNav"
-                src={help}
-                style={{ width: "20px" }}
-                onClick={() => goToHelp()}
-              />
-            </Tooltip>
             {props.isAuthenticated ? (
               !props.loginFlag ? (
                 <>
+                  <Tooltip title="Stats">
+                    <img
+                      alt="my photos"
+                      className="iconNav"
+                      src={analytics}
+                      style={{
+                        width: "20px",
+                        borderBottom: location.pathname === '/stats' ? '2px solid white' : 'none'
+                      }}
+                      onClick={() => history.push('/stats')}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Help">
+                    <img
+                      alt="help"
+                      className="iconNav"
+                      src={help}
+                      style={{ width: "20px" }}
+                      onClick={() => goToHelp()}
+                    />
+                  </Tooltip>
                   <FlatButton
                     label={"LOGOUT"}
                     primary={true}
@@ -2724,13 +2750,24 @@ function Nav(props) {
                 </>
               ) : null
             ) : !props.loginFlag ? (
-              <FlatButton
-                    label={"LOGIN"}
-                    primary={true}
-                    className="logoutBtn"
-                    onClick={() => props.login()}
-                    style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+              <>
+                <Tooltip title="Help">
+                  <img
+                    alt="help"
+                    className="iconNav"
+                    src={help}
+                    style={{ width: "20px" }}
+                    onClick={() => goToHelp()}
                   />
+                </Tooltip>
+                <FlatButton
+                  label={"LOGIN"}
+                  primary={true}
+                  className="logoutBtn"
+                  onClick={() => props.login()}
+                  style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                />
+              </>
             ) : null}
           </div>
         }

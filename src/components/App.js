@@ -5,6 +5,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Home from "./Home";
 import Contests from "./Contests";
 import Login from "./Login";
+import MyPosts from "./Posts/MyPosts";
 import UniquePost from "./Posts/UniquePost";
 
 function App(props) {
@@ -24,6 +25,7 @@ function App(props) {
       <Route path="/activate" render={(props) => <Login {...props} />} />
       <Route path="/post/:id" render={(props) => <UniquePost isAuthenticated={isAuthenticated} user={user} {...props} />} />
       <Route path="/contests" render={(props) => <Contests {...props} />} />
+      <Route path="/stats" render={(props) => <MyPosts isAuthenticated={isAuthenticated} user={user}{...props} />} />
     </Switch>
   );
 }
