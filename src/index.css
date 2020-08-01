@@ -52,6 +52,7 @@ body {
 .grecaptcha-badge { opacity:0;}
 
 #unique-card {
+    width: 90% !important;
     height:760px !important;
     margin-top: 150px !important;
     margin: auto;
