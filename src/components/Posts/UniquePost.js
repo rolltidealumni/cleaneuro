@@ -53,7 +53,8 @@ const UniquePost = (post) => {
   useEffect(
     () => {
       let mounted = true;
-      window.scrollTo(0, 0);
+      document.querySelector('body').scrollTo(0,0)
+
       // eslint-disable-next-line 
       getPost(mounted, params.id);
       return () => (mounted = false);
@@ -274,6 +275,8 @@ const UniquePost = (post) => {
                   "Critique"}
                 primary={true}
                 id="critiqueBtn-unique"
+                className={post.user.uid === postResponse.author ? "analytics-btn" : 
+                 haveTheyCritiqued(postResponse.key) ? "login-critique" : null}
                 disabled={haveTheyCritiqued(postResponse.key)}
                 onClick={() => handleOpenCritique(postResponse)}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
@@ -281,7 +284,6 @@ const UniquePost = (post) => {
               <FlatButton
                 label={"Login"}
                 primary={true}  
-                className="login-critique"
                 id="critiqueBtn-unique"
                 onClick={() => history.push("/login")}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}

@@ -177,7 +177,8 @@ const PostCard = (post) => {
                 primary={true}
                 id="critiqueBtn"
                 disabled={haveTheyCritiqued(post.post.key)}
-                className={post.user.uid === post.post.author ? "analytics-btn" : null}
+                className={post.user.uid === post.post.author ? "analytics-btn" : 
+                 haveTheyCritiqued(post.post.key) ? "login-critique" : null}
                 onClick={() => post.openCritique(post.post)}
                 style={{ 
                   textTransform: 'capitalize !important', 
@@ -191,7 +192,6 @@ const PostCard = (post) => {
                 label={"Login"}
                 primary={true}
                 id="critiqueBtn"
-                className="login-critique"
                 onClick={() => history.push("/login")}
                 style={{ textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'lightgray' }}
               />}
