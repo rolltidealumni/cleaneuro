@@ -1735,6 +1735,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import Alert from '@material-ui/lab/Alert';
 import Select from "@material-ui/core/Select";
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -1864,9 +1865,10 @@ const Form = (props) => {
               marginTop: "0px",
               fontSize: "14px",
               color: "#212121",
+              height: '73px'
             }}
           >
-            Your photo will expire in 7 days. Once submitted, you cannot update or delete. You may view your photo on the Stats page.
+           <Alert severity="info">Your photo will expire in 7 days. Once submitted, you cannot update or delete. You may view your photo on the Stats page.</Alert> 
           </span>
           <br />
         </DialogContentText>

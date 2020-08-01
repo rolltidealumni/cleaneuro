@@ -553,6 +553,10 @@ h3 {
         margin-bottom: 100px !important;
     }
 
+    .MuiTypography-colorTextSecondary {
+      height: auto !important;
+    }
+
     .cards-analytics {
         min-width: initial !important;
 
