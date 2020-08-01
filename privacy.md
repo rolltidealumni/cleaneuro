@@ -4,11 +4,11 @@
 
 **Last updated May 11, 2020**
 
-Thank you for choosing to be part of our community at Rate My Shot LLC \(“**Company**”, “**we**”, “**us**”, or “**our**”\). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our notice, or our practices with regards to your personal information, please contact us at morganthompson.photo@gmail.com.
+Thank you for choosing to be part of our community at Artive LLC \(“**Company**”, “**we**”, “**us**”, or “**our**”\). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our notice, or our practices with regards to your personal information, please contact us at morganthompson.photo@gmail.com.
 
-When you visit our website [https://www.ratemyshot.co](https://www.ratemyshot.co/), and use our services, you trust us with your personal information. We take your privacy very seriously. In this privacy notice, we seek to explain to you in the clearest way possible what information we collect, how we use it and what rights you have in relation to it. We hope you take some time to read through it carefully, as it is important. If there are any terms in this privacy notice that you do not agree with, please discontinue use of our Sites and our services.
+When you visit our website [https://www.artive.co](https://www.artive.co/), and use our services, you trust us with your personal information. We take your privacy very seriously. In this privacy notice, we seek to explain to you in the clearest way possible what information we collect, how we use it and what rights you have in relation to it. We hope you take some time to read through it carefully, as it is important. If there are any terms in this privacy notice that you do not agree with, please discontinue use of our Sites and our services.
 
-This privacy notice applies to all information collected through our website \(such as [https://www.ratemyshot.co](https://www.ratemyshot.co/)\), and/or any related services, sales, marketing or events \(we refer to them collectively in this privacy notice as the "**Services**"\).
+This privacy notice applies to all information collected through our website \(such as [https://www.artive.co](https://www.artive.co/)\), and/or any related services, sales, marketing or events \(we refer to them collectively in this privacy notice as the "**Services**"\).
 
 **Please read this privacy notice carefully as it will help you make informed decisions about sharing your personal information with us.**
 
@@ -139,7 +139,7 @@ We may update this privacy notice from time to time. The updated version will be
 
 **12. HOW CAN YOU CONTACT US ABOUT THIS POLICY?**
 
-If you have questions or comments about this policy, you may email us at contact@ratemyshot.co or by post to: Rate My Shot LLC 712 Tucker St \#342 RALEIGH, NC 27603 United States
+If you have questions or comments about this policy, you may email us at contact@ratemyshot.co
 
 **HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?**Based on the laws of some countries, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please submit a request form by clicking [here](https://app.termly.io/notify/283f6c41-35c7-4d5c-82de-bf91ff82e55e). We will respond to your request within 30 days.This privacy policy was created using [Termly’s Privacy Policy Generator](https://termly.io/products/privacy-policy-generator/?ftseo).
 
