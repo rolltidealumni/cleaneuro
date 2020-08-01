@@ -196,23 +196,27 @@ const MyPosts = (props) => {
             <span style={{ cursor: 'pointer', fontSize: "28px", fontWeight: "600", marginBottom: "2px" }}>
               Stats
             </span>
+
             <div style={{ marginTop: '20px' }}>
               Photos submitted: {cloneDeep(posts.length)}
             </div>
-            <div style={{ marginTop: '5px' }}>
-              Average rating: {cloneDeep(getAverage().average.toFixed(2))}
-            </div>
-            <div style={{ marginTop: '5px' }}>
-              Photos rated: {cloneDeep(getAverage().total)}
-            </div>
-            <div style={{ marginTop: '5px' }}>Most popular photo:{" "}
-              {getMax() ? <Link className="pop-link" onClick={() => {
-                history.push('post/' + cloneDeep(getMax().key))}}>{cloneDeep(getMax().location)}</Link> : null}
-            </div>
-            <div style={{ marginTop: '5px' }}>Most popular camera:{" "}
-              {getMax() ? <Link className="pop-link" onClick={() => {
-                history.push('post/' + cloneDeep(getMax().key))}}>{cloneDeep(getMax().camera)}</Link> : null}
-            </div>
+            {posts.length > 0 ?  (
+            <>
+              <div style={{ marginTop: '5px' }}>
+                Average rating: {cloneDeep(getAverage().average.toFixed(2))}
+              </div>
+              <div style={{ marginTop: '5px' }}>
+                Photos rated: {cloneDeep(getAverage().total)}
+              </div>
+              <div style={{ marginTop: '5px' }}>Most popular photo:{" "}
+                {getMax() ? <Link className="pop-link" onClick={() => {
+                  history.push('post/' + cloneDeep(getMax().key))}}>{cloneDeep(getMax().location)}</Link> : null}
+              </div>
+              <div style={{ marginTop: '5px' }}>Most popular camera:{" "}
+                {getMax() ? <Link className="pop-link" onClick={() => {
+                  history.push('post/' + cloneDeep(getMax().key))}}>{cloneDeep(getMax().camera)}</Link> : null}
+              </div>
+            </>) : null }
           </Typography>
         </div>
       </Card>

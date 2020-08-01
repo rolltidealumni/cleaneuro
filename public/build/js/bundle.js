@@ -2802,7 +2802,8 @@ function Nav(props) {
           </ListItemIcon>
           <ListItemText primary={'Home'} />
         </ListItem>
-        {history.location.pathname === "/" ?
+        {history.location.pathname === "/" && props.isAuthenticated &&
+          !props.loginFlag ? (
           <ListItem id="nav-post" button key={'Post'} onClick={() => {
             setDrawerOpen(false);
             props.handleOpen();
@@ -2819,7 +2820,7 @@ function Nav(props) {
               />
             </ListItemIcon>
             <ListItemText primary={'Post'} />
-          </ListItem> : null}
+          </ListItem> ) : null }
         {props.isAuthenticated ? (
           !props.loginFlag ? (
             <>
@@ -2832,6 +2833,7 @@ function Nav(props) {
                   <img
                     alt="stats-menu"
                     style={{
+                      height: "20px",
                       width: "20px"
                     }}
                     className="iconNav"
