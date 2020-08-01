@@ -16,6 +16,11 @@ body {
   width: 40px !important;
 }
 
+.MuiTypography-colorTextSecondary {
+  height: 73px !important;
+  margin-bottom: 0px !important;
+}
+
 .pop-link {
   cursor: pointer !important;
   color: black !important;

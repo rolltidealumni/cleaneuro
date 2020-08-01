@@ -1420,59 +1420,16 @@ import exit from "../static/close.svg";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import realTime from "../firebase/firebase";
+import TextField from '@material-ui/core/TextField';
 
 const Critique = (props) => {
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState(0);
-  // const [chipsTouched, setChipsTouched] = useState([]);
-  // let chips = [
-  //   {key: 0, label: "Lighting"},
-  //   {key: 1, label:"Color"},
-  //   {key: 2, label:"Composition"},
-  //   {key: 3, label:"Emotion"},
-  //   {key: 4, label:"Focus"},
-  //   {key: 5, label:"Concept"},
-  //   {key: 6, label:"Crop"},
-  //   {key: 7, label:"Perspective"}
-  // ];
-
-  // const selectChip = (chip) => {
-  //   chipsTouched.push({key: chip.key, label: chip.label});
-  //   setChipsTouched(chipsTouched);
-  // }
-
-  // const deSelectChip = (chip) => {
-  //   setChipsTouched((chipsTouched) => chipsTouched.filter((x) => x.key !== chip.key));
-  // }
-
-  // const handleSubmit = (e) => {
-  //   let postsRef = realTime.ref("posts");
-  //   setLoading(true);
-  //   postsRef.push({
-  //     location: jquery('#combo-box-demo').val(),
-  //     submitted: new Date().toString(),
-  //     oneStar: 0,
-  //     twoStars: 0,
-  //     threeStars: 0,
-  //     fourStars: 0,
-  //     fiveStars: 0,
-  //     total: 0,
-  //   });
-  // };
+  const [comment, setComment] = useState("");
 
   const changeRating = (newRating, name) => {
     setRating(newRating);
   };
-
-  // const isSelected = (chip) => {
-  //   const selected = chipsTouched.filter((x) => x.key === chip.key).length > 0; 
-  //   if (selected) deSelectChip(chip);
-  //   else selectChip(chip);
-  // };
-
-  // const chipFocus = (chip) => {
-  //    return chipsTouched.filter((x) => x.key === chip.key).length > 0; 
-  // }
 
   const updateRating = () => {
     let postRef = realTime.ref("posts/" + props.post.key);
@@ -1514,6 +1471,7 @@ const Critique = (props) => {
       Perspective: 0,
       Rating: rating,
       post: props.post.key,
+      comment: comment,
       uid: props.user.uid,
       submitted: new Date().toString(),
     });
@@ -1602,16 +1560,34 @@ const Critique = (props) => {
           </span>
         </div>
         {props.user.uid !== props.post.author ?
-          <center><StarRatings
-            rating={rating}
-            starRatedColor="#212121"
-            starDimension="25px"
-            starHoverColor="#212121"
-            changeRating={(rating) => changeRating(rating)}
-            numberOfStars={5}
-            name="rating"
-          />
-          </center> :
+          <>
+            <StarRatings
+              rating={rating}
+              starRatedColor="#212121"
+              starDimension="25px"
+              starHoverColor="#212121"
+              changeRating={(rating) => changeRating(rating)}
+              numberOfStars={5}
+              name="rating"
+            />
+            <br/>
+            <TextField
+              style={{
+                marginTop: '15px',
+                width: '100%'
+              }}
+              label="Comment"
+              multiline
+              rowsMax={4}
+              value={comment}
+              onChange={(e) => {
+                setComment(e.target.value)
+              }}
+              maxLength={140}  
+              aria-label="maximum height"
+              placeholder="Enter a helpful critique"
+            />
+          </> :
           <span>
             <ul className="stats">
               <li>
@@ -1706,52 +1682,6 @@ const Critique = (props) => {
               </li>
             </ul>
           </span>}
-        {/* <div style={{marginTop: '20px'}}>
-            {chips.map(chipy => {
-              return (
-                <Chip
-                  onClick={() => isSelected(chipy)}
-                  mode="outlined"
-                  key={chipy.key}
-                  label={
-                    !chipFocus(chipy) ?
-                      <span style={{
-                        color: chipFocus(chipy) ? '#FBC02D !important' : 'black !important',
-                        fontWeight: chipFocus(chipy) ? '500 !important' : 'normal !important'
-                      }}>
-                        {chipy.label}
-                        <img
-                          alt="heart"
-                          src={heartEmpty}
-                          width="18px"
-                          style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '18px', width: '15px' }}
-                        />
-                      </span> :
-                      <span style={{
-                        color: chipFocus(chipy) > 0 ? '#FBC02D !important' : 'black !important',
-                        fontWeight: chipFocus(chipy) > 0 ? '500 !important' : 'normal !important'
-                      }}>
-                        {chipy.label}
-                        <img
-                          alt="heart"
-                          src={heartFill}
-                          width="18px"
-                          style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '18px', width: '15px' }}
-                        />
-                      </span>
-                  }
-                  style={{
-                    margin: "5px",
-                    height: "35px",
-                    backgroundColor: 'white',
-                    borderColor: chipFocus(chipy) ? '#FBC02D' : 'rgb(186, 186, 186)', 
-                    borderWidth: "1px",
-                    borderStyle: "solid"
-                  }}
-                />
-              )
-            })}
-          </div> */}
         {props.user.uid !== props.post.author ?
           <center>
             <FlatButton
@@ -1773,13 +1703,13 @@ const Critique = (props) => {
               primary={true}
               className="submitBtn"
               onClick={() => updateRating()}
-              disabled={rating === 0}
+              disabled={rating === 0 || comment.length === 0 ? true : false}
               style={{ 
                 marginBottom: "10px", 
                 width: "100%", 
                 marginTop: "20px", 
                 color: 'rgb(30,30,30)',
-                backgroundColor: rating === 0 ? 'lightgray' : '#FBC02D'
+                backgroundColor: rating === 0 || comment.length === 0 ? 'lightgray' : '#FBC02D'
               }}
             />
           </center> : null}
@@ -1840,8 +1770,8 @@ const Form = (props) => {
         getLatLng(results[0])
         setLocation(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);
       })
-      .then(latLng => {})
-      .catch(error => {});
+      .then(latLng => { })
+      .catch(error => { });
   }
 
   const onDrop = (picture, data) => {
@@ -1936,7 +1866,7 @@ const Form = (props) => {
               color: "#212121",
             }}
           >
-            All fields are required.
+            Your photo will expire in 7 days. Once submitted, you cannot update or delete. You may view your photo on the Stats page.
           </span>
           <br />
         </DialogContentText>
