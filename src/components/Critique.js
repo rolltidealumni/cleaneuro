@@ -18,10 +18,12 @@ import exit from "../static/close.svg";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import realTime from "../firebase/firebase";
+import TextField from '@material-ui/core/TextField';
 
 const Critique = (props) => {
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
   // const [chipsTouched, setChipsTouched] = useState([]);
   // let chips = [
   //   {key: 0, label: "Lighting"},
@@ -112,6 +114,7 @@ const Critique = (props) => {
       Perspective: 0,
       Rating: rating,
       post: props.post.key,
+      comment: comment,
       uid: props.user.uid,
       submitted: new Date().toString(),
     });
@@ -200,16 +203,34 @@ const Critique = (props) => {
           </span>
         </div>
         {props.user.uid !== props.post.author ?
-          <center><StarRatings
-            rating={rating}
-            starRatedColor="#212121"
-            starDimension="25px"
-            starHoverColor="#212121"
-            changeRating={(rating) => changeRating(rating)}
-            numberOfStars={5}
-            name="rating"
-          />
-          </center> :
+          <>
+            <StarRatings
+              rating={rating}
+              starRatedColor="#212121"
+              starDimension="25px"
+              starHoverColor="#212121"
+              changeRating={(rating) => changeRating(rating)}
+              numberOfStars={5}
+              name="rating"
+            />
+            <br/>
+            <TextField
+              style={{
+                marginTop: '15px',
+                width: '100%'
+              }}
+              label="Comment"
+              multiline
+              rowsMax={4}
+              value={comment}
+              onChange={(e) => {
+                setComment(e.target.value)
+              }}
+              maxLength={140}  
+              aria-label="maximum height"
+              placeholder="Enter a helpful critique"
+            />
+          </> :
           <span>
             <ul className="stats">
               <li>
@@ -371,13 +392,13 @@ const Critique = (props) => {
               primary={true}
               className="submitBtn"
               onClick={() => updateRating()}
-              disabled={rating === 0}
+              disabled={rating === 0 || comment.length === 0 ? true : false}
               style={{ 
                 marginBottom: "10px", 
                 width: "100%", 
                 marginTop: "20px", 
                 color: 'rgb(30,30,30)',
-                backgroundColor: rating === 0 ? 'lightgray' : '#FBC02D'
+                backgroundColor: rating === 0 || comment.length === 0 ? 'lightgray' : '#FBC02D'
               }}
             />
           </center> : null}

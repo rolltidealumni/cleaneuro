@@ -48,8 +48,8 @@ const Form = (props) => {
         getLatLng(results[0])
         setLocation(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);
       })
-      .then(latLng => {})
-      .catch(error => {});
+      .then(latLng => { })
+      .catch(error => { });
   }
 
   const onDrop = (picture, data) => {
@@ -144,7 +144,7 @@ const Form = (props) => {
               color: "#212121",
             }}
           >
-            All fields are required.
+            Your photo will expire in 7 days. Once submitted, you cannot update or delete. You may view your photo on the Stats page.
           </span>
           <br />
         </DialogContentText>
