@@ -2489,7 +2489,7 @@ function Login(props) {
       );
       setAppVerifier(window.recaptchaVerifier);
     };
-    window.scrollTo(0, 0);
+   document.querySelector('body').scrollTo(0,0)
     // eslint-disable-next-line
   }, [phone, verifyCodeFlag]);
 
@@ -2652,6 +2652,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import Drawer from '@material-ui/core/Drawer';
 import cameraWhite from "../static/camera.svg";
+import twitter from "../static/twitter.svg";
+import facebook from "../static/facebook.svg";
 import help from "../static/help.svg";
 import menu from "../static/menu.svg";
 import login from "../static/login.svg";
@@ -2678,6 +2680,47 @@ function Nav(props) {
       setValue(3);
     }
   }, [value, history.location.pathname]);
+
+  const footer = () => (
+    <div id="footerArea">
+      <span id="footer"> ©2020 artive, LLC {" "} | {" "}
+        <a 
+          alt="twitter"
+          href="https://twitter.com/artiveco"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img 
+            alt="twitter" 
+            src={twitter}
+            width="10px"
+            style={{
+              cursor: 'pointer',
+              verticalAlign: "middle",
+              marginLeft: "0px",
+            }}
+          />
+        </a>
+        <a 
+          alt="twitter"
+          href="https://facebook.com/artive.co"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img 
+            alt="facebook" 
+            src={facebook}
+            width="10px"
+            style={{
+              cursor: 'pointer',
+              verticalAlign: "middle",
+              marginLeft: "3px",
+            }}
+          />
+        </a>
+      </span>
+    </div>
+  );
 
   const list = () => (
     <div
@@ -2829,9 +2872,10 @@ function Nav(props) {
         anchor={'right'}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        style={{ width: '200px' }}
+        style={{ width: '200px', zIndex: 9999999999 }}
       >
         {list()}
+        {footer()}
       </Drawer>
     </span >
   );
