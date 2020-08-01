@@ -51,6 +51,14 @@ const PostCard = (post) => {
     return obj ? '724px' : '300px';
   }
 
+  const haveTheyCritiqued = (postId) => {
+    if (post.userCritiques) {
+      return post.userCritiques.filter(x => x.post === postId).length > 0;
+    } else {
+      return false;
+    }
+  }
+
   const getDays = () => {
     var submitted = Moment(post.post.submitted);
     var today = Moment().startOf('day');
@@ -161,9 +169,14 @@ const PostCard = (post) => {
           <span>
             {post.isAuthenticated ?
               <FlatButton
-                label={post.user.uid === post.post.author ? "Stats" : "Critique"}
+                label={
+                  post.user.uid === post.post.author ? 
+                  "Stats" : haveTheyCritiqued(post.post.key) ?
+                  "Critiqued" :
+                  "Critique"}
                 primary={true}
                 id="critiqueBtn"
+                disabled={haveTheyCritiqued(post.post.key)}
                 className={post.user.uid === post.post.author ? "analytics-btn" : null}
                 onClick={() => post.openCritique(post.post)}
                 style={{ 
@@ -178,8 +191,9 @@ const PostCard = (post) => {
                 label={"Login"}
                 primary={true}
                 id="critiqueBtn"
+                className="login-critique"
                 onClick={() => history.push("/login")}
-                style={{ textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                style={{ textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'lightgray' }}
               />}
           </span>
           <span style={{ fontSize: "13px" }}>

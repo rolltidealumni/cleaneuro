@@ -129,16 +129,16 @@ const Posts = (props) => {
               .filter(i => i.author !== props.user.uid && getDays(i.submitted) < 8)));
           } else if (!props.isAuthenticated) {
             setOrdered(
-              temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => getDays(i.submitted) < 8)
+               deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => getDays(i.submitted) < 8))
             );
             setPosts(
-              temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => getDays(i.submitted) < 8)
+               deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => getDays(i.submitted) < 8))
             );
             setStrict(
-              temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => getDays(i.submitted) < 8)  
+               deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+              .filter(i => getDays(i.submitted) < 8))
             );
           }
         }

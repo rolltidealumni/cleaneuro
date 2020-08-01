@@ -64,6 +64,14 @@ const UniquePost = (post) => {
     history.goBack();
   };
 
+  const haveTheyCritiqued = (postId) => {
+    if (post.userCritiques) {
+      return post.userCritiques.filter(x => x.post === postId).length > 0;
+    } else {
+      return false;
+    }
+  }
+
   const login = () => {
     history.push("/login");
   };
@@ -259,14 +267,21 @@ const UniquePost = (post) => {
             {post.isAuthenticated ?
               <FlatButton
                 label={post.user.uid === postResponse.author ? "Stats" : "Critique"}
+                label={
+                  post.user.uid === postResponse.author ? 
+                  "Stats" : haveTheyCritiqued(postResponse.key) ?
+                  "Critiqued" :
+                  "Critique"}
                 primary={true}
                 id="critiqueBtn-unique"
+                disabled={haveTheyCritiqued(postResponse.key)}
                 onClick={() => handleOpenCritique(postResponse)}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
               /> :
               <FlatButton
                 label={"Login"}
-                primary={true}
+                primary={true}  
+                className="login-critique"
                 id="critiqueBtn-unique"
                 onClick={() => history.push("/login")}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}

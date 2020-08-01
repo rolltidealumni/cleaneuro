@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import Drawer from '@material-ui/core/Drawer';
 import cameraWhite from "../static/camera.svg";
 import twitter from "../static/twitter.svg";
+import favorite from "../static/favorite.svg";
 import facebook from "../static/facebook.svg";
 import help from "../static/help.svg";
 import menu from "../static/menu.svg";
@@ -67,6 +68,23 @@ function Nav(props) {
           <img 
             alt="facebook" 
             src={facebook}
+            width="10px"
+            style={{
+              cursor: 'pointer',
+              verticalAlign: "middle",
+              marginLeft: "3px",
+            }}
+          />
+        </a>
+        <a 
+          alt="twitter"
+          href="https://github.com/themorganthompson"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img 
+            alt="github" 
+            src={favorite}
             width="10px"
             style={{
               cursor: 'pointer',

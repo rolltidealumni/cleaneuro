@@ -57,6 +57,7 @@ body {
     margin-top: 150px !important;
     margin: auto;
     max-height: 1406px;
+    max-width: 1000px !important;
     margin-bottom: 200px !important;
 }
 
@@ -306,7 +307,7 @@ h3 {
 }
 
 #cameraBtn {
-    z-index: 120394;
+    z-index: 1124;
     padding: 10px;
     background-color: #FBC02D;
     width: 40px;
@@ -1025,6 +1026,10 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 #critiqueBtn span {
   padding-left: 13px !important;
   font-weight: bold !important;
+}
+
+.login-critique span {
+  color: lightgray !important;
 }
 
 #critiqueBtn-unique span {

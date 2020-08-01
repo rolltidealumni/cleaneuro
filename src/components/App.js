@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import realTime from "../firebase/firebase";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
@@ -10,6 +11,43 @@ import UniquePost from "./Posts/UniquePost";
 
 function App(props) {
   const { isAuthenticated, isVerifying, user } = props;
+  let results = [];
+  const [loading, setLoading] = useState(false);
+  const [critiques, setCritiques] = useState([]);
+
+ const fetchCritiques = async (mounted, user) => {
+    setLoading(true);
+    if(user) {
+      await realTime
+        .ref("post-critiques")
+        .orderByChild("uid")
+        .equalTo(user)
+        .on("value", (snapshot) => {
+          if (snapshot.val()) {
+            let c = [];
+            c.push(snapshot.val());
+            let keys = Object.keys(c[0]);
+            var result = Object.keys(c[0]).map(function (key) {
+              return [Number(key), c[0][key]];
+            });
+            result.forEach(function (child, i) {
+              results.push(child[1]);
+              setLoading(false);
+            });
+          }
+
+          if (mounted) {
+            setCritiques(results);
+          }
+        });
+    }
+  }
+
+  useEffect(() => {
+    let mounted = true;
+    if (user) fetchCritiques(mounted, user.uid);
+    return () => (mounted = false);
+    }, [user]);
 
   return (
     <Switch>
@@ -19,13 +57,13 @@ function App(props) {
         isAuthenticated={isAuthenticated}
         isVerifying={isVerifying}
       >
-        <Home {...props} />
+        <Home userCritiques={critiques} {...props} />
       </ProtectedRoute>
       <Route path="/login" render={(props) => <Login {...props} />} />
       <Route path="/activate" render={(props) => <Login {...props} />} />
-      <Route path="/post/:id" render={(props) => <UniquePost isAuthenticated={isAuthenticated} user={user} {...props} />} />
+      <Route path="/post/:id" render={(props) => <UniquePost isAuthenticated={isAuthenticated} userCritiques={critiques} user={user} {...props} />} />
       <Route path="/contests" render={(props) => <Contests {...props} />} />
-      <Route path="/stats" render={(props) => <MyPosts isAuthenticated={isAuthenticated} user={user}{...props} />} />
+      <Route path="/stats" render={(props) => <MyPosts isAuthenticated={isAuthenticated} userCritiques={critiques} user={user}{...props} />} />
     </Switch>
   );
 }
