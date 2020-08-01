@@ -305,6 +305,7 @@ h3 {
 }
 
 #cameraBtn {
+    z-index: 120394;
     padding: 10px;
     background-color: #FBC02D;
     width: 40px;
@@ -882,20 +883,15 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 }
 
 #footer {
-    width: 300px;
     font-size: 12px;
-    padding: 25px;
     text-decoration: none;
     color: black !important;
 }
 
 #footerArea {
     padding: 25px;
-    margin-top: 50px !important;
-    height: 10px;
     bottom: 0px;
-    background-color: lightgrey;
-    position: fixed !important;
+    position: absolute !important;
     left: 0px;
     right: 0px;
     margin-bottom: 0px;

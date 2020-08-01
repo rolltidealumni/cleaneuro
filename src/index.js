@@ -11,6 +11,8 @@ import MyApp from "./components/App";
 
 const store = configureStore();
 
+window.alert = function() {};
+
 const muiTheme = getMuiTheme({
   palette: {
     accent1Color: "#FBC02D",

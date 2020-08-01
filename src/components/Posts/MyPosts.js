@@ -12,8 +12,6 @@ import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useHistory } from "react-router-dom";
-import twitter from "../../static/twitter.svg";
-import facebook from "../../static/facebook.svg";
 import { logoutUser } from "../../actions";
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -29,14 +27,6 @@ const MyPosts = (props) => {
   let postLens = [];
   let postAperture = [];
   let temp = [];
-
-  const goToHelp = () => {
-    var win = window.open(
-      "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
-      "_blank"
-    );
-    if (win) win.focus();
-  };
 
   const handleOpenCritique = (post) => {
     !openCritique && setCritiquePost(post);
@@ -257,39 +247,9 @@ const MyPosts = (props) => {
             );
           })
         ) : (<span className="no-results" > There are no posts to display </span>)}
-      </div> {!postLoading ? (<div id="footerArea" >
-        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <Link style={{ cursor: "pointer" }} onClick={() => goToHelp()} >Help</Link>{" "} / {" "}
-          <a alt="twitter"
-            href="https://twitter.com/artiveco"
-            target="_blank"
-            rel="noopener noreferrer"
-          ><img alt="twitter" src={
-            twitter
-          }
-            width="10px"
-            style={
-              {
-                cursor: 'pointer',
-                verticalAlign: "middle",
-                marginLeft: "0px",
-              }
-            }
-            /></a><a alt="twitter"
-              href="https://facebook.com/artive.co"
-              target="_blank"
-              rel="noopener noreferrer"
-            ><img alt="facebook" src={
-              facebook
-            }
-              width="10px"
-              style={
-                {
-                  cursor: 'pointer',
-                  verticalAlign: "middle",
-                  marginLeft: "3px",
-                }
-              }
-            /></a></span ></div>) : null} </div>);
+      </div>
+  </div>
+  );
 };
 
 function mapStateToProps(state) {

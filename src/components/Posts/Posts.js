@@ -5,7 +5,7 @@ import React, {
 import realTime from "../../firebase/firebase";
 import Post from "./Post";
 import Card from "@material-ui/core/Card";
-import Link from "@material-ui/core/Link";
+
 import {
   connect
 } from "react-redux";
@@ -19,8 +19,6 @@ import FlatButton from "material-ui/FlatButton";
 import InputLabel from "@material-ui/core/InputLabel";
 import Box from "@material-ui/core/Box";
 import cameraLogo from "../../static/camera-two.svg";
-import twitter from "../../static/twitter.svg";
-import facebook from "../../static/facebook.svg";
 import filter from "../../static/filter.svg";
 import lens from "../../static/lens.svg";
 import aperture from "../../static/aperture.svg";
@@ -46,14 +44,6 @@ const Posts = (props) => {
   let postCameras = [];
   let postLens = [];
   let postAperture = [];
- 
-  const goToHelp = () => {
-    var win = window.open(
-      "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
-      "_blank"
-    );
-    if (win) win.focus();
-  };
 
   useEffect(() => {
     let mounted = true;
@@ -792,39 +782,9 @@ const Posts = (props) => {
                     );
                   })
                 ) : (<span className="no-results" > There are no posts to display </span>)}
-      </div> {!postLoading ? (<div id="footerArea" >
-        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <Link style={{ cursor: "pointer" }} onClick={() => goToHelp()} >Help</Link>{" "} / {" "}
-          <a alt="twitter"
-            href="https://twitter.com/artiveco"
-            target="_blank"
-            rel="noopener noreferrer"
-          ><img alt="twitter" src={
-            twitter
-          }
-            width="10px"
-            style={
-              {
-                cursor: 'pointer',
-                verticalAlign: "middle",
-                marginLeft: "0px",
-              }
-            }
-            /></a><a alt="twitter"
-              href="https://facebook.com/artive.co"
-              target="_blank"
-              rel="noopener noreferrer"
-            ><img alt="facebook" src={
-              facebook
-            }
-              width="10px"
-              style={
-                {
-                  cursor: 'pointer',
-                  verticalAlign: "middle",
-                  marginLeft: "3px",
-                }
-              }
-            /></a></span ></div>) : null} </div>);
+      </div> 
+  </div>
+  );
 };
 
 function mapStateToProps(state) {

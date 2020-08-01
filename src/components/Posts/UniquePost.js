@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Moment from "moment";
-import twitter from "../../static/twitter.svg";
 import FlatButton from "material-ui/FlatButton";
-import facebook from "../../static/facebook.svg";
 import cameraLogo from "../../static/camera-two.svg";
 import realTime from "../../firebase/firebase";
 import Critique from "../Critique";
@@ -27,10 +25,8 @@ const UniquePost = (post) => {
   let ordered = [];
   let history = useHistory();
   const [openCritique, setOpenCritique] = useState(false);
-  const [portraitPhoto, setPortraitPhoto] = useState([{}]);
   let params = useParams();
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [height, setHeight] = useState(null);
   const [postLoading, setPostLoading] = useState(false);
   const [postResponse, setPostResponse] = useState({});
 
@@ -131,19 +127,6 @@ const UniquePost = (post) => {
 
     return (7 - submitted.diff(today, 'days'))
   }
-
-  const goToHelp = () => {
-    var win = window.open(
-      "https://join.slack.com/t/ratemyshot/shared_invite/zt-edfbwbw4-Wncezi48LIFbph8NDzHKuA",
-      "_blank"
-    );
-    if (win) win.focus();
-  };
-
-  const getHeight = (val) => {
-    var obj = portraitPhoto.find(({ imageLink }) => imageLink === val);
-    setHeight(obj ? '724px' : '466px');
-  };
 
   return (
     <>
@@ -291,39 +274,6 @@ const UniquePost = (post) => {
           </span>
         </div>
       </Card>
-      {!postLoading ? (<div id="footerArea" >
-        <span id="footer" > ©2020 artive, LLC / All Rights Reserved / {" "} <Link style={{ cursor: "pointer" }} onClick={() => goToHelp()} >Help</Link>{" "} /
-            {" "} <a alt="twitter"
-            href="https://twitter.com/artiveco"
-            target="_blank"
-            rel="noopener noreferrer"
-          ><img alt="twitter" src={
-            twitter
-          }
-            width="10px"
-            style={
-              {
-                cursor: 'pointer',
-                verticalAlign: "middle",
-                marginLeft: "0px",
-              }
-            }
-            /></a><a alt="twitter"
-              href="https://facebook.com/artive.co"
-              target="_blank"
-              rel="noopener noreferrer"
-            ><img alt="facebook" src={
-              facebook
-            }
-              width="10px"
-              style={
-                {
-                  cursor: 'pointer',
-                  verticalAlign: "middle",
-                  marginLeft: "3px",
-                }
-              }
-            /></a></span ></div>) : null}
     </>
   );
 };
