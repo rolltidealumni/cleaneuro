@@ -11,6 +11,7 @@ import Drawer from '@material-ui/core/Drawer';
 import cameraWhite from "../static/camera.svg";
 import twitter from "../static/twitter.svg";
 import favorite from "../static/favorite.svg";
+import feedback from "../static/feedback.svg";
 import facebook from "../static/facebook.svg";
 import help from "../static/help.svg";
 import menu from "../static/menu.svg";
@@ -42,14 +43,14 @@ function Nav(props) {
   const footer = () => (
     <div id="footerArea">
       <span id="footer"> ©2020 artive, LLC {" "} | {" "}
-        <a 
+        <a
           alt="twitter"
           href="https://twitter.com/artiveco"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img 
-            alt="twitter" 
+          <img
+            alt="twitter"
             src={twitter}
             width="10px"
             style={{
@@ -59,14 +60,14 @@ function Nav(props) {
             }}
           />
         </a>
-        <a 
+        <a
           alt="twitter"
           href="https://facebook.com/artive.co"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img 
-            alt="facebook" 
+          <img
+            alt="facebook"
             src={facebook}
             width="10px"
             style={{
@@ -76,14 +77,14 @@ function Nav(props) {
             }}
           />
         </a>
-        <a 
+        <a
           alt="twitter"
           href="https://github.com/themorganthompson"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img 
-            alt="github" 
+          <img
+            alt="github"
             src={favorite}
             width="10px"
             style={{
@@ -123,23 +124,23 @@ function Nav(props) {
         </ListItem>
         {history.location.pathname === "/" && props.isAuthenticated &&
           !props.loginFlag ? (
-          <ListItem id="nav-post" button key={'Post'} onClick={() => {
-            setDrawerOpen(false);
-            props.handleOpen();
-          }}
-          >
-            <ListItemIcon>
-              <img
-                alt="camera"
-                style={{
-                  width: "20px"
-                }}
-                className="iconNav"
-                src={cameraWhite}
-              />
-            </ListItemIcon>
-            <ListItemText primary={'Post'} />
-          </ListItem> ) : null }
+            <ListItem id="nav-post" button key={'Post'} onClick={() => {
+              setDrawerOpen(false);
+              props.handleOpen();
+            }}
+            >
+              <ListItemIcon>
+                <img
+                  alt="camera"
+                  style={{
+                    width: "20px"
+                  }}
+                  className="iconNav"
+                  src={cameraWhite}
+                />
+              </ListItemIcon>
+              <ListItemText primary={'Post'} />
+            </ListItem>) : null}
         {props.isAuthenticated ? (
           !props.loginFlag ? (
             <>
@@ -160,6 +161,24 @@ function Nav(props) {
                   />
                 </ListItemIcon>
                 <ListItemText primary={'Stats'} />
+              </ListItem>
+              <ListItem button key={'feedback-menu'} onClick={() => {
+                setDrawerOpen(false);
+                history.push('/feedback')
+              }}
+              >
+                <ListItemIcon>
+                  <img
+                    alt="feedback-menu"
+                    style={{
+                      height: "20px",
+                      width: "20px"
+                    }}
+                    className="iconNav"
+                    src={feedback}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={'Feedback'} />
               </ListItem>
               <ListItem button key={'Stats-2'} onClick={() => {
                 setDrawerOpen(false);

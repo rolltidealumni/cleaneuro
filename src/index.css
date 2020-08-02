@@ -1010,6 +1010,26 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
   float: right;
 }
 
+#feedbackBtn {
+  width: 120px !important;
+  min-width: unset !important;
+  height: 35px !important;
+  border-radius: 4px !important;
+  background-color: white !important;
+  margin: 0px !important;
+  margin-right: 0px !important;
+  font-weight: 700 !important;
+  overflow: visible !important;
+  color: rgb(30,30,30) !important;
+  bottom: 13px !important;
+  top: -2px !important;
+  float: right;
+}
+
+#feedbackBtn span {
+  padding: 0px !important;   
+  font-weight: bold !important;
+}
 
 #critiqueBtn-unique {
   width: 90px !important;

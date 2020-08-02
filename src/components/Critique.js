@@ -68,6 +68,7 @@ const Critique = (props) => {
       Lighting: 0,
       Perspective: 0,
       Rating: rating,
+      author: props.post.author,
       post: props.post.key,
       comment: comment,
       uid: props.user.uid,

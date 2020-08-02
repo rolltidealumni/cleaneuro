@@ -7,6 +7,7 @@ import Home from "./Home";
 import Contests from "./Contests";
 import Login from "./Login";
 import MyPosts from "./Posts/MyPosts";
+import Feedback from "./Posts/Feedback";
 import UniquePost from "./Posts/UniquePost";
 
 function App(props) {
@@ -64,6 +65,7 @@ function App(props) {
       <Route path="/post/:id" render={(props) => <UniquePost isAuthenticated={isAuthenticated} userCritiques={critiques} user={user} {...props} />} />
       <Route path="/contests" render={(props) => <Contests {...props} />} />
       <Route path="/stats" render={(props) => <MyPosts isAuthenticated={isAuthenticated} userCritiques={critiques} user={user}{...props} />} />
+      <Route path="/feedback" render={(props) => <Feedback isAuthenticated={isAuthenticated} userCritiques={critiques} user={user}{...props} />} />
     </Switch>
   );
 }
