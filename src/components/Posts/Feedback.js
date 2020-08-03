@@ -6,7 +6,6 @@ import realTime from "../../firebase/firebase";
 import Card from "@material-ui/core/Card";
 import Moment from "moment";
 import Nav from "../Nav";
-import Link from "@material-ui/core/Link";
 import Critique from "../Critique";
 import Typography from "@material-ui/core/Typography";
 import FlatButton from "material-ui/FlatButton";
@@ -17,8 +16,6 @@ import { logoutUser } from "../../actions";
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const Feedback = (props) => {

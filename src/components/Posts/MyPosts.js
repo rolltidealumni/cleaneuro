@@ -5,6 +5,7 @@ import React, {
 import realTime from "../../firebase/firebase";
 import Post from "./Post";
 import Card from "@material-ui/core/Card";
+import Moment from "moment";
 import Link from "@material-ui/core/Link";
 import Nav from "../Nav";
 import Critique from "../Critique";
@@ -76,6 +77,7 @@ const MyPosts = (props) => {
             temp.push({
               index: i,
               key: keys[i],
+              expires: Moment(Moment(child[1].submitted)).add(7,'d').format("dddd, MMMM Do"),
               submitted: child[1].submitted,
               imageLink: child[1].imageLink,
               aperture: child[1].aperture,
@@ -208,13 +210,8 @@ const MyPosts = (props) => {
               <div style={{ marginTop: '5px' }}>
                 Photos rated: {cloneDeep(getAverage().total)}
               </div>
-              <div style={{ marginTop: '5px' }}>Most popular photo:{" "}
-                {getMax() ? <Link className="pop-link" onClick={() => {
-                  history.push('post/' + cloneDeep(getMax().key))}}>{cloneDeep(getMax().location)}</Link> : null}
-              </div>
               <div style={{ marginTop: '5px' }}>Most popular camera:{" "}
-                {getMax() ? <Link className="pop-link" onClick={() => {
-                  history.push('post/' + cloneDeep(getMax().key))}}>{cloneDeep(getMax().camera)}</Link> : null}
+                {getMax() ? getMax().camera : null}
               </div>
             </>) : null }
           </Typography>

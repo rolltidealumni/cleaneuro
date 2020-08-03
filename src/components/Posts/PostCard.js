@@ -59,13 +59,6 @@ const PostCard = (post) => {
     }
   }
 
-  const getDays = () => {
-    var submitted = Moment(post.post.submitted);
-    var today = Moment().startOf('day');
-    
-    return (7 - submitted.diff(today, 'days'))
-  }
-
   return (
     <Card className={"MuiProjectCard--01"} id="post-card"
       style={{
@@ -78,12 +71,14 @@ const PostCard = (post) => {
           className={"MuiCardMedia-root cardImage"}
           style={{
             backgroundPosition: 'bottom center',
-            cursor: 'pointer'
+            cursor: history.location.pathname === "/" ? 'pointer' : 'default !important',
           }}
           image={post.post.imageLink}
           onClick={
             !post.adminFlag
-              ? () => openUniquePost(post.post)
+              ? () => {
+                if (history.location.pathname === "/") openUniquePost(post.post);
+              }
               : post.adminFlag
                 ? () => post.showEditModal(post.post)
                 : null
@@ -106,8 +101,10 @@ const PostCard = (post) => {
           gutterBottom
         >
           <span
-            onClick={() => openUniquePost(post.post)}
-            style={{ cursor: 'pointer', fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}
+            onClick={() => {
+               if (history.location.pathname === "/") openUniquePost(post.post);
+            }}
+            style={{ cursor: history.location.pathname === "/" ? 'pointer' : 'default !important', fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}
           >
             {post.post.location && post.post.location.length > 20 ? (post.post.location.substring(0, 20 - 3) + "...") : post.post.location}
           </span>
@@ -163,29 +160,30 @@ const PostCard = (post) => {
           gutterBottom
           style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
         >
-          <span style={{position: "relative", top: "-24px", paddingRight: getDays() === 8 ? "15px" : getDays() - 7 < 10 ? "6px" : undefined}}>
-          {getDays() > 7 ? "Expired " : "Expires in "} {getDays() > 7 ? getDays() - 7 : getDays()}  {getDays() > 7 ? getDays() === 8 ? "day ago" : "days ago" : "days"}
-          </span>
+          {history.location.pathname === "/" ? (
+            <span style={{ position: "relative", top: "-24px" }}>
+              Expires on {post.post.expires}
+            </span>) : null}
           <span>
             {post.isAuthenticated ?
               <FlatButton
                 label={
-                  post.user.uid === post.post.author ? 
-                  "Stats" : haveTheyCritiqued(post.post.key) ?
-                  "Critiqued" :
-                  "Critique"}
+                  post.user.uid === post.post.author ?
+                    "Stats" : haveTheyCritiqued(post.post.key) ?
+                      "Critiqued" :
+                      "Critique"}
                 primary={true}
                 id="critiqueBtn"
                 disabled={haveTheyCritiqued(post.post.key)}
-                className={post.user.uid === post.post.author ? "analytics-btn" : 
-                 haveTheyCritiqued(post.post.key) ? "login-critique" : null}
+                className={post.user.uid === post.post.author ? "analytics-btn" :
+                  haveTheyCritiqued(post.post.key) ? "login-critique" : null}
                 onClick={() => post.openCritique(post.post)}
-                style={{ 
-                  textTransform: 'capitalize !important', 
-                  marginBottom: "10px", 
-                  width: "100%", 
-                  marginTop: "20px", 
-                  color: 'rgb(30,30,30)' 
+                style={{
+                  textTransform: 'capitalize !important',
+                  marginBottom: "10px",
+                  width: "100%",
+                  marginTop: "20px",
+                  color: 'rgb(30,30,30)'
                 }}
               /> :
               <FlatButton

@@ -54,9 +54,8 @@ const Posts = (props) => {
 
   const getDays = (submit) => {
     var submitted = Moment(submit);
-    var today = Moment().startOf('day');
-    
-    return (7 - submitted.diff(today, 'days'))
+    var today = Moment().endOf('day').format('YYYY-MM-DD');
+    return today <= Moment(Moment(submit)).add(7,'d').format('YYYY-MM-DD') 
   }
 
   const getPosts = (mounted) => {
@@ -80,6 +79,7 @@ const Posts = (props) => {
             temp.push({
               index: i,
               key: keys[i],
+              expires: Moment(Moment(child[1].submitted)).add(7,'d').format("dddd, MMMM Do"),
               submitted: child[1].submitted,
               imageLink: child[1].imageLink,
               aperture: child[1].aperture,
@@ -119,26 +119,26 @@ const Posts = (props) => {
           if (props.isAuthenticated) {
             setOrdered(
               deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => i.author !== props.user.uid && getDays(i.submitted) < 8))
+              .filter(i => i.author !== props.user.uid && getDays(i.submitted)))
             );
             setPosts(
               deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => i.author !== props.user.uid && getDays(i.submitted) < 8)));
+              .filter(i => i.author !== props.user.uid && getDays(i.submitted))));
             setStrict(
               deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => i.author !== props.user.uid && getDays(i.submitted) < 8)));
+              .filter(i => i.author !== props.user.uid && getDays(i.submitted))));
           } else if (!props.isAuthenticated) {
             setOrdered(
                deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => getDays(i.submitted) < 8))
+              .filter(i => getDays(i.submitted)))
             );
             setPosts(
                deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => getDays(i.submitted) < 8))
+              .filter(i => getDays(i.submitted)))
             );
             setStrict(
                deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => getDays(i.submitted) < 8))
+              .filter(i => getDays(i.submitted)))
             );
           }
         }

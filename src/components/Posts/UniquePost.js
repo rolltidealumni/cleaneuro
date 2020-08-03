@@ -96,6 +96,7 @@ const UniquePost = (post) => {
             ordered.push({
               index: i,
               key: keys[i],
+              expires: Moment(Moment(child[1].submitted)).add(7,'d').format("dddd, MMMM Do"),
               submitted: child[1].submitted,
               imageLink: child[1].imageLink,
               aperture: child[1].aperture,
@@ -261,7 +262,7 @@ const UniquePost = (post) => {
                 style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
               >
                 <span className="expirelabel-unique">
-                  {getDays() > 7 ? "Expired " : "Expires in "} {getDays() > 7 ? getDays() - 7 : getDays()}  {getDays() > 7 ? getDays() === 8 ? "day ago" : "days ago" : "days"}
+                 Expires on {postResponse.expires}
                 </span> </Typography>
             </Typography> : null}
           <span>
