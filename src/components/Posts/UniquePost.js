@@ -23,6 +23,8 @@ const UniquePost = (post) => {
   const { dispatch } = post;
   Moment.locale("en");
   let ordered = [];
+  let today = new Date();
+  let expire;
   let history = useHistory();
   const [openCritique, setOpenCritique] = useState(false);
   let params = useParams();
@@ -93,6 +95,9 @@ const UniquePost = (post) => {
             return [Number(key), postz[0][key]];
           });
           result.forEach(function (child, i) {
+            expire = new Date(child[1].submitted);
+            expire.setDate(expire.getDate() + 7);
+            expire = expire.getTime();
             ordered.push({
               index: i,
               key: keys[i],
@@ -127,6 +132,7 @@ const UniquePost = (post) => {
           });
           setPostResponse(ordered[0]);
           setPostLoading(false);
+          today = today.getTime();
         }
       });
   }
@@ -262,8 +268,9 @@ const UniquePost = (post) => {
                 style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
               >
                 <span className="expirelabel-unique">
-                 Expires on {postResponse.expires}
-                </span> </Typography>
+                  Expires on {postResponse.expires}
+                </span> 
+              </Typography>
             </Typography> : null}
           <span>
             {post.isAuthenticated ?

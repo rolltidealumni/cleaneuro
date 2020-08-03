@@ -37,6 +37,12 @@ const Feedback = (props) => {
     }
   };
 
+const handleOpenCritique = (post) => {
+   if (!openCritique) setCritiquePost(post);
+   if (openCritique)  setCritiquePost(null);
+    setOpenCritique(!openCritique);
+  }
+
   useEffect(() => {
     if (!props.isAuthenticated) {
       history.push("/");
@@ -153,7 +159,7 @@ const Feedback = (props) => {
                     primary={true}
                     id="feedbackBtn"
                     className={"analytics-btn"}
-                    onClick={() => history.push("/post/" + post.post)}
+                    onClick={() => {history.push("post/"+post.post)}}
                     style={{
                       textTransform: 'capitalize !important',
                       marginBottom: "10px",

@@ -64,8 +64,8 @@ function App(props) {
       <Route path="/activate" render={(props) => <Login {...props} />} />
       <Route path="/post/:id" render={(props) => <UniquePost isAuthenticated={isAuthenticated} userCritiques={critiques} user={user} {...props} />} />
       <Route path="/contests" render={(props) => <Contests {...props} />} />
-      <Route path="/stats" render={(props) => <MyPosts isAuthenticated={isAuthenticated} userCritiques={critiques} user={user}{...props} />} />
-      <Route path="/feedback" render={(props) => <Feedback isAuthenticated={isAuthenticated} userCritiques={critiques} user={user}{...props} />} />
+      <Route path="/stats" render={(props) => <MyPosts isAuthenticated={isAuthenticated} userCritiques={critiques} user={user} {...props} />} />
+      <Route path="/feedback" render={(props) => <Feedback isAuthenticated={isAuthenticated} userCritiques={critiques} user={user} {...props} />} />
     </Switch>
   );
 }

@@ -948,6 +948,19 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
     height: 80px;
 }
 
+.navLogout {
+  background-color: #FBC02D !important;
+  text-transform: capitalize !important;
+  margin-bottom: 10px;
+  margin-left: auto !important;
+  color: black !important;
+  margin-right: auto !important;
+  width: 80%;
+  margin-top: 60px !important;
+  background-color: #FBC02D !important;
+  font-weight: bold;
+}
+
 #editor-pick {
   display: block;
   width: 108px;

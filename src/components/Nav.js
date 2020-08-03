@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import FlatButton from "material-ui/FlatButton";
 import ListItemText from '@material-ui/core/ListItemText';
 import jQuery from "jquery";
 import AppBar from "material-ui/AppBar";
@@ -9,6 +10,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useHistory } from "react-router-dom";
 import Drawer from '@material-ui/core/Drawer';
 import cameraWhite from "../static/camera.svg";
+import logoA from "../static/navHome.svg";
 import twitter from "../static/twitter.svg";
 import favorite from "../static/favorite.svg";
 import feedback from "../static/feedback.svg";
@@ -41,61 +43,63 @@ function Nav(props) {
   }, [value, history.location.pathname]);
 
   const footer = () => (
-    <div id="footerArea">
-      <span id="footer"> ©2020 artive, LLC {" "} | {" "}
-        <a
-          alt="twitter"
-          href="https://twitter.com/artiveco"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
+    <center>
+      <div id="footerArea">
+        <span id="footer"> © 2020 artive, LLC {" "} | {" "}
+          <a
             alt="twitter"
-            src={twitter}
-            width="10px"
-            style={{
-              cursor: 'pointer',
-              verticalAlign: "middle",
-              marginLeft: "0px",
-            }}
-          />
-        </a>
-        <a
-          alt="twitter"
-          href="https://facebook.com/artive.co"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            alt="facebook"
-            src={facebook}
-            width="10px"
-            style={{
-              cursor: 'pointer',
-              verticalAlign: "middle",
-              marginLeft: "3px",
-            }}
-          />
-        </a>
-        <a
-          alt="twitter"
-          href="https://github.com/themorganthompson"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            alt="github"
-            src={favorite}
-            width="10px"
-            style={{
-              cursor: 'pointer',
-              verticalAlign: "middle",
-              marginLeft: "3px",
-            }}
-          />
-        </a>
-      </span>
-    </div>
+            href="https://twitter.com/artiveco"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              alt="twitter"
+              src={twitter}
+              width="10px"
+              style={{
+                cursor: 'pointer',
+                verticalAlign: "middle",
+                marginLeft: "0px",
+              }}
+            />
+          </a>
+          <a
+            alt="twitter"
+            href="https://facebook.com/artive.co"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              alt="facebook"
+              src={facebook}
+              width="10px"
+              style={{
+                cursor: 'pointer',
+                verticalAlign: "middle",
+                marginLeft: "3px",
+              }}
+            />
+          </a>
+          <a
+            alt="twitter"
+            href="https://github.com/themorganthompson"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              alt="github"
+              src={favorite}
+              width="10px"
+              style={{
+                cursor: 'pointer',
+                verticalAlign: "middle",
+                marginLeft: "3px",
+              }}
+            />
+          </a>
+        </span>
+      </div>
+    </center>
   );
 
   const list = () => (
@@ -114,7 +118,7 @@ function Nav(props) {
             <img
               alt="home"
               className="iconNav"
-              src={home}
+              src={logoA}
               style={{
                 width: "20px"
               }}
@@ -195,38 +199,28 @@ function Nav(props) {
                 </ListItemIcon>
                 <ListItemText primary={'Help'} />
               </ListItem>
-              <ListItem button key={'Stats'} onClick={() => {
-                setDrawerOpen(false);
-                props.logout()
-              }}
-              >
-                <ListItemIcon>
-                  <img
-                    alt="login"
-                    className="iconNav"
-                    src={login}
-                    style={{ width: "20px" }}
-                  />
-                </ListItemIcon>
-                <ListItemText primary={'Logout'} />
-              </ListItem>
+              <center>
+                <FlatButton
+                  label={"LOGOUT"}
+                  primary={true}
+                  className={"navLogout"}
+                  onClick={() => {
+                    setDrawerOpen(false);
+                    props.logout()
+                  }}
+                /></center>
             </>
           ) : null) : !props.loginFlag ? (
-            <ListItem button key={'Stats'} onClick={() => {
-              setDrawerOpen(false);
-              props.login()
-            }}
-            >
-              <ListItemIcon>
-                <img
-                  alt="login"
-                  className="iconNav"
-                  src={login}
-                  style={{ width: "20px" }}
-                />
-              </ListItemIcon>
-              <ListItemText primary={'Login'} />
-            </ListItem>) : null}
+            <center>
+              <FlatButton
+                label={"LOGIN"}
+                primary={true}
+                className={"navLogout"}
+                onClick={() => {
+                  setDrawerOpen(false);
+                  props.login()
+                }}
+              /></center>) : null}
       </List>
     </div>
   );

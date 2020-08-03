@@ -60,9 +60,11 @@ const PostCard = (post) => {
   }
 
   return (
-    <Card className={"MuiProjectCard--01"} id="post-card"
+    <Card 
+      className={"MuiProjectCard--01"} 
+      id="post-card"
       style={{
-        height: '425px'
+        height: history.location.pathname !== "/" ? "378px" : "425px"
       }}
     >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
@@ -77,6 +79,7 @@ const PostCard = (post) => {
           onClick={
             !post.adminFlag
               ? () => {
+                 if (history.location.pathname !== "/") post.openCritique(post.post)
                 if (history.location.pathname === "/") openUniquePost(post.post);
               }
               : post.adminFlag
