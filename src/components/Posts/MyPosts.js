@@ -45,6 +45,7 @@ const MyPosts = (props) => {
     if (!props.isAuthenticated) {
       history.push("/");
     }
+    localStorage.setItem('route', 'stats');
     getPosts();
   }, [props.user]
   );

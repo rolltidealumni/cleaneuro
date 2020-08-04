@@ -11,6 +11,7 @@ import FlatButton from "material-ui/FlatButton";
 import exit from "../static/close.svg";
 import CardActions from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
+import countryCodes from "../static/country-codes.js";
 import Typography from "@material-ui/core/Typography";
 import ReactCodeInput from 'react-verification-code-input';
 import loadingSpinner from "../static/loading.gif";

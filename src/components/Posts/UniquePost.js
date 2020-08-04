@@ -56,7 +56,7 @@ const UniquePost = (post) => {
     () => {
       let mounted = true;
       document.querySelector('body').scrollTo(0,0)
-
+      localStorage.setItem('route', 'post/'+params.id);
       // eslint-disable-next-line 
       getPost(mounted, params.id);
       return () => (mounted = false);

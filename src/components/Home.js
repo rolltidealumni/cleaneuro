@@ -51,6 +51,8 @@ function Home(props) {
     setUserID(props.user.uid);
   }
 
+  localStorage.setItem('route', '');
+
   const handleOpen = () => {
     if (!props.isAuthenticated) {
       history.push("/login");

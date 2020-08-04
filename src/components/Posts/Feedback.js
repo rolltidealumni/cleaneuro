@@ -48,6 +48,7 @@ const handleOpenCritique = (post) => {
       history.push("/");
     }
     if (props.user) getPosts(props.user.uid);
+    localStorage.setItem('route', 'feedback');
   }, [props.user]
   );
 

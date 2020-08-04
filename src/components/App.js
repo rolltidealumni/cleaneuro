@@ -9,16 +9,19 @@ import Login from "./Login";
 import MyPosts from "./Posts/MyPosts";
 import Feedback from "./Posts/Feedback";
 import UniquePost from "./Posts/UniquePost";
+import { useHistory } from "react-router-dom";
 
 function App(props) {
   const { isAuthenticated, isVerifying, user } = props;
+  const [route, setRoute] = useState(localStorage.getItem('route'))
   let results = [];
+  let history = useHistory();
   const [loading, setLoading] = useState(false);
   const [critiques, setCritiques] = useState([]);
 
- const fetchCritiques = async (mounted, user) => {
+  const fetchCritiques = async (mounted, user) => {
     setLoading(true);
-    if(user) {
+    if (user) {
       await realTime
         .ref("post-critiques")
         .orderByChild("uid")
@@ -47,8 +50,9 @@ function App(props) {
   useEffect(() => {
     let mounted = true;
     if (user) fetchCritiques(mounted, user.uid);
+    if (route) history.push("/" + route);
     return () => (mounted = false);
-    }, [user]);
+  }, [user]);
 
   return (
     <Switch>
