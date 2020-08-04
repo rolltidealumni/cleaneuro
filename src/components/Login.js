@@ -5,6 +5,7 @@ import validator from "validator";
 import { makeStyles } from "@material-ui/core/styles";
 import arrow from "../static/arrow.svg";
 import firebase from "firebase/app";
+import Alert from '@material-ui/lab/Alert';
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import FlatButton from "material-ui/FlatButton";
@@ -197,21 +198,28 @@ function Login(props) {
               disabled={verifyCodeFlag}
               variant="outlined"
             /> :
-            <ReactCodeInput
-              style={{
-                margin: "5px",
-                width: "50%",
-                marginBottom: "10px",
-                marginTop: "21px",
-                backgroundColor: !verifyCodeFlag ? "lightgray" : undefined,
-              }}
-              id="code"
-              onComplete={(e) => validateCode(e)}
-            />}
+            <>
+              <ReactCodeInput
+                style={{
+                  margin: "5px",
+                  width: "50%",
+                  marginBottom: "10px",
+                  marginTop: "21px",
+                  backgroundColor: !verifyCodeFlag ? "lightgray" : undefined,
+                }}
+                id="code"
+                onComplete={(e) => validateCode(e)}
+              />
+            </>
+            }
           <CardActions
             className="loginButtonContainer"
             style={{ backgroundColor: "white" }}
           >
+           {verifyCodeFlag ? <center><Alert severity="info" style={{width: '50%', textAlign: 'left'}}>
+              A code was sent to <span style={{fontWeight: 'bold'}}>{phone}</span>. 
+              Please enter the code here once you receive it.
+          </Alert></center> : null}
             <FlatButton
               className={
                 !error && phone !== null
