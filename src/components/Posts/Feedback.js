@@ -129,7 +129,7 @@ const Feedback = (props) => {
           }}
         >
           <Typography style={{ marginLeft: "15px", marginTop: "45px", marginBottom: "0px" }}>
-            <span style={{ cursor: 'pointer', fontSize: "28px", fontWeight: "600", marginBottom: "2px" }}>
+            <span style={{ cursor: 'pointer', fontSize: "28px", fontWeight: "600", marginBottom: "2px", fontFamily: 'Nunito' }}>
               Feedback
             </span>
           </Typography>

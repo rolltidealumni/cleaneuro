@@ -2470,7 +2470,7 @@ function Login(props) {
       );
       setAppVerifier(window.recaptchaVerifier);
     };
-   document.querySelector('body').scrollTo(0,0)
+    document.querySelector('body').scrollTo(0, 0)
     // eslint-disable-next-line
   }, [phone, verifyCodeFlag]);
 
@@ -2478,7 +2478,7 @@ function Login(props) {
     return <Redirect to="/" />;
   } else {
     return (
-      <div>
+      <div style={{ backgroundColor: "#FFFF" }}>
         <div id="login-cover-image" />
         <img
           alt="close"
@@ -2561,41 +2561,50 @@ function Login(props) {
                 onComplete={(e) => validateCode(e)}
               />
             </>
-            }
-          <CardActions
-            className="loginButtonContainer"
-            style={{ backgroundColor: "white" }}
-          >
-           {verifyCodeFlag ? <center><Alert severity="info" style={{width: '50%', textAlign: 'left'}}>
-              A code was sent to <span style={{fontWeight: 'bold'}}>{phone}</span>. 
+          }
+          <center>
+            <CardActions
+              className="loginButtonContainer"
+              style={{
+                backgroundColor: "white", minWidth: "88px", textAlign: "center",
+                width: "50%"
+              }}
+            >
+              {verifyCodeFlag ? <center><Alert severity="info" style={{
+                marginBottom: "10px",
+                marginTop: "5px",
+                textAlign: 'left'
+              }}>
+                A code was sent to <span style={{ fontWeight: 'bold' }}>{phone}</span>.
               Please enter the code here once you receive it.
           </Alert></center> : null}
-            <FlatButton
-              className={
-                !error && phone !== null
-                  ? "gagunkbtn-submit"
-                  : "gagunkbtn-submit-disabled"
-              }
-              id="submit-account"
-              disabled={error || phone == null || loading}
-              label={
-                loading ? (
-                  <img
-                    width="35px"
-                    style={{
-                      verticalAlign: "middle",
-                      paddingBottom: "4px",
-                    }}
-                    src={loadingSpinner}
-                    alt="loading"
-                  />
-                ) : (
-                    <img src={arrow} fill={"grey"} height={20} alt="arrow" />
-                  )
-              }
-              onClick={() => handleSubmit()}
-            />
-          </CardActions>
+              <FlatButton
+                className={
+                  !error && phone !== null
+                    ? "gagunkbtn-submit"
+                    : "gagunkbtn-submit-disabled"
+                }
+                id="submit-account"
+                disabled={error || phone == null || loading}
+                label={
+                  loading ? (
+                    <img
+                      width="35px"
+                      style={{
+                        verticalAlign: "middle",
+                        paddingBottom: "4px",
+                      }}
+                      src={loadingSpinner}
+                      alt="loading"
+                    />
+                  ) : (
+                      <img src={arrow} fill={"grey"} height={20} alt="arrow" />
+                    )
+                }
+                onClick={() => handleSubmit()}
+              />
+            </CardActions>
+          </center>
         </div>
       </div>
     );
