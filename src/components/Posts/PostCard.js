@@ -64,7 +64,7 @@ const PostCard = (post) => {
       className={"MuiProjectCard--01"} 
       id="post-card"
       style={{
-        height: history.location.pathname !== "/" ? "378px" : "425px"
+        height: history.location.pathname !== "/" ? "392px" : "397px"
       }}
     >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
@@ -95,12 +95,11 @@ const PostCard = (post) => {
         className={"MuiCard__head"}
         style={{
           marginBottom: "20px",
-          position: post.post.editorspick ? "relative" : "initial",
-          top: post.post.editorspick ? "-30px" : "initial",
+          position: "relative",
         }}
       >
         <Typography
-          style={{ marginLeft: "15px", marginTop: post.post.editorspick ? "45px" : "10px", marginBottom: "0px" }}
+          style={{ marginLeft: "15px", marginTop: "6px", marginBottom: "0px" }}
           gutterBottom
         >
           <span
@@ -186,6 +185,7 @@ const PostCard = (post) => {
                   marginBottom: "10px",
                   width: "100%",
                   marginTop: "20px",
+                  display: history.location.pathname === "/" ? "none" : "initial",
                   color: 'rgb(30,30,30)'
                 }}
               /> :

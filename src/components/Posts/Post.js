@@ -4,7 +4,7 @@ import PostCard from "./PostCard";
 class Post extends Component {
   render() {
     return (
-      <div className="cardContainer" style={{ marginBottom: "20px" }}>
+      <div className="cardContainer" style={{ marginBottom: "40px" }}>
         <PostCard
           postLoading={this.props.postLoading}
           post={this.props}
