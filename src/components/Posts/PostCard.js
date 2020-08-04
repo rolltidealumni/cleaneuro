@@ -60,8 +60,8 @@ const PostCard = (post) => {
   }
 
   return (
-    <Card 
-      className={"MuiProjectCard--01"} 
+    <Card
+      className={"MuiProjectCard--01"}
       id="post-card"
       style={{
         height: history.location.pathname !== "/" ? "392px" : "397px"
@@ -79,7 +79,7 @@ const PostCard = (post) => {
           onClick={
             !post.adminFlag
               ? () => {
-                 if (history.location.pathname !== "/") post.openCritique(post.post)
+                if (history.location.pathname !== "/") post.openCritique(post.post)
                 if (history.location.pathname === "/") openUniquePost(post.post);
               }
               : post.adminFlag
@@ -104,7 +104,7 @@ const PostCard = (post) => {
         >
           <span
             onClick={() => {
-               if (history.location.pathname === "/") openUniquePost(post.post);
+              if (history.location.pathname === "/") openUniquePost(post.post);
             }}
             style={{ cursor: history.location.pathname === "/" ? 'pointer' : 'default !important', fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}
           >
@@ -194,7 +194,14 @@ const PostCard = (post) => {
                 primary={true}
                 id="critiqueBtn"
                 onClick={() => history.push("/login")}
-                style={{ textTransform: 'capitalize !important', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'lightgray' }}
+                style={{
+                  textTransform: 'capitalize !important',
+                  display: history.location.pathname === "/" ? "none" : "initial",
+                  marginBottom: "10px",
+                  width: "100%",
+                  marginTop: "20px",
+                  color: 'lightgray'
+                }}
               />}
           </span>
           <span style={{ fontSize: "13px" }}>
