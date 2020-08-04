@@ -3,6 +3,7 @@ import React, {
   useEffect
 } from "react";
 import realTime from "../../firebase/firebase";
+import Link from "@material-ui/core/Link";
 import Card from "@material-ui/core/Card";
 import Moment from "moment";
 import Nav from "../Nav";
@@ -37,9 +38,9 @@ const Feedback = (props) => {
     }
   };
 
-const handleOpenCritique = (post) => {
-   if (!openCritique) setCritiquePost(post);
-   if (openCritique)  setCritiquePost(null);
+  const handleOpenCritique = (post) => {
+    if (!openCritique) setCritiquePost(post);
+    if (openCritique) setCritiquePost(null);
     setOpenCritique(!openCritique);
   }
 
@@ -114,14 +115,16 @@ const handleOpenCritique = (post) => {
       <Card className={"MuiProjectCard--01"}
         style={{
           height: '220px',
-          width: '100%'
+          width: '100%',
+          fontFamily: 'Nunito',
+          backgroundColor: "#eeee"
         }}
       >
         <div
           className={"MuiCard__head"}
           style={{
             marginTop: "110px",
-            marginLeft: '5%',
+            marginLeft: '4%',
             marginBottom: "20px",
           }}
         >
@@ -137,8 +140,8 @@ const handleOpenCritique = (post) => {
           style={
             {
               display: 'absolute',
-              top: '48px',
-              backgroundColor: 'white'
+              top: '65px',
+              backgroundColor: 'black'
             }
           }
         />
@@ -155,31 +158,36 @@ const handleOpenCritique = (post) => {
                   <Typography >{post.comment}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <FlatButton
-                    label={"VIEW PHOTO"}
-                    primary={true}
-                    id="feedbackBtn"
-                    className={"analytics-btn"}
-                    onClick={() => {history.push("post/"+post.post)}}
-                    style={{
-                      textTransform: 'capitalize !important',
-                      marginBottom: "10px",
-                      width: "120px !important",
-                      color: 'rgb(30,30,30)'
-                    }}
-                  />
-                  <Typography color="textSecondary">
-                    <span>Submitted on: {Moment(post.submitted).format("dddd, MMMM Do YYYY, h:mm:ss a")}</span>
-                    <br />
-                    <span>Rating: {post.Rating}</span>
+                  <Typography style={{ width: '80%' }}>
+                    <p >
+                      Submitted on: {Moment(post.submitted).format("dddd, MMMM Do YYYY, h:mm:ss a")}
+                    </p>
+                    <p>
+                      <Link
+                        onClick={() => { history.push("post/" + post.post) }}
+                        style={{
+                          textTransform: 'capitalize !important',
+                          marginBottom: "10px",
+                          cursor: 'pointer',
+                          fontWeight: 'bold',
+                          width: "120px !important",
+                          color: 'rgb(30,30,30)'
+                        }}
+                      > VIEW PHOTO
+                  </Link></p>
                   </Typography>
+                  <div id="stat-total" style={{ width: '20%' }}>
+                    <span id="stat-number">{post.Rating}</span>
+                    <br />
+                    <span>Rating</span>
+                  </div>
                 </AccordionDetails>
               </Accordion>
             );
           })
         ) : (<span className="no-results" > There are no comments to display </span>)}
       </div>
-    </div>
+    </div >
   );
 };
 

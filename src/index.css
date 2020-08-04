@@ -11,6 +11,37 @@ body {
     font-family: 'Nunito' !important;
 }
 
+#stat-panel {
+  font-family: 'Nunito' !important;
+  background-color: white;
+  margin-top: 20px;
+  border-radius: 8px;
+  width: 90%;
+  padding: 30px;
+  display: table;
+}
+
+#stat-panel-mobile {
+  display: none;
+  font-family: 'Nunito' !important;
+  background-color: white;
+  border-radius: 8px;
+  width: 80%;
+  margin-top: 20px;
+  padding: 30px;
+}
+
+#stat-total { 
+  width: 25%;
+  display: inline-table;
+  text-align: center;
+}
+
+#stat-number {
+  font-weight: bold;
+  font-size: xx-large;
+}
+
 .styles_react-code-input__CRulA input {
   height: 40px !important;
   width: 40px !important;
@@ -229,7 +260,6 @@ h3 {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 50px !important;
 }
 
 .fileContainer {
@@ -515,7 +545,12 @@ h3 {
   .cardContainer {
     width: 100% !important;
   }
-
+ #stat-panel {
+    display:  none;
+  }
+  #stat-panel-mobile {
+    display:  block;
+  }
   #post-card {width: 100% !important;}
 
   #mobile-filter-icon {

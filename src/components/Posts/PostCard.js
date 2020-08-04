@@ -64,7 +64,7 @@ const PostCard = (post) => {
       className={"MuiProjectCard--01"}
       id="post-card"
       style={{
-        height: history.location.pathname !== "/" ? "392px" : "397px"
+        height: history.location.pathname !== "/" ? "372px" : "397px"
       }}
     >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
@@ -163,7 +163,7 @@ const PostCard = (post) => {
           style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
         >
           {history.location.pathname === "/" ? (
-            <span style={{ position: "relative", top: "-24px" }}>
+            <span style={{ position: "relative", top: "-24px" , textTransform: 'capitalize'}}>
               Expires on {post.post.expires}
             </span>) : null}
           <span>

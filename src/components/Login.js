@@ -160,7 +160,7 @@ function Login(props) {
             <div className="wrapper" style={{ cursor: "pointer" }} onClick={() => history.push("/")}></div>
           </Typography>
           <div id="blurb">
-            Artive is <br />
+            artive is <br />
             <span> a judgement-free,{" "}</span><br />
             <span style={{ color: "#FBC02D", fontWeight: "500" }}>
               anonymous{" "}

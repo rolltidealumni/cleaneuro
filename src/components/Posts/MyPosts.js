@@ -78,7 +78,7 @@ const MyPosts = (props) => {
             temp.push({
               index: i,
               key: keys[i],
-              expires: Moment(Moment(child[1].submitted)).add(7,'d').format("dddd, MMMM Do"),
+              expires: Moment(Moment(child[1].submitted)).add(7, 'd').format("dddd, MMMM Do"),
               submitted: child[1].submitted,
               imageLink: child[1].imageLink,
               aperture: child[1].aperture,
@@ -181,10 +181,11 @@ const MyPosts = (props) => {
           {...props}
         />
       ) : null}
-      <Card className={"MuiProjectCard--01"}
+      <Card
         style={{
           height: '350px',
-          width: '100%'
+          width: '100%',
+          backgroundColor: '#eeee'
         }}
       >
         <div
@@ -195,26 +196,59 @@ const MyPosts = (props) => {
             marginBottom: "20px",
           }}
         >
-          <Typography style={{ marginLeft: "15px", marginTop: "45px", marginBottom: "0px" }}>
-            <span style={{ cursor: 'pointer', fontSize: "28px", fontWeight: "600", marginBottom: "2px" }}>
+          <Typography style={{marginTop: "45px", marginBottom: "0px" }}>
+            <span style={{ cursor: 'pointer', fontSize: "28px", marginBottom: "2px", fontFamily: 'Nunito' }}>
               Stats
             </span>
 
-            <div style={{ marginTop: '20px' }}>
-              Photos submitted: {cloneDeep(posts.length)}
+            <div id="stat-panel">
+              <div id="stat-total">
+                <span id="stat-number">{cloneDeep(posts.length)}</span>
+                <br />
+                <span>Photos Submitted</span>
+              </div>
+              {posts.length > 0 ? (
+                <>
+                  <div id="stat-total">
+                    <span id="stat-number">{cloneDeep(getAverage().average.toFixed(2))}</span>
+                    <br />
+                    <span>Average Rating</span>
+                  </div>
+                  <div id="stat-total">
+                    <span id="stat-number">{cloneDeep(getAverage().total)}</span>
+                    <br />
+                    <span>Photos Rated</span>
+                  </div>
+                  <div id="stat-total">
+                    <span id="stat-number">{getMax() ? getMax().camera : null}</span>
+                    <br />
+                    <span>Most Popular Camera</span>
+                  </div>
+                </>
+              ) : null}
             </div>
-            {posts.length > 0 ?  (
-            <>
-              <div style={{ marginTop: '5px' }}>
-                Average rating: {cloneDeep(getAverage().average.toFixed(2))}
+            <div id="stat-panel-mobile">
+              <div id="stat-total-mobile">
+                <span>Photos Submitted:{" "}</span>
+                <span id="stat-number-mobile">{cloneDeep(posts.length)}</span>
               </div>
-              <div style={{ marginTop: '5px' }}>
-                Photos rated: {cloneDeep(getAverage().total)}
-              </div>
-              <div style={{ marginTop: '5px' }}>Most popular camera:{" "}
-                {getMax() ? getMax().camera : null}
-              </div>
-            </>) : null }
+              {posts.length > 0 ? (
+                <>
+                  <div id="stat-total-mobile">
+                    <span>Average Rating:{" "}</span>
+                    <span id="stat-number-mobile">{cloneDeep(getAverage().average.toFixed(2))}</span>
+                  </div>
+                  <div id="stat-total-mobile">
+                    <span>Photos Rated:{" "}</span>
+                    <span id="stat-number-mobile">{cloneDeep(getAverage().total)}</span>
+                  </div>
+                  <div id="stat-total-mobile">
+                    <span>Most Popular Camera:{" "}</span>
+                    <span id="stat-number-mobile">{getMax() ? getMax().camera : null}</span>
+                  </div>
+                </>
+              ) : null}
+            </div>
           </Typography>
         </div>
       </Card>
@@ -250,7 +284,7 @@ const MyPosts = (props) => {
           })
         ) : (<span className="no-results" > There are no posts to display </span>)}
       </div>
-  </div>
+    </div>
   );
 };
 
