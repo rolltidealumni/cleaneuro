@@ -78,6 +78,8 @@ const Feedback = (props) => {
             result.forEach(function (child, i) {
               temp.push({
                 index: i,
+                location: child[1].location,
+                imageLink: child[1].imageLink,
                 key: keys[i],
                 Rating: child[1].Rating,
                 author: child[1].author,
@@ -158,8 +160,18 @@ const Feedback = (props) => {
                   <Typography >{post.comment}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
+                  <div style={{
+                    marginRight: 20,
+                    borderRadius: '6px',
+                    width: '250px',
+                    backgroundSize: 'cover',
+                    backgroundImage: `url(${post.imageLink})`,
+                  }}> </div>
                   <Typography style={{ width: '80%' }}>
-                    <p >
+                    <p>
+                      {post.location}
+                    </p>
+                    <p>
                       Submitted on: {Moment(post.submitted).format("dddd, MMMM Do YYYY, h:mm:ss a")}
                     </p>
                     <p>
@@ -176,11 +188,11 @@ const Feedback = (props) => {
                       > VIEW PHOTO
                   </Link></p>
                   </Typography>
-                  <div id="stat-total" style={{ width: '20%' }}>
+                  {/* <div id="stat-total" style={{ width: '20%' }}>
                     <span id="stat-number">{post.Rating}</span>
                     <br />
                     <span>Rating</span>
-                  </div>
+                  </div> */}
                 </AccordionDetails>
               </Accordion>
             );

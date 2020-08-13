@@ -55,8 +55,8 @@ const UniquePost = (post) => {
   useEffect(
     () => {
       let mounted = true;
-      document.querySelector('body').scrollTo(0,0)
-      localStorage.setItem('route', 'post/'+params.id);
+      document.querySelector('body').scrollTo(0, 0)
+      localStorage.setItem('route', 'post/' + params.id);
       // eslint-disable-next-line 
       getPost(mounted, params.id);
       return () => (mounted = false);
@@ -101,7 +101,7 @@ const UniquePost = (post) => {
             ordered.push({
               index: i,
               key: keys[i],
-              expires: Moment(Moment(child[1].submitted)).add(7,'d').format("dddd, MMMM Do"),
+              expires: Moment(Moment(child[1].submitted)).add(7, 'd').format("dddd, MMMM Do"),
               submitted: child[1].submitted,
               imageLink: child[1].imageLink,
               aperture: child[1].aperture,
@@ -132,7 +132,7 @@ const UniquePost = (post) => {
           });
           setPostResponse(ordered[0]);
           setPostLoading(false);
-          today = today.getTime();
+          today = new Date(today).getTime();
         }
       });
   }
@@ -260,7 +260,7 @@ const UniquePost = (post) => {
                 />{" "}
                 {postResponse.category}
               </span>
-              <br/>
+              <br />
               <Typography
                 className={"MuiTypography--headLabel"}
                 variant={"overline"}
@@ -269,7 +269,7 @@ const UniquePost = (post) => {
               >
                 <span className="expirelabel-unique">
                   Expires on {postResponse.expires}
-                </span> 
+                </span>
               </Typography>
             </Typography> : null}
           <span>
@@ -277,21 +277,21 @@ const UniquePost = (post) => {
               <FlatButton
                 label={post.user.uid === postResponse.author ? "Stats" : "Critique"}
                 label={
-                  post.user.uid === postResponse.author ? 
-                  "Stats" : haveTheyCritiqued(postResponse.key) ?
-                  "Critiqued" :
-                  "Critique"}
+                  post.user.uid === postResponse.author ?
+                    "Stats" : haveTheyCritiqued(postResponse.key) ?
+                      "Critiqued" :
+                      "Critique"}
                 primary={true}
                 id="critiqueBtn-unique"
-                className={post.user.uid === postResponse.author ? "analytics-btn" : 
-                 haveTheyCritiqued(postResponse.key) ? "login-critique" : null}
+                className={post.user.uid === postResponse.author ? "analytics-btn" :
+                  haveTheyCritiqued(postResponse.key) ? "login-critique" : null}
                 disabled={haveTheyCritiqued(postResponse.key)}
                 onClick={() => handleOpenCritique(postResponse)}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
               /> :
               <FlatButton
                 label={"Login"}
-                primary={true}  
+                primary={true}
                 id="critiqueBtn-unique"
                 onClick={() => history.push("/login")}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
