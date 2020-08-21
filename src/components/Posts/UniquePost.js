@@ -64,7 +64,7 @@ const UniquePost = (post) => {
     [post, getPost, params.id]);
 
   const route = () => {
-    history.goBack();
+    history.push("/");
   };
 
   const haveTheyCritiqued = (postId) => {
@@ -172,7 +172,7 @@ const UniquePost = (post) => {
           }}
           style={{ cursor: "pointer" }}
         >
-          Back
+          Home
           </Link>
         <Typography color="textPrimary">{postResponse.location}</Typography>
       </Breadcrumbs>
@@ -212,7 +212,7 @@ const UniquePost = (post) => {
               gutterBottom
             >
               <span style={{ fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}>
-                {postResponse.location}
+                {postResponse.location && postResponse.location.length > 40 ? (postResponse.location.substring(0, 40 - 3) + "...") : postResponse.location}
               </span>
               <span
                 style={{
