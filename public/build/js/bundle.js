@@ -1480,6 +1480,8 @@ const Critique = (props) => {
       post: props.post.key,
       comment: comment,
       uid: props.user.uid,
+      location: props.post.location,
+      imageLink: props.post.imageLink,
       submitted: new Date().toString(),
     });
     setLoading(false);

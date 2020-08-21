@@ -205,22 +205,22 @@ const MyPosts = (props) => {
               <div id="stat-total">
                 <span id="stat-number">{cloneDeep(posts.length)}</span>
                 <br />
-                <span>Photos Submitted</span>
+                <span>Photo{posts.length > 1 ? "s" : null } Submitted</span>
               </div>
-              {posts.length > 0 ? (
+              {posts.length > 0  ? (
                 <>
                   <div id="stat-total">
-                    <span id="stat-number">{cloneDeep(getAverage().average.toFixed(2))}</span>
+                    <span id="stat-number">{getAverage().total > 0 ?  getAverage().average.toFixed(2) : "0"}</span>
                     <br />
                     <span>Average Rating</span>
                   </div>
                   <div id="stat-total">
-                    <span id="stat-number">{cloneDeep(getAverage().total)}</span>
+                    <span id="stat-number"> {getAverage().total > 0 ? getAverage().total : "0"}</span>
                     <br />
                     <span>Photos Rated</span>
                   </div>
                   <div id="stat-total">
-                    <span id="stat-number">{getMax() ? getMax().camera : null}</span>
+                    <span id="stat-number">{getMax() ? getMax().camera : "None"}</span>
                     <br />
                     <span>Most Popular Camera</span>
                   </div>
