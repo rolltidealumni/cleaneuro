@@ -395,7 +395,7 @@ const Form = (props) => {
             className="submitBtn"
             disabled={!image || location === ""}
             onClick={(e) => handleSubmit(e)}
-            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)', backgroundColor: !image || location === "" ? "lightgray" : "#FBC02D" }}
           />
         </center>
       </DialogContent>

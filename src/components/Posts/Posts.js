@@ -158,9 +158,15 @@ const Posts = (props) => {
 
   const updateFilter = (value, key) => {
     let results =[];
+    let keyState = key + "Value";
+    let numFilters = 0;
+    if (cameraValue !== "") numFilters ++;
+    if (lensValue !== "")  numFilters ++;
+    if (apertureValue !== "") numFilters ++;
+    if (categoryValue !== "")  numFilters ++;
 
     if (value !== "") {
-      if (ordered.length === 0) {
+      if (ordered.length === 0 || [keyState] !== "" && numFilters === 0) {
         results = strict.filter(item => {
           return (item[key] === value)
         });
@@ -173,7 +179,7 @@ const Posts = (props) => {
         setOrdered(results);
         setPosts(results)
       }
-    }
+    } 
 
     if (value === "") {
       setPosts(strict);

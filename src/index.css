@@ -914,7 +914,7 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 .gagunkNav {
     position: fixed !important;
     top: 0px !important;
-    background-color: #FBC02D !important;
+    background-color: white !important;
 }
 
 #loader {
