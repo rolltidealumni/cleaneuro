@@ -28,7 +28,7 @@ import { FormControl } from "@material-ui/core";
 
 const Posts = (props) => {
   const [filterValue, setFilterValue] = useState({ value: "", key: "" });
-  const [sort] = useState({ sort: "total", order: "asc" });
+  const [sort] = useState({ sort: "submitted", order: "asc" });
   const [ordered, setOrdered] = useState([]);
   const [posts, setPosts] = useState([]);
   const [postLoading, setPostLoading] = useState(false);
@@ -40,7 +40,7 @@ const Posts = (props) => {
   const [strict, setStrict] = useState([]);
   const [cameraValue, setCameraValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
- 
+
   let postCameras = [];
   let postLens = [];
   let postAperture = [];
@@ -53,15 +53,14 @@ const Posts = (props) => {
   );
 
   const getDays = (submit) => {
-    var submitted = Moment(submit);
     var today = Moment().endOf('day').format('YYYY-MM-DD');
-    return today <= Moment(Moment(submit)).add(7,'d').format('YYYY-MM-DD') 
+    return today <= Moment(Moment(submit)).add(7, 'd').format('YYYY-MM-DD')
   }
 
   const getPosts = (mounted) => {
     let temp = [];
     let postz = [];
-
+    setPostLoading(true);
     realTime
       .ref("posts")
       .orderByChild(sort.sort)
@@ -79,7 +78,7 @@ const Posts = (props) => {
             temp.push({
               index: i,
               key: keys[i],
-              expires: Moment(Moment(child[1].submitted)).add(7,'d').format("dddd, MMMM Do"),
+              expires: Moment(Moment(child[1].submitted)).add(7, 'd').format("dddd, MMMM Do"),
               submitted: child[1].submitted,
               imageLink: child[1].imageLink,
               aperture: child[1].aperture,
@@ -116,31 +115,19 @@ const Posts = (props) => {
             setApertureList([...new Set(postAperture.sort((a, b) => (a > b ? 1 : -1)))]);
           }
 
-          if (props.isAuthenticated) {
-            setOrdered(
-              deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => i.author !== props.user.uid && getDays(i.submitted)))
-            );
-            setPosts(
-              deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => i.author !== props.user.uid && getDays(i.submitted))));
-            setStrict(
-              deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-              .filter(i => i.author !== props.user.uid && getDays(i.submitted))));
-          } else if (!props.isAuthenticated) {
-            setOrdered(
-               deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+          setOrdered(
+            deDupe(temp.sort((a, b) => (getDays(a.submitted) < getDays(b.submitted) ? 1 : -1))
               .filter(i => getDays(i.submitted)))
-            );
-            setPosts(
-               deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+          );
+          setPosts(
+            deDupe(temp.sort((a, b) => (getDays(a.submitted) < getDays(b.submitted) ? 1 : -1))
               .filter(i => getDays(i.submitted)))
-            );
-            setStrict(
-               deDupe(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+          );
+          setStrict(
+            deDupe(temp.sort((a, b) => (getDays(a.submitted) < getDays(b.submitted) ? 1 : -1))
               .filter(i => getDays(i.submitted)))
-            );
-          }
+          );
+          setPostLoading(false);
         }
       });
   }
@@ -157,33 +144,51 @@ const Posts = (props) => {
   }
 
   const updateFilter = (value, key) => {
-    let results =[];
+    let results = [];
     let keyState = key + "Value";
     let numFilters = 0;
-    if (cameraValue !== "") numFilters ++;
-    if (lensValue !== "")  numFilters ++;
-    if (apertureValue !== "") numFilters ++;
-    if (categoryValue !== "")  numFilters ++;
+    if (cameraValue !== "") numFilters++;
+    if (lensValue !== "") numFilters++;
+    if (apertureValue !== "") numFilters++;
+    if (categoryValue !== "") numFilters++;
 
     if (value !== "") {
-      if (ordered.length === 0 || [keyState] !== "" && numFilters === 0) {
+      if (ordered.length === 0 || ([keyState] !== "" && numFilters === 0)) {
         results = strict.filter(item => {
           return (item[key] === value)
         });
-        setOrdered(results);
-        setPosts(results)
+        setPosts(
+          deDupe(results.sort((a, b) => (getDays(a.submitted) < getDays(b.submitted) ? 1 : -1))
+            .filter(i => getDays(i.submitted)))
+        );
+        setOrdered(
+          deDupe(results.sort((a, b) => (getDays(a.submitted) < getDays(b.submitted) ? 1 : -1))
+            .filter(i => getDays(i.submitted)))
+        );
       } else {
         results = ordered.filter(item => {
           return (item[key] === value)
         });
-        setOrdered(results);
-        setPosts(results)
+        setPosts(
+          deDupe(results.sort((a, b) => (getDays(a.submitted) < getDays(b.submitted) ? 1 : -1))
+            .filter(i => getDays(i.submitted)))
+        );
+        setOrdered(
+          deDupe(results.sort((a, b) => (getDays(a.submitted) < getDays(b.submitted) ? 1 : -1))
+            .filter(i => getDays(i.submitted)))
+        );
       }
-    } 
+    }
 
     if (value === "") {
-      setPosts(strict);
-      setOrdered(strict);
+      setPosts(
+        deDupe(strict.sort((a, b) => (getDays(a.submitted) < getDays(b.submitted) ? 1 : -1))
+          .filter(i => getDays(i.submitted)))
+      );
+      setOrdered(
+        deDupe(strict.sort((a, b) => (getDays(a.submitted) < getDays(b.submitted) ? 1 : -1))
+          .filter(i => getDays(i.submitted)))
+      );
     }
   };
 
@@ -788,8 +793,8 @@ const Posts = (props) => {
                     );
                   })
                 ) : (<span className="no-results" > There are no posts to display </span>)}
-      </div> 
-  </div>
+      </div>
+    </div>
   );
 };
 

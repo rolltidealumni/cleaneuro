@@ -6,7 +6,6 @@ import realTime from "../../firebase/firebase";
 import Post from "./Post";
 import Card from "@material-ui/core/Card";
 import Moment from "moment";
-import Link from "@material-ui/core/Link";
 import Nav from "../Nav";
 import Critique from "../Critique";
 import Typography from "@material-ui/core/Typography";
@@ -60,6 +59,7 @@ const MyPosts = (props) => {
   };
 
   const getPosts = () => {
+    setPostLoading(true);
     realTime
       .ref("posts")
       .orderByChild(sort.sort)
@@ -109,6 +109,7 @@ const MyPosts = (props) => {
           });
         }
         setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author === props.user.uid));
+        setPostLoading(false);
       });
   }
 
@@ -258,7 +259,7 @@ const MyPosts = (props) => {
             {
               display: 'absolute',
               top: '48px',
-              backgroundColor: 'white'
+              backgroundColor: '#FBC02D'
             }
           }
         />

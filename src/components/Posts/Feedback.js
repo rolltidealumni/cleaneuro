@@ -7,9 +7,7 @@ import Link from "@material-ui/core/Link";
 import Card from "@material-ui/core/Card";
 import Moment from "moment";
 import Nav from "../Nav";
-import Critique from "../Critique";
 import Typography from "@material-ui/core/Typography";
-import FlatButton from "material-ui/FlatButton";
 import { connect } from "react-redux";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useHistory } from "react-router-dom";
@@ -22,14 +20,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const Feedback = (props) => {
   let history = useHistory();
   const [sort] = useState({ sort: "total", order: "asc" });
-  const [openCritique, setOpenCritique] = useState(false);
-  const [critiquePost, setCritiquePost] = useState(null);
   const [posts, setPosts] = useState([]);
   const [postLoading, setPostLoading] = useState(false);
   let postz = [];
-  let postCameras = [];
-  let postLens = [];
-  let postAperture = [];
   let temp = [];
 
   const handleOpen = () => {
@@ -37,12 +30,6 @@ const Feedback = (props) => {
       history.push("/login");
     }
   };
-
-  const handleOpenCritique = (post) => {
-    if (!openCritique) setCritiquePost(post);
-    if (openCritique) setCritiquePost(null);
-    setOpenCritique(!openCritique);
-  }
 
   useEffect(() => {
     if (!props.isAuthenticated) {
@@ -64,6 +51,7 @@ const Feedback = (props) => {
 
   const getPosts = (userUID) => {
     if (userUID !== undefined) {
+      setPostLoading(true);
       realTime
         .ref("post-critiques")
         .orderByChild("author")
@@ -91,6 +79,7 @@ const Feedback = (props) => {
             });
           }
           setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author === userUID));
+          setPostLoading(false);
         });
     }
   }
@@ -105,15 +94,6 @@ const Feedback = (props) => {
         isVerifying={props.isVerifying}
         isAuthenticated={props.isAuthenticated}
       />
-      {openCritique ? (
-        <Critique
-          openDialog={openCritique}
-          post={critiquePost}
-          setOpenDialog={() => setOpenCritique()}
-          handleClose={() => setOpenCritique()}
-          {...props}
-        />
-      ) : null}
       <Card className={"MuiProjectCard--01"}
         style={{
           height: '220px',
@@ -143,7 +123,7 @@ const Feedback = (props) => {
             {
               display: 'absolute',
               top: '65px',
-              backgroundColor: 'black'
+              backgroundColor: '#FBC02D'
             }
           }
         />

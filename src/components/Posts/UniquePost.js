@@ -137,13 +137,6 @@ const UniquePost = (post) => {
       });
   }
 
-  const getDays = () => {
-    var submitted = Moment(post.submitted);
-    var today = Moment().startOf('day');
-
-    return (7 - submitted.diff(today, 'days'))
-  }
-
   return (
     <>
       <Nav
@@ -275,7 +268,6 @@ const UniquePost = (post) => {
           <span>
             {post.isAuthenticated ?
               <FlatButton
-                label={post.user.uid === postResponse.author ? "Stats" : "Critique"}
                 label={
                   post.user.uid === postResponse.author ?
                     "Stats" : haveTheyCritiqued(postResponse.key) ?
