@@ -12,10 +12,12 @@ import FlatButton from "material-ui/FlatButton";
 import exit from "../static/close.svg";
 import CardActions from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
-// import countryCodes from "../static/country-codes.js";
 import Typography from "@material-ui/core/Typography";
 import ReactCodeInput from 'react-verification-code-input';
 import loadingSpinner from "../static/loading.gif";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 const CssTextField = makeStyles((theme) => ({
   root: {
@@ -39,6 +41,8 @@ function Login(props) {
   const classes = CssTextField();
   let { isAuthenticated } = props;
   const [phone, setPhone] = useState(null);
+  const [phoneError, setPhoneError] = useState(false);
+  const [countryCode, setCountryCode] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [apiError, setApiError] = useState(null);
@@ -67,31 +71,26 @@ function Login(props) {
     } else {
       setLoading(true);
       setError(false);
+      setApiError(false);
       if (validator.isMobilePhone(phone)) {
         myFirebase
           .auth()
-          .signInWithPhoneNumber(phone, appVerifier)
+          .signInWithPhoneNumber("+"+phone, appVerifier)
           .then(function (confirmationResult) {
             setVerifyCodeFlag(true);
             setLoading(false);
             setError(false);
+            setApiError(false);
             setConfirmationResult(confirmationResult.verificationId);
           })
           .catch(function (error) {
             setLoading(false);
             setApiError(error.code);
           });
+      } else {
+        setLoading(false);
+        setApiError('There was a problem. Please try again');
       }
-    }
-  };
-
-  const validatePhone = (phone) => {
-    setPhone(phone);
-    if (validator.isMobilePhone(phone) && !phone.includes("+") === false) {
-      setError(false);
-      setApiError(null);
-    } else {
-      setError(true);
     }
   };
 
@@ -175,30 +174,30 @@ function Login(props) {
             <span>to become a <span style={{ color: "#FBC02D", fontWeight: "500" }}>better artist</span>.</span>
           </div>
           {!verifyCodeFlag ?
-            <TextField
-              InputProps={{ classes, disableUnderline: true }}
-              style={{
-                margin: "5px",
-                width: "50%",
-                marginBottom: "10px",
-                marginTop: "21px",
-              }}
-              id="phone"
-              placeholder={"Mobile Phone"}
-              onChange={(e) => validatePhone(e.target.value)}
-              error={error || apiError !== null}
-              helperText={
-                error
-                  ? "Invalid phone number. Must begin with + and country code"
-                  : apiError
-                    ? apiError
-                    : null
-              }
-              type="tel"
+            <PhoneInput
+              country={'us'}
+              value={phone}
+              placeholder={"Phone Number"}
               disabled={verifyCodeFlag}
-              variant="outlined"
+              isValid={(value) => {
+                if (validator.isMobilePhone(value)) {
+                  setPhoneError(false);
+                  return true;
+                } else if (value.length > 4) {
+                  setPhoneError(true);
+                  return false;
+                }
+              }}
+              onChange={phone => setPhone(phone)}
             /> :
             <>
+              {apiError ? <center><Alert severity="error" style={{
+                marginBottom: "10px",
+                marginTop: "5px",
+                textAlign: 'left'
+              }}>
+                {apiError}
+              </Alert></center> : null}
               <ReactCodeInput
                 style={{
                   margin: "5px",
@@ -230,12 +229,12 @@ function Login(props) {
           </Alert></center> : null}
               <FlatButton
                 className={
-                  !error && phone !== null
+                  !error && phone !== null && !phoneError
                     ? "gagunkbtn-submit"
                     : "gagunkbtn-submit-disabled"
                 }
                 id="submit-account"
-                disabled={error || phone == null || loading}
+                disabled={error || phone == null || loading || phoneError}
                 label={
                   loading ? (
                     <img

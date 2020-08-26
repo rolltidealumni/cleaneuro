@@ -2364,10 +2364,12 @@ import FlatButton from "material-ui/FlatButton";
 import exit from "../static/close.svg";
 import CardActions from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
-import countryCodes from "../static/country-codes.js";
 import Typography from "@material-ui/core/Typography";
 import ReactCodeInput from 'react-verification-code-input';
 import loadingSpinner from "../static/loading.gif";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 const CssTextField = makeStyles((theme) => ({
   root: {
@@ -2391,6 +2393,8 @@ function Login(props) {
   const classes = CssTextField();
   let { isAuthenticated } = props;
   const [phone, setPhone] = useState(null);
+  const [phoneError, setPhoneError] = useState(false);
+  const [countryCode, setCountryCode] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [apiError, setApiError] = useState(null);
@@ -2419,31 +2423,26 @@ function Login(props) {
     } else {
       setLoading(true);
       setError(false);
+      setApiError(false);
       if (validator.isMobilePhone(phone)) {
         myFirebase
           .auth()
-          .signInWithPhoneNumber(phone, appVerifier)
+          .signInWithPhoneNumber("+"+phone, appVerifier)
           .then(function (confirmationResult) {
             setVerifyCodeFlag(true);
             setLoading(false);
             setError(false);
+            setApiError(false);
             setConfirmationResult(confirmationResult.verificationId);
           })
           .catch(function (error) {
             setLoading(false);
             setApiError(error.code);
           });
+      } else {
+        setLoading(false);
+        setApiError('There was a problem. Please try again');
       }
-    }
-  };
-
-  const validatePhone = (phone) => {
-    setPhone(phone);
-    if (validator.isMobilePhone(phone) && !phone.includes("+") === false) {
-      setError(false);
-      setApiError(null);
-    } else {
-      setError(true);
     }
   };
 
@@ -2527,30 +2526,30 @@ function Login(props) {
             <span>to become a <span style={{ color: "#FBC02D", fontWeight: "500" }}>better artist</span>.</span>
           </div>
           {!verifyCodeFlag ?
-            <TextField
-              InputProps={{ classes, disableUnderline: true }}
-              style={{
-                margin: "5px",
-                width: "50%",
-                marginBottom: "10px",
-                marginTop: "21px",
-              }}
-              id="phone"
-              placeholder={"Mobile Phone"}
-              onChange={(e) => validatePhone(e.target.value)}
-              error={error || apiError !== null}
-              helperText={
-                error
-                  ? "Invalid phone number. Must begin with + and country code"
-                  : apiError
-                    ? apiError
-                    : null
-              }
-              type="tel"
+            <PhoneInput
+              country={'us'}
+              value={phone}
+              placeholder={"Phone Number"}
               disabled={verifyCodeFlag}
-              variant="outlined"
+              isValid={(value) => {
+                if (validator.isMobilePhone(value)) {
+                  setPhoneError(false);
+                  return true;
+                } else if (value.length > 4) {
+                  setPhoneError(true);
+                  return false;
+                }
+              }}
+              onChange={phone => setPhone(phone)}
             /> :
             <>
+              {apiError ? <center><Alert severity="error" style={{
+                marginBottom: "10px",
+                marginTop: "5px",
+                textAlign: 'left'
+              }}>
+                {apiError}
+              </Alert></center> : null}
               <ReactCodeInput
                 style={{
                   margin: "5px",
@@ -2582,12 +2581,12 @@ function Login(props) {
           </Alert></center> : null}
               <FlatButton
                 className={
-                  !error && phone !== null
+                  !error && phone !== null && !phoneError
                     ? "gagunkbtn-submit"
                     : "gagunkbtn-submit-disabled"
                 }
                 id="submit-account"
-                disabled={error || phone == null || loading}
+                disabled={error || phone == null || loading || phoneError}
                 label={
                   loading ? (
                     <img
@@ -2659,8 +2658,6 @@ import feedback from "../static/feedback.svg";
 import facebook from "../static/facebook.svg";
 import help from "../static/help.svg";
 import menu from "../static/menu.svg";
-import login from "../static/login.svg";
-import home from "../static/home.svg";
 import analytics from "../static/analytics.png"
 import navbar from "../static/logo.svg";
 
@@ -3159,251 +3156,6 @@ export default [
   "Yuneec",
   "Zeiss"
 ];
-
-export default [
-  93,
-  355,
-  213,
-  "1 - 684",
-  376,
-  244,
-  "1 - 264",
-  672,
-  "1 - 268",
-  54,
-  374,
-  297,
-  61,
-  43,
-  994,
-  "1 - 242",
-  973,
-  880,
-  "1 - 246",
-  375,
-  32,
-  501,
-  229,
-  "1 - 441",
-  975,
-  591,
-  387,
-  267,
-  55,
-  246,
-  "1 - 284",
-  673,
-  359,
-  226,
-  257,
-  855,
-  237,
-  1,
-  238,
-  "1 - 345",
-  236,
-  235,
-  56,
-  86,
-  61,
-  61,
-  57,
-  269,
-  682,
-  506,
-  385,
-  53,
-  599,
-  357,
-  420,
-  243,
-  45,
-  253,
-  "1 - 767",
-  "1 - 809",
-  "1 - 829",
-  "1 - 849",
-  670,
-  593,
-  20,
-  503,
-  240,
-  291,
-  372,
-  251,
-  500,
-  298,
-  679,
-  358,
-  33,
-  689,
-  241,
-  220,
-  995,
-  49,
-  233,
-  350,
-  30,
-  299,
-  "1 - 473",
-  "1 - 671",
-  502,
-  "44 - 1481",
-  224,
-  245,
-  592,
-  509,
-  504,
-  852,
-  36,
-  354,
-  91,
-  62,
-  98,
-  964,
-  353,
-  "44 - 1624",
-  972,
-  39,
-  225,
-  "1 - 876",
-  81,
-  "44 - 1534",
-  962,
-  7,
-  254,
-  686,
-  383,
-  965,
-  996,
-  856,
-  371,
-  961,
-  266,
-  231,
-  218,
-  423,
-  370,
-  352,
-  853,
-  389,
-  261,
-  265,
-  60,
-  960,
-  223,
-  356,
-  692,
-  222,
-  230,
-  262,
-  52,
-  691,
-  373,
-  377,
-  976,
-  382,
-  "1 - 664",
-  212,
-  258,
-  95,
-  264,
-  674,
-  977,
-  31,
-  599,
-  687,
-  64,
-  505,
-  227,
-  234,
-  683,
-  850,
-  "1 - 670",
-  968,
-  92,
-  680,
-  970,
-  507,
-  675,
-  595,
-  51,
-  63,
-  64,
-  48,
-  351,
-  "1 - 787",
-  "1 - 939",
-  974,
-  242,
-  262,
-  40,
-  7,
-  250,
-  590,
-  290,
-  "1 - 869",
-  "1 - 758",
-  590,
-  508,
-  "1 - 784",
-  685,
-  378,
-  239,
-  966,
-  221,
-  381,
-  248,
-  232,
-  65,
-  "1 - 721",
-  421,
-  386,
-  677,
-  252,
-  27,
-  82,
-  211,
-  34,
-  94,
-  249,
-  597,
-  47,
-  268,
-  46,
-  41,
-  963,
-  886,
-  992,
-  255,
-  66,
-  228,
-  690,
-  676,
-  "1 - 868",
-  216,
-  90,
-  993,
-  "1 - 649",
-  688,
-  "1 - 340",
-  256,
-  380,
-  971,
-  44,
-  1,
-  598,
-  998,
-  678,
-  379,
-  58,
-  84,
-  681,
-  212,
-  967,
-  260,
-  263,
-]
 
 export default [
   "8mm",

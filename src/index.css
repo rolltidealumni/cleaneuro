@@ -383,6 +383,29 @@ h3 {
     bottom: 32px !important;
 }
 
+.react-tel-input {
+  font-family: 'Roboto',sans-serif;
+  font-size: 15px;
+  position: relative;
+  width: 50% !important;
+  height: 45px !important;
+  min-width: 88px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+}
+
+.react-tel-input > .form-control {
+  height: 45px !important;
+  width: 100% !important;
+}
+
+.country-list {
+  text-align: left !important;
+  margin-top: 2px !important;
+}
+
 .MuiCardMedia-root {
   height: 302px !important;
   background-position: center center !important;
@@ -390,7 +413,7 @@ h3 {
 
 .expirelabel-unique {    
     position: relative;
-    top: -28px;
+    top: -25px;
     padding-right: 6px;
     padding-left: 0px !important;
     left: -14px
