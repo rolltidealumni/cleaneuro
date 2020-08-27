@@ -2427,7 +2427,7 @@ function Login(props) {
       if (validator.isMobilePhone(phone)) {
         myFirebase
           .auth()
-          .signInWithPhoneNumber("+"+phone, appVerifier)
+          .signInWithPhoneNumber("+" + phone, appVerifier)
           .then(function (confirmationResult) {
             setVerifyCodeFlag(true);
             setLoading(false);
@@ -2531,16 +2531,17 @@ function Login(props) {
               value={phone}
               placeholder={"Phone Number"}
               disabled={verifyCodeFlag}
-              isValid={(value) => {
-                if (validator.isMobilePhone(value)) {
+              isValid={!phoneError}
+              onChange={phone => {
+                setPhone(phone);
+                if (validator.isMobilePhone(phone)) {
                   setPhoneError(false);
                   return true;
-                } else if (value.length > 4) {
+                } else {
                   setPhoneError(true);
                   return false;
                 }
               }}
-              onChange={phone => setPhone(phone)}
             /> :
             <>
               {apiError ? <center><Alert severity="error" style={{

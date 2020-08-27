@@ -57,6 +57,12 @@ const Posts = (props) => {
     return today <= Moment(Moment(submit)).add(7, 'd').format('YYYY-MM-DD')
   }
 
+  const numDays = (submit) => {
+    var given = Moment(submit, "YYYY-MM-DD");
+    var today = Moment().endOf('day').format('YYYY-MM-DD');
+    return Moment.duration(given.diff(today)).asDays();
+  }
+
   const getPosts = (mounted) => {
     let temp = [];
     let postz = [];
@@ -79,6 +85,7 @@ const Posts = (props) => {
               index: i,
               key: keys[i],
               expires: Moment(Moment(child[1].submitted)).add(7, 'd').format("dddd, MMMM Do"),
+              expireDays: numDays(Moment(child[1].submitted).add(7, 'd')),
               submitted: child[1].submitted,
               imageLink: child[1].imageLink,
               aperture: child[1].aperture,

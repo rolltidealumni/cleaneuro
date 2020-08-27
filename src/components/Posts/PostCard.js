@@ -64,7 +64,7 @@ const PostCard = (post) => {
       className={"MuiProjectCard--01"}
       id="post-card"
       style={{
-        height: history.location.pathname !== "/" ? "372px" : "397px"
+        height: history.location.pathname !== "/" ? "372px" : "439px"
       }}
     >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
@@ -106,10 +106,14 @@ const PostCard = (post) => {
             onClick={() => {
               if (history.location.pathname === "/") openUniquePost(post.post);
             }}
-            style={{ cursor: history.location.pathname === "/" ? 'pointer' : 'default !important', fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}
+            style={{ cursor: history.location.pathname === "/" ? 'pointer' : 'default !important', fontSize: "18px", fontWeight: "400", marginBottom: "2px", fontFamily: 'Nunito' }}
           >
-            {post.post.location && post.post.location.length > 20 ? (post.post.location.substring(0, 20 - 3) + "...") : post.post.location}
+            {post.post.location && post.post.location.length > 40 ? (post.post.location.substring(0, 40 - 3) + "...") : post.post.location}
           </span>
+          <br />
+          <div style={{padding: '6px', width: 'fit-content', backgroundColor: '#eeee', borderRadius: '4px', textAlign: 'center', fontSize: '12px'}}>
+            {post.post.category}
+          </div>
           <span
             style={{
               paddingLeft: '40px',
@@ -123,7 +127,7 @@ const PostCard = (post) => {
               fontSize: '10px',
               fontStyle: 'italic',
               marginLeft: '40px',
-              marginTop: '6px',
+              marginTop: '16px',
             }}
           >
             <img
@@ -147,13 +151,6 @@ const PostCard = (post) => {
               style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
             />{" "}
             {post.post.lens}
-            <img
-              alt="category"
-              src={category}
-              width="18px"
-              style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
-            />{" "}
-            {post.post.category}
           </span>
         </Typography>
         <Typography
@@ -163,8 +160,10 @@ const PostCard = (post) => {
           style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
         >
           {history.location.pathname === "/" ? (
-            <span style={{ position: "relative", top: "-24px" , textTransform: 'capitalize'}}>
-              Expires on {post.post.expires}
+            <span style={{ position: "relative", top: "-20px", textTransform: 'uppercase', color: 'gray', fontSize: '10px' }}>
+             {Math.round(post.post.expireDays) === 0 ? "Expires today" : 
+              Math.round(post.post.expireDays) === 1 ? "Expires tomorrow" : 
+              `Expires in ${Math.round(post.post.expireDays)} days`}
             </span>) : null}
           <span>
             {post.isAuthenticated ?
