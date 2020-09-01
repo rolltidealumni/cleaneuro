@@ -54,13 +54,13 @@ const Posts = (props) => {
   );
 
   const getDays = (submit) => {
-    var today = Moment().endOf('day').format('YYYY-MM-DD');
+    var today = Moment().format('YYYY-MM-DD');
     return today <= Moment(Moment(submit)).add(7, 'd').format('YYYY-MM-DD')
   }
 
   const numDays = (submit) => {
-    var given = Moment(submit, "YYYY-MM-DD");
-    var today = Moment().endOf('day').format('YYYY-MM-DD');
+    var given = Moment(submit, "YYYY-MM-DD").startOf("day");
+    var today = Moment().format('YYYY-MM-DD');  
     return Moment.duration(given.diff(today)).asDays();
   }
 

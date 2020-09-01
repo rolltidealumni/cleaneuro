@@ -89,7 +89,7 @@ body {
 
 #unique-card {
     width: 90% !important;
-    height:760px !important;
+    height:780px !important;
     margin-top: 150px !important;
     margin: auto;
     max-height: 1406px;
@@ -1114,7 +1114,7 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
   overflow: visible !important;
   color: rgb(30,30,30) !important;
   bottom: 13px !important;
-  top: -28px !important;
+  top: -55px !important;
   float: right;
 }
 

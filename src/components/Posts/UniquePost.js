@@ -75,6 +75,12 @@ const UniquePost = (post) => {
     }
   }
 
+  const numDays = (submit) => {
+    var given = Moment(submit, "YYYY-MM-DD");
+    var today = Moment().endOf('day').format('YYYY-MM-DD');
+    return Moment.duration(given.diff(today)).asDays();
+  }
+
   const login = () => {
     history.push("/login");
   };
@@ -102,6 +108,7 @@ const UniquePost = (post) => {
               index: i,
               key: keys[i],
               expires: Moment(Moment(child[1].submitted)).add(7, 'd').format("dddd, MMMM Do"),
+              expireDays: numDays(Moment(child[1].submitted).add(7, 'd')),
               submitted: child[1].submitted,
               imageLink: child[1].imageLink,
               aperture: child[1].aperture,
@@ -204,14 +211,18 @@ const UniquePost = (post) => {
               style={{ marginLeft: "15px", marginTop: postResponse.editorspick ? "45px" : "10px", marginBottom: "0px" }}
               gutterBottom
             >
-              <span style={{ fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}>
+              <span style={{ fontSize: "18px", fontSize: "18px", fontWeight: "400", marginBottom: "2px", fontFamily: 'Nunito' }}>
                 {postResponse.caption}
+              </span>
+              <br />
+              <span style={{ padding: '6px', width: 'fit-content', backgroundColor: '#eeee', borderRadius: '4px', textAlign: 'center', fontSize: '12px' }}>
+                {postResponse.category}
               </span>
               <span
                 style={{
                   paddingLeft: '40px',
                   borderRadius: '4px',
-                  marginBottom: '20px',
+                  marginBottom: '29px',
                   paddingTop: '3px !important',
                   paddingBottom: '5px',
                   width: '100%',
@@ -221,7 +232,7 @@ const UniquePost = (post) => {
                   fontSize: '10px',
                   fontStyle: 'italic',
                   marginLeft: '40px',
-                  marginTop: '6px',
+                  marginTop: '16px',
                 }}
               >
                 <img
@@ -242,26 +253,22 @@ const UniquePost = (post) => {
                   alt="lens"
                   src={lens}
                   width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
+                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px'}}
                 />{" "}
                 {postResponse.lens}
-                <img
-                  alt="category"
-                  src={category}
-                  width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
-                />{" "}
-                {postResponse.category}
               </span>
+              <br />
               <br />
               <Typography
                 className={"MuiTypography--headLabel"}
                 variant={"overline"}
                 gutterBottom
-                style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
+                style={{ margin: "0px", fontSize: "11px", paddingLeft: "0px", marginTop: '26px' }}
               >
-                <span className="expirelabel-unique">
-                  Expires on {postResponse.expires}
+                <span style={{ position: "relative", top: "-20px", textTransform: 'uppercase', color: 'gray', fontSize: '10px' }}>
+                  {Math.round(postResponse.expireDays) === 0 ? "Expires today" :
+                    Math.round(postResponse.expireDays) === 1 ? "Expires tomorrow" :
+                      `Expires in ${Math.round(postResponse.expireDays)} days`}
                 </span>
               </Typography>
             </Typography> : null}
@@ -279,7 +286,7 @@ const UniquePost = (post) => {
                   haveTheyCritiqued(postResponse.key) ? "login-critique" : null}
                 disabled={haveTheyCritiqued(postResponse.key)}
                 onClick={() => handleOpenCritique(postResponse)}
-                style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+                style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "0px", color: 'rgb(30,30,30)' }}
               /> :
               <FlatButton
                 label={"Login"}

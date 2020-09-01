@@ -87,7 +87,6 @@ const Form = (props) => {
   };
 
   const handleSubmit = (e) => {
-    const _this = this;
     let postsRef = realTime.ref("posts");
     setLoading(true);
     if (image) {
@@ -119,7 +118,6 @@ const Form = (props) => {
       setCategoryInput("");
       setImage(null);
     }
-    _this.forceUpdate();
   };
 
   return (
