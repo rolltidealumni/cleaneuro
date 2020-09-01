@@ -11,7 +11,6 @@ import Link from "@material-ui/core/Link";
 import { useHistory, useParams } from "react-router-dom";
 import Nav from "../Nav";
 import ImageLoader from "react-load-image";
-import category from "../../static/label.svg";
 import { connect } from "react-redux";
 import lens from "../../static/lens.svg";
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -211,7 +210,7 @@ const UniquePost = (post) => {
               style={{ marginLeft: "15px", marginTop: postResponse.editorspick ? "45px" : "10px", marginBottom: "0px" }}
               gutterBottom
             >
-              <span style={{ fontSize: "18px", fontSize: "18px", fontWeight: "400", marginBottom: "2px", fontFamily: 'Nunito' }}>
+              <span style={{ fontSize: "18px",  fontWeight: "400", marginBottom: "2px", fontFamily: 'Nunito' }}>
                 {postResponse.caption}
               </span>
               <br />
@@ -268,12 +267,13 @@ const UniquePost = (post) => {
                 <span style={{ position: "relative", top: "-20px", textTransform: 'uppercase', color: 'gray', fontSize: '10px' }}>
                   {Math.round(postResponse.expireDays) === 0 ? "Expires today" :
                     Math.round(postResponse.expireDays) === 1 ? "Expires tomorrow" :
+                    Math.round(postResponse.expireDays) < 0 ? "Expired" :
                       `Expires in ${Math.round(postResponse.expireDays)} days`}
                 </span>
               </Typography>
             </Typography> : null}
           <span>
-            {post.isAuthenticated ?
+            {post.isAuthenticated && Math.round(postResponse.expireDays) > 0 ?
               <FlatButton
                 label={
                   post.user.uid === postResponse.author ?
@@ -287,14 +287,14 @@ const UniquePost = (post) => {
                 disabled={haveTheyCritiqued(postResponse.key)}
                 onClick={() => handleOpenCritique(postResponse)}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "0px", color: 'rgb(30,30,30)' }}
-              /> :
+              /> : Math.round(postResponse.expireDays) > 0 ?
               <FlatButton
                 label={"Login"}
                 primary={true}
                 id="critiqueBtn-unique"
                 onClick={() => history.push("/login")}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-              />}
+              /> : null}
           </span>
         </div>
       </Card>

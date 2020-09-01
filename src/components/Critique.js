@@ -72,7 +72,7 @@ const Critique = (props) => {
       post: props.post.key,
       comment: comment,
       uid: props.user.uid,
-      location: props.post.location,
+      caption: props.post.caption,
       imageLink: props.post.imageLink,
       submitted: new Date().toString(),
     });
@@ -112,7 +112,7 @@ const Critique = (props) => {
           }}
         ></div>
         <div>
-          <span>{props.post.location}</span>
+          <span>{props.post.caption}</span>
           <span
             style={{
               paddingLeft: '40px',

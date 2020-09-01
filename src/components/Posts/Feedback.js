@@ -67,7 +67,7 @@ const Feedback = (props) => {
             result.forEach(function (child, i) {
               temp.push({
                 index: i,
-                location: child[1].location,
+                caption: child[1].caption,
                 imageLink: child[1].imageLink,
                 key: keys[i],
                 Rating: child[1].Rating,
@@ -150,7 +150,7 @@ const Feedback = (props) => {
                   }}> </div>
                   <Typography style={{ width: '80%' }}>
                     <p>
-                      {post.location}
+                      {post.caption}
                     </p>
                     <p>
                       Submitted on: {Moment(post.submitted).format("dddd, MMMM Do YYYY, h:mm:ss a")}

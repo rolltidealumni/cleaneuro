@@ -175,19 +175,14 @@ export const verifyAuth = () => dispatch => {
 export * from "./auth";
 import React, { useState } from "react";
 import "firebase/storage";
-import jquery from 'jquery';
 import FlatButton from "material-ui/FlatButton";
-import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import PlacesAutocomplete from 'react-places-autocomplete';
 import InputLabel from "@material-ui/core/InputLabel";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Switch from "@material-ui/core/Switch";
-import locationLogo from "../static/location.svg";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -203,23 +198,12 @@ import realTime from "../firebase/firebase";
 
 const Admin = (props) => {
   const [cameraInput, setCameraInput] = useState(props.post.camera);
-  const [location, setLocation] = useState(props.post.location);
   const [lensInput, setLensInput] = useState(props.post.lens);
   const [loading, setLoading] = useState(false);
   const [apertureInput, setApertureInput] = useState(props.post.aperture);
   const [categoryInput, setCategoryInput] = useState(props.post.category);
   const image = props.post ? props.post.imageLink : "";
   const [editorspick, setEditorsPick] = useState(props.post.editorspick);
-
-  const selectLocation = (address, placeId) => {
-    // geocodeByAddress(address)
-    //   .then(results => {
-    //     getLatLng(results[0])
-    //     setLocation(results[0].formatted_address);
-    //   })
-    //   .then(results => {console.log(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);})
-    //   .catch(error => {});
-  }
 
   const RedSwitch = withStyles({
     switchBase: {
@@ -239,7 +223,6 @@ const Admin = (props) => {
     setLoading(true);
     realTime.ref("posts/" + props.post.key).update({
       editorspick: editorspick || false,
-      location: jquery('#combo-box-demo').val() === "" ? props.post.location : jquery('#combo-box-demo').val(),
       aperture: apertureInput,
       lens: lensInput,
       camera: cameraInput,
@@ -311,41 +294,6 @@ const Admin = (props) => {
             height: "180px",
           }}
         ></div>
-        <PlacesAutocomplete
-          value={location}
-          style={{ width: '100%' }}
-          onChange={value => setLocation(value)}
-          onSelect={value => selectLocation(value)}
-        >
-          {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-            <div>
-              <FormControl variant="outlined" style={{ width: '100%', marginTop: '10px' }}>
-                <Autocomplete
-                  id="combo-box-demo"
-                  options={suggestions}
-                  getOptionLabel={(option) => option.description}
-                  style={{ width: '100%' }}
-                  onSelect={option => selectLocation(location)}
-                  renderInput={(params) => <TextField value={location} label={
-                    <span>
-                      <img
-                        alt="location"
-                        src={locationLogo}
-                        width="18px"
-                        style={{ verticalAlign: "middle", marginRight: "5px" }}
-                      />
-                      <span style={{ verticalAlign: "middle" }}>{location}</span>
-                    </span>
-                  }
-                    {...params} variant="outlined" {...getInputProps({
-                      placeholder: "Location",
-                      className: 'location-search-input',
-                    })} />}
-                />
-              </FormControl>
-            </div>
-          )}
-        </PlacesAutocomplete>
         <FormControl variant="outlined" className="half-inputs">
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
@@ -576,14 +524,12 @@ import { useHistory } from "react-router-dom";
 
 function App(props) {
   const { isAuthenticated, isVerifying, user } = props;
-  const [route, setRoute] = useState(localStorage.getItem('route'))
+  const [route] = useState(localStorage.getItem('route'))
   let results = [];
   let history = useHistory();
-  const [loading, setLoading] = useState(false);
   const [critiques, setCritiques] = useState([]);
 
   const fetchCritiques = async (mounted, user) => {
-    setLoading(true);
     if (user) {
       await realTime
         .ref("post-critiques")
@@ -593,13 +539,11 @@ function App(props) {
           if (snapshot.val()) {
             let c = [];
             c.push(snapshot.val());
-            let keys = Object.keys(c[0]);
             var result = Object.keys(c[0]).map(function (key) {
               return [Number(key), c[0][key]];
             });
             result.forEach(function (child, i) {
               results.push(child[1]);
-              setLoading(false);
             });
           }
 
@@ -615,6 +559,7 @@ function App(props) {
     if (user) fetchCritiques(mounted, user.uid);
     if (route) history.push("/" + route);
     return () => (mounted = false);
+    // eslint-disable-next-line
   }, [user]);
 
   return (
@@ -1732,29 +1677,30 @@ export default Critique;
 import React, { useState } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
-import jquery from 'jquery';
+// import jquery from 'jquery';
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
 import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
 import exit from "../static/close.svg";
 import DialogContent from "@material-ui/core/DialogContent";
-import Autocomplete from '@material-ui/lab/Autocomplete';
+// import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputLabel from "@material-ui/core/InputLabel";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Alert from '@material-ui/lab/Alert';
 import Select from "@material-ui/core/Select";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+// import PlacesAutocomplete, {
+//   geocodeByAddress,
+//   getLatLng,
+// } from 'react-places-autocomplete';
 import ImageUploader from "react-images-upload";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import lens from "../static/lens.svg";
-import locationLogo from "../static/location.svg";
+import upload from "../static/upload.svg";
+// import locationLogo from "../static/location.svg";
 import cameraLogo from "../static/camera-two.svg";
 import aperture from "../static/aperture.svg";
 import category from "../static/label.svg";
@@ -1765,8 +1711,9 @@ import realTime from "../firebase/firebase";
 
 const Form = (props) => {
   const [image, setImage] = useState(null);
-  const [location, setLocation] = useState("");
+  // const [location, setLocation] = useState("");
   const [cameraInput, setCameraInput] = useState("");
+  const [caption, setCaption] = useState("");
   const [lensInput, setLensInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [apertureInput, setApertureInput] = useState("");
@@ -1774,15 +1721,15 @@ const Form = (props) => {
   const [imageLoading, setImageLoading] = useState(0);
   const [hideUploader, setHideUploader] = useState(false);
 
-  const selectLocation = (address, placeId) => {
-    geocodeByAddress(address)
-      .then(results => {
-        getLatLng(results[0])
-        setLocation(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);
-      })
-      .then(latLng => { })
-      .catch(error => { });
-  }
+  // const selectLocation = (address, placeId) => {
+  //   geocodeByAddress(address)
+  //     .then(results => {
+  //       getLatLng(results[0])
+  //       setLocation(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);
+  //     })
+  //     .then(latLng => { })
+  //     .catch(error => { });
+  // }
 
   const onDrop = (picture, data) => {
     setHideUploader(true);
@@ -1821,7 +1768,7 @@ const Form = (props) => {
     if (image) {
       postsRef.push({
         imageLink: image,
-        location: jquery('#combo-box-demo').val(),
+        caption: caption,
         submitted: new Date().toString(),
         aperture: apertureInput,
         lens: lensInput,
@@ -1842,6 +1789,7 @@ const Form = (props) => {
       setLoading(false);
       setCameraInput("");
       setLensInput("");
+      setCaption("");
       setApertureInput("");
       setCategoryInput("");
       setImage(null);
@@ -1877,7 +1825,7 @@ const Form = (props) => {
               height: '73px'
             }}
           >
-           <Alert severity="info">Your photo will expire in 7 days. Once submitted, you cannot update or delete. You may view your photo on the Stats page.</Alert> 
+            <Alert severity="info">Your photo will expire in 7 days. Once submitted, you cannot update or delete. You may view your photo on the Stats page.</Alert>
           </span>
           <br />
         </DialogContentText>
@@ -1896,21 +1844,25 @@ const Form = (props) => {
           ></div>
         ) : !hideUploader ? (
           <ImageUploader
-            withIcon={true}
+            withIcon={false}
             withPreview={false}
-            buttonText="Choose image"
-            label="Max file size: 20mb, accepted: jpg, gif, png, jpeg"
+            buttonText="Browse"
+            label={
+              <center>
+                <img src={upload} width={50} alt="cloud" /> <br />
+                <span>Select image</span>
+              </center>}
             onChange={(picture, other) => onDrop(picture, other)}
             imgExtension={[".jpg", ".jpeg", ".png", ".gif"]}
             maxFileSize={20242880}
             singleImage={true}
           />
         ) : null}
-        <PlacesAutocomplete
+        {/* <PlacesAutocomplete
           value={location}
           style={{ width: '100%' }}
-          onChange={value => setLocation(value)}
-          onSelect={value => selectLocation(value)}
+          onChange={(value) => { setLocation(value) }}
+          onSelect={(value) => { selectLocation(value) }}
         >
           {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
             <div>
@@ -1920,7 +1872,7 @@ const Form = (props) => {
                   options={suggestions}
                   getOptionLabel={(option) => option.description}
                   style={{ width: '100%' }}
-                  onSelect={option => selectLocation(location)}
+                  onSelect={(option) => { selectLocation(location) }}
                   renderInput={(params) => <TextField value={location} label={
                     <span>
                       <img
@@ -1940,7 +1892,21 @@ const Form = (props) => {
               </FormControl>
             </div>
           )}
-        </PlacesAutocomplete>
+        </PlacesAutocomplete> */}
+        <TextField
+          style={{
+            width: '100%'
+          }}
+          label="Caption"
+          multiline
+          rowsMax={4}
+          value={caption}
+          onChange={(e) => {
+            setCaption(e.target.value)
+          }}
+          maxLength={40}
+          placeholder=""
+        />
         <FormControl variant="outlined" className="half-inputs">
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
@@ -2124,9 +2090,9 @@ const Form = (props) => {
             }
             primary={true}
             className="submitBtn"
-            disabled={!image || location === ""}
+            disabled={!image || caption === "" || cameraInput === "" || lensInput === "" || apertureInput === "" || categoryInput === ""}
             onClick={(e) => handleSubmit(e)}
-            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)', backgroundColor: !image || location === "" ? "lightgray" : "#FBC02D" }}
+            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)', backgroundColor: !image || caption === "" || cameraInput === "" || lensInput === "" || apertureInput === "" || categoryInput === "" ? "lightgray" : "#FBC02D" }}
           />
         </center>
       </DialogContent>
@@ -2354,7 +2320,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { myFirebase } from "../firebase/firebase";
 import validator from "validator";
-import { makeStyles } from "@material-ui/core/styles";
 import arrow from "../static/arrow.svg";
 import firebase from "firebase/app";
 import Alert from '@material-ui/lab/Alert';
@@ -2363,38 +2328,17 @@ import { Redirect } from "react-router-dom";
 import FlatButton from "material-ui/FlatButton";
 import exit from "../static/close.svg";
 import CardActions from "@material-ui/core/Card";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import ReactCodeInput from 'react-verification-code-input';
 import loadingSpinner from "../static/loading.gif";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
-
-const CssTextField = makeStyles((theme) => ({
-  root: {
-    "& input:valid:hover + fieldset": {
-      borderColor: "#FBC02D",
-      borderWidth: 2,
-    },
-    "& input:valid:focus + fieldset": {
-      borderColor: "#FBC02D",
-      padding: "4px !important", // override inline-style
-    },
-    "&input:-internal-autofill-selected": {
-      backgroundColor: "lightcoral !important",
-    },
-  },
-  focused: {},
-}));
 
 function Login(props) {
   let history = useHistory();
-  const classes = CssTextField();
   let { isAuthenticated } = props;
   const [phone, setPhone] = useState(null);
   const [phoneError, setPhoneError] = useState(false);
-  const [countryCode, setCountryCode] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [apiError, setApiError] = useState(null);

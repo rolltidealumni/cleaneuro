@@ -63,7 +63,7 @@ const PostCard = (post) => {
       className={"MuiProjectCard--01"}
       id="post-card"
       style={{
-        height: history.location.pathname !== "/" ? "372px" : "439px"
+        height: history.location.pathname !== "/" ? "300px" : "439px"
       }}
     >
       <ImageLoader src={post.post.imageLink} onLoad={(t) => isPortrait(t, post)}>
