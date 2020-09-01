@@ -75,8 +75,8 @@ const UniquePost = (post) => {
   }
 
   const numDays = (submit) => {
-    var given = Moment(submit, "YYYY-MM-DD");
-    var today = Moment().endOf('day').format('YYYY-MM-DD');
+    var given = Moment(submit, "YYYY-MM-DD").startOf("day");
+    var today = Moment().format('YYYY-MM-DD');  
     return Moment.duration(given.diff(today)).asDays();
   }
 
