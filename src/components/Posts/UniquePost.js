@@ -273,7 +273,7 @@ const UniquePost = (post) => {
               </Typography>
             </Typography> : null}
           <span>
-            {post.isAuthenticated && Math.round(postResponse.expireDays) > 0 ?
+            {post.isAuthenticated && Math.round(postResponse.expireDays) >= 0 ?
               <FlatButton
                 label={
                   post.user.uid === postResponse.author ?
@@ -287,7 +287,7 @@ const UniquePost = (post) => {
                 disabled={haveTheyCritiqued(postResponse.key)}
                 onClick={() => handleOpenCritique(postResponse)}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "0px", color: 'rgb(30,30,30)' }}
-              /> : Math.round(postResponse.expireDays) > 0 ?
+              /> : Math.round(postResponse.expireDays) >= 0 ?
               <FlatButton
                 label={"Login"}
                 primary={true}
