@@ -37,6 +37,7 @@ const Feedback = (props) => {
     }
     if (props.user) getPosts(props.user.uid);
     localStorage.setItem('route', 'feedback');
+    // eslint-disable-next-line
   }, [props.user]
   );
 

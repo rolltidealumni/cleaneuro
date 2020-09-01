@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { myFirebase } from "../firebase/firebase";
 import validator from "validator";
-import { makeStyles } from "@material-ui/core/styles";
 import arrow from "../static/arrow.svg";
 import firebase from "firebase/app";
 import Alert from '@material-ui/lab/Alert';
@@ -11,38 +10,17 @@ import { Redirect } from "react-router-dom";
 import FlatButton from "material-ui/FlatButton";
 import exit from "../static/close.svg";
 import CardActions from "@material-ui/core/Card";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import ReactCodeInput from 'react-verification-code-input';
 import loadingSpinner from "../static/loading.gif";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
-
-const CssTextField = makeStyles((theme) => ({
-  root: {
-    "& input:valid:hover + fieldset": {
-      borderColor: "#FBC02D",
-      borderWidth: 2,
-    },
-    "& input:valid:focus + fieldset": {
-      borderColor: "#FBC02D",
-      padding: "4px !important", // override inline-style
-    },
-    "&input:-internal-autofill-selected": {
-      backgroundColor: "lightcoral !important",
-    },
-  },
-  focused: {},
-}));
 
 function Login(props) {
   let history = useHistory();
-  const classes = CssTextField();
   let { isAuthenticated } = props;
   const [phone, setPhone] = useState(null);
   const [phoneError, setPhoneError] = useState(false);
-  const [countryCode, setCountryCode] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [apiError, setApiError] = useState(null);

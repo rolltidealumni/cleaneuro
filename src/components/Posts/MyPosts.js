@@ -46,6 +46,7 @@ const MyPosts = (props) => {
     }
     localStorage.setItem('route', 'stats');
     getPosts();
+    // eslint-disable-next-line
   }, [props.user]
   );
 
@@ -147,9 +148,7 @@ const MyPosts = (props) => {
   const getAverage = () => {
     let sum = 0;
     let temp = posts.filter(e => e.average > 0);
-    temp.map(p => {
-      sum = sum + p.average;
-    });
+    temp.map(p => sum = sum + p.average);
     return ({
       average: sum / temp.length,
       total: temp.length
@@ -197,7 +196,7 @@ const MyPosts = (props) => {
             marginBottom: "20px",
           }}
         >
-          <Typography style={{marginTop: "45px", marginBottom: "0px" }}>
+          <Typography style={{ marginTop: "45px", marginBottom: "0px" }}>
             <span style={{ cursor: 'pointer', fontSize: "28px", marginBottom: "2px", fontFamily: 'Nunito' }}>
               Stats
             </span>
@@ -206,12 +205,12 @@ const MyPosts = (props) => {
               <div id="stat-total">
                 <span id="stat-number">{cloneDeep(posts.length)}</span>
                 <br />
-                <span>Photo{posts.length > 1 ? "s" : null } Submitted</span>
+                <span>Photo{posts.length > 1 ? "s" : null} Submitted</span>
               </div>
-              {posts.length > 0  ? (
+              {posts.length > 0 ? (
                 <>
                   <div id="stat-total">
-                    <span id="stat-number">{getAverage().total > 0 ?  getAverage().average.toFixed(2) : "0"}</span>
+                    <span id="stat-number">{getAverage().total > 0 ? getAverage().average.toFixed(2) : "0"}</span>
                     <br />
                     <span>Average Rating</span>
                   </div>

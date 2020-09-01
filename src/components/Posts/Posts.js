@@ -49,7 +49,8 @@ const Posts = (props) => {
     let mounted = true;
     getPosts(mounted);
     return () => (mounted = false);
-  }, [props.user]
+    // eslint-disable-next-line
+    }, [props.user], realTime
   );
 
   const getDays = (submit) => {

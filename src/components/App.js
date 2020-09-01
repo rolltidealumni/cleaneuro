@@ -13,14 +13,12 @@ import { useHistory } from "react-router-dom";
 
 function App(props) {
   const { isAuthenticated, isVerifying, user } = props;
-  const [route, setRoute] = useState(localStorage.getItem('route'))
+  const [route] = useState(localStorage.getItem('route'))
   let results = [];
   let history = useHistory();
-  const [loading, setLoading] = useState(false);
   const [critiques, setCritiques] = useState([]);
 
   const fetchCritiques = async (mounted, user) => {
-    setLoading(true);
     if (user) {
       await realTime
         .ref("post-critiques")
@@ -30,13 +28,11 @@ function App(props) {
           if (snapshot.val()) {
             let c = [];
             c.push(snapshot.val());
-            let keys = Object.keys(c[0]);
             var result = Object.keys(c[0]).map(function (key) {
               return [Number(key), c[0][key]];
             });
             result.forEach(function (child, i) {
               results.push(child[1]);
-              setLoading(false);
             });
           }
 
@@ -52,6 +48,7 @@ function App(props) {
     if (user) fetchCritiques(mounted, user.uid);
     if (route) history.push("/" + route);
     return () => (mounted = false);
+    // eslint-disable-next-line
   }, [user]);
 
   return (

@@ -10,7 +10,6 @@ import aperture from "../../static/aperture.svg";
 // import review from "../../static/star-fill.svg";
 import ImageLoader from "react-load-image";
 import { useHistory } from "react-router-dom";
-import category from "../../static/label.svg";
 import lens from "../../static/lens.svg";
 import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from "@material-ui/core/Typography";

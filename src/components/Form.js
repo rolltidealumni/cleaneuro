@@ -23,6 +23,7 @@ import ImageUploader from "react-images-upload";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import lens from "../static/lens.svg";
+import upload from "../static/upload.svg";
 import locationLogo from "../static/location.svg";
 import cameraLogo from "../static/camera-two.svg";
 import aperture from "../static/aperture.svg";
@@ -85,6 +86,7 @@ const Form = (props) => {
   };
 
   const handleSubmit = (e) => {
+    const _this = this;
     let postsRef = realTime.ref("posts");
     setLoading(true);
     if (image) {
@@ -115,6 +117,7 @@ const Form = (props) => {
       setCategoryInput("");
       setImage(null);
     }
+     _this.forceUpdate();
   };
 
   return (
@@ -165,10 +168,14 @@ const Form = (props) => {
           ></div>
         ) : !hideUploader ? (
           <ImageUploader
-            withIcon={true}
+            withIcon={false}
             withPreview={false}
-            buttonText="Choose image"
-            label="Max file size: 20mb, accepted: jpg, gif, png, jpeg"
+            buttonText="Browse"
+            label={
+              <center>
+                <img src={upload} width={50} alt="cloud" /> <br/>
+                <span>Select image</span>
+              </center>}
             onChange={(picture, other) => onDrop(picture, other)}
             imgExtension={[".jpg", ".jpeg", ".png", ".gif"]}
             maxFileSize={20242880}
