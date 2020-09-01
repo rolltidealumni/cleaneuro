@@ -94,7 +94,7 @@ const Posts = (props) => {
               camera: child[1].camera,
               category: child[1].category,
               author: child[1].author,
-              location: child[1].location,
+              caption: child[1].caption,
               oneStar: child[1].oneStar,
               twoStars: child[1].twoStars,
               threeStars: child[1].threeStars,

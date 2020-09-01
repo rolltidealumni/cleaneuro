@@ -107,7 +107,7 @@ const UniquePost = (post) => {
               aperture: child[1].aperture,
               lens: child[1].lens,
               camera: child[1].camera,
-              location: child[1].location,
+              caption: child[1].caption,
               author: child[1].author,
               category: child[1].category,
               oneStar: child[1].oneStar,
@@ -167,7 +167,7 @@ const UniquePost = (post) => {
         >
           Home
           </Link>
-        <Typography color="textPrimary">{postResponse.location}</Typography>
+        <Typography color="textPrimary">{postResponse.caption}</Typography>
       </Breadcrumbs>
       <Card className={"MuiProjectCard--01"} id="unique-card"
         style={{
@@ -205,7 +205,7 @@ const UniquePost = (post) => {
               gutterBottom
             >
               <span style={{ fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}>
-                {postResponse.location && postResponse.location.length > 40 ? (postResponse.location.substring(0, 40 - 3) + "...") : postResponse.location}
+                {postResponse.caption}
               </span>
               <span
                 style={{

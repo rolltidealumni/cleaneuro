@@ -107,12 +107,12 @@ const PostCard = (post) => {
             }}
             style={{ cursor: history.location.pathname === "/" ? 'pointer' : 'default !important', fontSize: "18px", fontWeight: "400", marginBottom: "2px", fontFamily: 'Nunito' }}
           >
-            {post.post.location && post.post.location.length > 40 ? (post.post.location.substring(0, 40 - 3) + "...") : post.post.location}
+            {post.post.caption}
           </span>
           <br />
-          <div style={{padding: '6px', width: 'fit-content', backgroundColor: '#eeee', borderRadius: '4px', textAlign: 'center', fontSize: '12px'}}>
+          <span style={{padding: '6px', width: 'fit-content', backgroundColor: '#eeee', borderRadius: '4px', textAlign: 'center', fontSize: '12px'}}>
             {post.post.category}
-          </div>
+          </span>
           <span
             style={{
               paddingLeft: '40px',
