@@ -11,7 +11,6 @@ import Link from "@material-ui/core/Link";
 import { useHistory, useParams } from "react-router-dom";
 import Nav from "../Nav";
 import ImageLoader from "react-load-image";
-import category from "../../static/label.svg";
 import { connect } from "react-redux";
 import lens from "../../static/lens.svg";
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -55,8 +54,8 @@ const UniquePost = (post) => {
   useEffect(
     () => {
       let mounted = true;
-      document.querySelector('body').scrollTo(0,0)
-
+      document.querySelector('body').scrollTo(0, 0)
+      localStorage.setItem('route', 'post/' + params.id);
       // eslint-disable-next-line 
       getPost(mounted, params.id);
       return () => (mounted = false);
@@ -64,7 +63,7 @@ const UniquePost = (post) => {
     [post, getPost, params.id]);
 
   const route = () => {
-    history.goBack();
+    history.push("/");
   };
 
   const haveTheyCritiqued = (postId) => {
@@ -73,6 +72,12 @@ const UniquePost = (post) => {
     } else {
       return false;
     }
+  }
+
+  const numDays = (submit) => {
+    var given = Moment(submit, "YYYY-MM-DD").startOf("day");
+    var today = Moment().format('YYYY-MM-DD');  
+    return Moment.duration(given.diff(today)).asDays();
   }
 
   const login = () => {
@@ -101,13 +106,14 @@ const UniquePost = (post) => {
             ordered.push({
               index: i,
               key: keys[i],
-              expires: Moment(Moment(child[1].submitted)).add(7,'d').format("dddd, MMMM Do"),
+              expires: Moment(Moment(child[1].submitted)).add(7, 'd').format("dddd, MMMM Do"),
+              expireDays: numDays(Moment(child[1].submitted).add(7, 'd')),
               submitted: child[1].submitted,
               imageLink: child[1].imageLink,
               aperture: child[1].aperture,
               lens: child[1].lens,
               camera: child[1].camera,
-              location: child[1].location,
+              caption: child[1].caption,
               author: child[1].author,
               category: child[1].category,
               oneStar: child[1].oneStar,
@@ -132,16 +138,9 @@ const UniquePost = (post) => {
           });
           setPostResponse(ordered[0]);
           setPostLoading(false);
-          today = today.getTime();
+          today = new Date(today).getTime();
         }
       });
-  }
-
-  const getDays = () => {
-    var submitted = Moment(post.submitted);
-    var today = Moment().startOf('day');
-
-    return (7 - submitted.diff(today, 'days'))
   }
 
   return (
@@ -172,9 +171,9 @@ const UniquePost = (post) => {
           }}
           style={{ cursor: "pointer" }}
         >
-          Back
+          Home
           </Link>
-        <Typography color="textPrimary">{postResponse.location}</Typography>
+        <Typography color="textPrimary">{postResponse.caption}</Typography>
       </Breadcrumbs>
       <Card className={"MuiProjectCard--01"} id="unique-card"
         style={{
@@ -211,14 +210,18 @@ const UniquePost = (post) => {
               style={{ marginLeft: "15px", marginTop: postResponse.editorspick ? "45px" : "10px", marginBottom: "0px" }}
               gutterBottom
             >
-              <span style={{ fontSize: "18px", fontWeight: "200", marginBottom: "2px" }}>
-                {postResponse.location}
+              <span style={{ fontSize: "18px",  fontWeight: "400", marginBottom: "2px", fontFamily: 'Nunito' }}>
+                {postResponse.caption}
+              </span>
+              <br />
+              <span style={{ padding: '6px', width: 'fit-content', backgroundColor: '#eeee', borderRadius: '4px', textAlign: 'center', fontSize: '12px' }}>
+                {postResponse.category}
               </span>
               <span
                 style={{
                   paddingLeft: '40px',
                   borderRadius: '4px',
-                  marginBottom: '20px',
+                  marginBottom: '29px',
                   paddingTop: '3px !important',
                   paddingBottom: '5px',
                   width: '100%',
@@ -228,7 +231,7 @@ const UniquePost = (post) => {
                   fontSize: '10px',
                   fontStyle: 'italic',
                   marginLeft: '40px',
-                  marginTop: '6px',
+                  marginTop: '16px',
                 }}
               >
                 <img
@@ -249,53 +252,49 @@ const UniquePost = (post) => {
                   alt="lens"
                   src={lens}
                   width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
+                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px'}}
                 />{" "}
                 {postResponse.lens}
-                <img
-                  alt="category"
-                  src={category}
-                  width="18px"
-                  style={{ verticalAlign: "middle", marginRight: "3px", marginLeft: '15px' }}
-                />{" "}
-                {postResponse.category}
               </span>
-              <br/>
+              <br />
+              <br />
               <Typography
                 className={"MuiTypography--headLabel"}
                 variant={"overline"}
                 gutterBottom
-                style={{ margin: "5px", fontSize: "11px", paddingLeft: "10px" }}
+                style={{ margin: "0px", fontSize: "11px", paddingLeft: "0px", marginTop: '26px' }}
               >
-                <span className="expirelabel-unique">
-                  Expires on {postResponse.expires}
-                </span> 
+                <span style={{ position: "relative", top: "-20px", textTransform: 'uppercase', color: 'gray', fontSize: '10px' }}>
+                  {Math.round(postResponse.expireDays) === 0 ? "Expires today" :
+                    Math.round(postResponse.expireDays) === 1 ? "Expires tomorrow" :
+                    Math.round(postResponse.expireDays) < 0 ? "Expired" :
+                      `Expires in ${Math.round(postResponse.expireDays)} days`}
+                </span>
               </Typography>
             </Typography> : null}
           <span>
-            {post.isAuthenticated ?
+            {post.isAuthenticated && Math.round(postResponse.expireDays) >= 0 ?
               <FlatButton
-                label={post.user.uid === postResponse.author ? "Stats" : "Critique"}
                 label={
-                  post.user.uid === postResponse.author ? 
-                  "Stats" : haveTheyCritiqued(postResponse.key) ?
-                  "Critiqued" :
-                  "Critique"}
+                  post.user.uid === postResponse.author ?
+                    "Stats" : haveTheyCritiqued(postResponse.key) ?
+                      "Critiqued" :
+                      "Critique"}
                 primary={true}
                 id="critiqueBtn-unique"
-                className={post.user.uid === postResponse.author ? "analytics-btn" : 
-                 haveTheyCritiqued(postResponse.key) ? "login-critique" : null}
+                className={post.user.uid === postResponse.author ? "analytics-btn" :
+                  haveTheyCritiqued(postResponse.key) ? "login-critique" : null}
                 disabled={haveTheyCritiqued(postResponse.key)}
                 onClick={() => handleOpenCritique(postResponse)}
-                style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-              /> :
+                style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "0px", color: 'rgb(30,30,30)' }}
+              /> : Math.round(postResponse.expireDays) >= 0 ?
               <FlatButton
                 label={"Login"}
-                primary={true}  
+                primary={true}
                 id="critiqueBtn-unique"
                 onClick={() => history.push("/login")}
                 style={{ textTransform: 'capitalize !important', left: '20px', marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
-              />}
+              /> : null}
           </span>
         </div>
       </Card>

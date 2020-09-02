@@ -17,8 +17,6 @@ import feedback from "../static/feedback.svg";
 import facebook from "../static/facebook.svg";
 import help from "../static/help.svg";
 import menu from "../static/menu.svg";
-import login from "../static/login.svg";
-import home from "../static/home.svg";
 import analytics from "../static/analytics.png"
 import navbar from "../static/logo.svg";
 

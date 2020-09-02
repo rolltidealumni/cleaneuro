@@ -1,29 +1,30 @@
 import React, { useState } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
-import jquery from 'jquery';
+// import jquery from 'jquery';
 import FlatButton from "material-ui/FlatButton";
 import TextField from "@material-ui/core/TextField";
 import loadingSpinner from "../static/loading.gif";
 import Dialog from "@material-ui/core/Dialog";
 import exit from "../static/close.svg";
 import DialogContent from "@material-ui/core/DialogContent";
-import Autocomplete from '@material-ui/lab/Autocomplete';
+// import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputLabel from "@material-ui/core/InputLabel";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Alert from '@material-ui/lab/Alert';
 import Select from "@material-ui/core/Select";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+// import PlacesAutocomplete, {
+//   geocodeByAddress,
+//   getLatLng,
+// } from 'react-places-autocomplete';
 import ImageUploader from "react-images-upload";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import lens from "../static/lens.svg";
-import locationLogo from "../static/location.svg";
+import upload from "../static/upload.svg";
+// import locationLogo from "../static/location.svg";
 import cameraLogo from "../static/camera-two.svg";
 import aperture from "../static/aperture.svg";
 import category from "../static/label.svg";
@@ -34,8 +35,9 @@ import realTime from "../firebase/firebase";
 
 const Form = (props) => {
   const [image, setImage] = useState(null);
-  const [location, setLocation] = useState("");
+  // const [location, setLocation] = useState("");
   const [cameraInput, setCameraInput] = useState("");
+  const [caption, setCaption] = useState("");
   const [lensInput, setLensInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [apertureInput, setApertureInput] = useState("");
@@ -43,15 +45,15 @@ const Form = (props) => {
   const [imageLoading, setImageLoading] = useState(0);
   const [hideUploader, setHideUploader] = useState(false);
 
-  const selectLocation = (address, placeId) => {
-    geocodeByAddress(address)
-      .then(results => {
-        getLatLng(results[0])
-        setLocation(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);
-      })
-      .then(latLng => { })
-      .catch(error => { });
-  }
+  // const selectLocation = (address, placeId) => {
+  //   geocodeByAddress(address)
+  //     .then(results => {
+  //       getLatLng(results[0])
+  //       setLocation(results[0].address_components[0].long_name + ", " + results[0].address_components[2].short_name);
+  //     })
+  //     .then(latLng => { })
+  //     .catch(error => { });
+  // }
 
   const onDrop = (picture, data) => {
     setHideUploader(true);
@@ -90,7 +92,7 @@ const Form = (props) => {
     if (image) {
       postsRef.push({
         imageLink: image,
-        location: jquery('#combo-box-demo').val(),
+        caption: caption,
         submitted: new Date().toString(),
         aperture: apertureInput,
         lens: lensInput,
@@ -111,6 +113,7 @@ const Form = (props) => {
       setLoading(false);
       setCameraInput("");
       setLensInput("");
+      setCaption("");
       setApertureInput("");
       setCategoryInput("");
       setImage(null);
@@ -146,7 +149,7 @@ const Form = (props) => {
               height: '73px'
             }}
           >
-           <Alert severity="info">Your photo will expire in 7 days. Once submitted, you cannot update or delete. You may view your photo on the Stats page.</Alert> 
+            <Alert severity="info">Your photo will expire in 7 days. Once submitted, you cannot update or delete. You may view your photo on the Stats page.</Alert>
           </span>
           <br />
         </DialogContentText>
@@ -165,21 +168,25 @@ const Form = (props) => {
           ></div>
         ) : !hideUploader ? (
           <ImageUploader
-            withIcon={true}
+            withIcon={false}
             withPreview={false}
-            buttonText="Choose image"
-            label="Max file size: 20mb, accepted: jpg, gif, png, jpeg"
+            buttonText="Browse"
+            label={
+              <center>
+                <img src={upload} width={50} alt="cloud" /> <br />
+                <span>Select image</span>
+              </center>}
             onChange={(picture, other) => onDrop(picture, other)}
             imgExtension={[".jpg", ".jpeg", ".png", ".gif"]}
             maxFileSize={20242880}
             singleImage={true}
           />
         ) : null}
-        <PlacesAutocomplete
+        {/* <PlacesAutocomplete
           value={location}
           style={{ width: '100%' }}
-          onChange={value => setLocation(value)}
-          onSelect={value => selectLocation(value)}
+          onChange={(value) => { setLocation(value) }}
+          onSelect={(value) => { selectLocation(value) }}
         >
           {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
             <div>
@@ -189,7 +196,7 @@ const Form = (props) => {
                   options={suggestions}
                   getOptionLabel={(option) => option.description}
                   style={{ width: '100%' }}
-                  onSelect={option => selectLocation(location)}
+                  onSelect={(option) => { selectLocation(location) }}
                   renderInput={(params) => <TextField value={location} label={
                     <span>
                       <img
@@ -209,7 +216,21 @@ const Form = (props) => {
               </FormControl>
             </div>
           )}
-        </PlacesAutocomplete>
+        </PlacesAutocomplete> */}
+        <TextField
+          style={{
+            width: '100%'
+          }}
+          label="Caption"
+          multiline
+          rowsMax={4}
+          value={caption}
+          onChange={(e) => {
+            setCaption(e.target.value)
+          }}
+          maxLength={40}
+          placeholder=""
+        />
         <FormControl variant="outlined" className="half-inputs">
           <InputLabel id="demo-simple-select-outlined-label">
             <span>
@@ -393,9 +414,9 @@ const Form = (props) => {
             }
             primary={true}
             className="submitBtn"
-            disabled={!image || location === ""}
+            disabled={!image || caption === "" || cameraInput === "" || lensInput === "" || apertureInput === "" || categoryInput === ""}
             onClick={(e) => handleSubmit(e)}
-            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)' }}
+            style={{ marginBottom: "10px", width: "100%", marginTop: "20px", color: 'rgb(30,30,30)', backgroundColor: !image || caption === "" || cameraInput === "" || lensInput === "" || apertureInput === "" || categoryInput === "" ? "lightgray" : "#FBC02D" }}
           />
         </center>
       </DialogContent>

@@ -6,7 +6,6 @@ import realTime from "../../firebase/firebase";
 import Post from "./Post";
 import Card from "@material-ui/core/Card";
 import Moment from "moment";
-import Link from "@material-ui/core/Link";
 import Nav from "../Nav";
 import Critique from "../Critique";
 import Typography from "@material-ui/core/Typography";
@@ -45,7 +44,9 @@ const MyPosts = (props) => {
     if (!props.isAuthenticated) {
       history.push("/");
     }
+    localStorage.setItem('route', 'stats');
     getPosts();
+    // eslint-disable-next-line
   }, [props.user]
   );
 
@@ -59,6 +60,7 @@ const MyPosts = (props) => {
   };
 
   const getPosts = () => {
+    setPostLoading(true);
     realTime
       .ref("posts")
       .orderByChild(sort.sort)
@@ -77,7 +79,7 @@ const MyPosts = (props) => {
             temp.push({
               index: i,
               key: keys[i],
-              expires: Moment(Moment(child[1].submitted)).add(7,'d').format("dddd, MMMM Do"),
+              expires: Moment(Moment(child[1].submitted)).add(7, 'd').format("dddd, MMMM Do"),
               submitted: child[1].submitted,
               imageLink: child[1].imageLink,
               aperture: child[1].aperture,
@@ -85,7 +87,7 @@ const MyPosts = (props) => {
               camera: child[1].camera,
               category: child[1].category,
               author: child[1].author,
-              location: child[1].location,
+              caption: child[1].caption,
               oneStar: child[1].oneStar,
               twoStars: child[1].twoStars,
               threeStars: child[1].threeStars,
@@ -108,6 +110,7 @@ const MyPosts = (props) => {
           });
         }
         setPosts(temp.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1)).filter(i => i.author === props.user.uid));
+        setPostLoading(false);
       });
   }
 
@@ -145,9 +148,7 @@ const MyPosts = (props) => {
   const getAverage = () => {
     let sum = 0;
     let temp = posts.filter(e => e.average > 0);
-    temp.map(p => {
-      sum = sum + p.average;
-    });
+    temp.map(p => sum = sum + p.average);
     return ({
       average: sum / temp.length,
       total: temp.length
@@ -180,10 +181,11 @@ const MyPosts = (props) => {
           {...props}
         />
       ) : null}
-      <Card className={"MuiProjectCard--01"}
+      <Card
         style={{
           height: '350px',
-          width: '100%'
+          width: '100%',
+          backgroundColor: '#eeee'
         }}
       >
         <div
@@ -194,26 +196,59 @@ const MyPosts = (props) => {
             marginBottom: "20px",
           }}
         >
-          <Typography style={{ marginLeft: "15px", marginTop: "45px", marginBottom: "0px" }}>
-            <span style={{ cursor: 'pointer', fontSize: "28px", fontWeight: "600", marginBottom: "2px" }}>
+          <Typography style={{ marginTop: "45px", marginBottom: "0px" }}>
+            <span style={{ cursor: 'pointer', fontSize: "28px", marginBottom: "2px", fontFamily: 'Nunito' }}>
               Stats
             </span>
 
-            <div style={{ marginTop: '20px' }}>
-              Photos submitted: {cloneDeep(posts.length)}
+            <div id="stat-panel">
+              <div id="stat-total">
+                <span id="stat-number">{cloneDeep(posts.length)}</span>
+                <br />
+                <span>Photo{posts.length > 1 ? "s" : null} Submitted</span>
+              </div>
+              {posts.length > 0 ? (
+                <>
+                  <div id="stat-total">
+                    <span id="stat-number">{getAverage().total > 0 ? getAverage().average.toFixed(2) : "0"}</span>
+                    <br />
+                    <span>Average Rating</span>
+                  </div>
+                  <div id="stat-total">
+                    <span id="stat-number"> {getAverage().total > 0 ? getAverage().total : "0"}</span>
+                    <br />
+                    <span>Photos Rated</span>
+                  </div>
+                  <div id="stat-total">
+                    <span id="stat-number">{getMax() ? getMax().camera : "None"}</span>
+                    <br />
+                    <span>Most Popular Camera</span>
+                  </div>
+                </>
+              ) : null}
             </div>
-            {posts.length > 0 ?  (
-            <>
-              <div style={{ marginTop: '5px' }}>
-                Average rating: {cloneDeep(getAverage().average.toFixed(2))}
+            <div id="stat-panel-mobile">
+              <div id="stat-total-mobile">
+                <span>Photos Submitted:{" "}</span>
+                <span id="stat-number-mobile">{cloneDeep(posts.length)}</span>
               </div>
-              <div style={{ marginTop: '5px' }}>
-                Photos rated: {cloneDeep(getAverage().total)}
-              </div>
-              <div style={{ marginTop: '5px' }}>Most popular camera:{" "}
-                {getMax() ? getMax().camera : null}
-              </div>
-            </>) : null }
+              {posts.length > 0 ? (
+                <>
+                  <div id="stat-total-mobile">
+                    <span>Average Rating:{" "}</span>
+                    <span id="stat-number-mobile">{cloneDeep(getAverage().average.toFixed(2))}</span>
+                  </div>
+                  <div id="stat-total-mobile">
+                    <span>Photos Rated:{" "}</span>
+                    <span id="stat-number-mobile">{cloneDeep(getAverage().total)}</span>
+                  </div>
+                  <div id="stat-total-mobile">
+                    <span>Most Popular Camera:{" "}</span>
+                    <span id="stat-number-mobile">{getMax() ? getMax().camera : null}</span>
+                  </div>
+                </>
+              ) : null}
+            </div>
           </Typography>
         </div>
       </Card>
@@ -223,7 +258,7 @@ const MyPosts = (props) => {
             {
               display: 'absolute',
               top: '48px',
-              backgroundColor: 'white'
+              backgroundColor: '#FBC02D'
             }
           }
         />
@@ -249,7 +284,7 @@ const MyPosts = (props) => {
           })
         ) : (<span className="no-results" > There are no posts to display </span>)}
       </div>
-  </div>
+    </div>
   );
 };
 

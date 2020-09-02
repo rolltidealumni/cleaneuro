@@ -1,5 +1,6 @@
 export default [
   "Apple",
+  "Bronica",
   "Canon",
   "DJI",
   "Fujifilm",

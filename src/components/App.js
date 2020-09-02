@@ -9,16 +9,17 @@ import Login from "./Login";
 import MyPosts from "./Posts/MyPosts";
 import Feedback from "./Posts/Feedback";
 import UniquePost from "./Posts/UniquePost";
+import { useHistory } from "react-router-dom";
 
 function App(props) {
   const { isAuthenticated, isVerifying, user } = props;
+  const [route] = useState(localStorage.getItem('route'))
   let results = [];
-  const [loading, setLoading] = useState(false);
+  let history = useHistory();
   const [critiques, setCritiques] = useState([]);
 
- const fetchCritiques = async (mounted, user) => {
-    setLoading(true);
-    if(user) {
+  const fetchCritiques = async (mounted, user) => {
+    if (user) {
       await realTime
         .ref("post-critiques")
         .orderByChild("uid")
@@ -27,13 +28,11 @@ function App(props) {
           if (snapshot.val()) {
             let c = [];
             c.push(snapshot.val());
-            let keys = Object.keys(c[0]);
             var result = Object.keys(c[0]).map(function (key) {
               return [Number(key), c[0][key]];
             });
             result.forEach(function (child, i) {
               results.push(child[1]);
-              setLoading(false);
             });
           }
 
@@ -47,8 +46,10 @@ function App(props) {
   useEffect(() => {
     let mounted = true;
     if (user) fetchCritiques(mounted, user.uid);
+    if (route) history.push("/" + route);
     return () => (mounted = false);
-    }, [user]);
+    // eslint-disable-next-line
+  }, [user]);
 
   return (
     <Switch>

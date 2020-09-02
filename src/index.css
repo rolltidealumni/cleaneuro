@@ -11,6 +11,37 @@ body {
     font-family: 'Nunito' !important;
 }
 
+#stat-panel {
+  font-family: 'Nunito' !important;
+  background-color: white;
+  margin-top: 20px;
+  border-radius: 8px;
+  width: 90%;
+  padding: 30px;
+  display: table;
+}
+
+#stat-panel-mobile {
+  display: none;
+  font-family: 'Nunito' !important;
+  background-color: white;
+  border-radius: 8px;
+  width: 80%;
+  margin-top: 20px;
+  padding: 30px;
+}
+
+#stat-total { 
+  width: 25%;
+  display: inline-table;
+  text-align: center;
+}
+
+#stat-number {
+  font-weight: bold;
+  font-size: xx-large;
+}
+
 .styles_react-code-input__CRulA input {
   height: 40px !important;
   width: 40px !important;
@@ -58,7 +89,7 @@ body {
 
 #unique-card {
     width: 90% !important;
-    height:760px !important;
+    height:780px !important;
     margin-top: 150px !important;
     margin: auto;
     max-height: 1406px;
@@ -229,7 +260,6 @@ h3 {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 50px !important;
 }
 
 .fileContainer {
@@ -353,6 +383,29 @@ h3 {
     bottom: 32px !important;
 }
 
+.react-tel-input {
+  font-family: 'Roboto',sans-serif;
+  font-size: 15px;
+  position: relative;
+  width: 50% !important;
+  height: 45px !important;
+  min-width: 88px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+}
+
+.react-tel-input > .form-control {
+  height: 45px !important;
+  width: 100% !important;
+}
+
+.country-list {
+  text-align: left !important;
+  margin-top: 2px !important;
+}
+
 .MuiCardMedia-root {
   height: 302px !important;
   background-position: center center !important;
@@ -360,7 +413,7 @@ h3 {
 
 .expirelabel-unique {    
     position: relative;
-    top: -28px;
+    top: -25px;
     padding-right: 6px;
     padding-left: 0px !important;
     left: -14px
@@ -404,7 +457,7 @@ h3 {
     margin-right: 0px !important;
     margin-bottom: 20px !important;
     border-radius: 4px !important;
-    width: 50%;
+    width: 100%;
     padding: 13px !important;
     height: 55px !important;
     background-color: #FBC02D !important;
@@ -428,7 +481,7 @@ h3 {
     margin-right: 0px !important;
     margin-bottom: 20px !important;
     border-radius: 4px !important;
-    width: 50%;
+    width: 100%;
     padding: 13px !important;
     height: 55px !important;
     background-color: lightgrey !important;
@@ -515,7 +568,12 @@ h3 {
   .cardContainer {
     width: 100% !important;
   }
-
+ #stat-panel {
+    display:  none;
+  }
+  #stat-panel-mobile {
+    display:  block;
+  }
   #post-card {width: 100% !important;}
 
   #mobile-filter-icon {
@@ -879,7 +937,7 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
 .gagunkNav {
     position: fixed !important;
     top: 0px !important;
-    background-color: #FBC02D !important;
+    background-color: white !important;
 }
 
 #loader {
@@ -1056,7 +1114,7 @@ body>div:nth-child(7)>div>div:nth-child(1)>div>div>div:nth-child(3) {
   overflow: visible !important;
   color: rgb(30,30,30) !important;
   bottom: 13px !important;
-  top: -28px !important;
+  top: -55px !important;
   float: right;
 }
 
