@@ -1,1 +1,1 @@
-## Why the fuck not
+## Why the heck not!
